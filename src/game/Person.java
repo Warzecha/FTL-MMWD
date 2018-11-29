@@ -6,5 +6,15 @@ public class Person {
     boolean fighting;
     boolean working;
     int roomId;
-    int systemId;
+
+
+
+
+    public void breathe(int oxygenLevel) {
+        if(oxygenLevel < 0.20)
+            healthPoints -= 6;
+    }
+
+
+
 }
