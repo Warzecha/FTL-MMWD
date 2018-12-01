@@ -43,6 +43,9 @@ public class Ship {
     int medicalId = 5;
 
 
+    int[] shots = {1, 1};
+
+
 
 
     double calculateEvasion()
@@ -57,14 +60,21 @@ public class Ship {
 
 
 
+    public int dealDamage(Ship enemy, int target)
+    {
+        return enemy.receiveDamage(target, shots);
+    }
 
-    public int receiveDamage(int [] [] shots)
+
+
+
+    public int receiveDamage(int target, int [] shots)
     {
 
 
         int totalDamage = 0;
 
-        for(int [] shot : shots)
+        for(int shot : shots)
         {
             double chance = r.nextDouble();
 
@@ -80,9 +90,9 @@ public class Ship {
                 }
                 else
                 {
-                    totalDamage += shot[0];
-                    hull -= shot[0];
-                    systems[shot[1]] = Math.max(systems[shot[1]] - shot[0], 0);
+                    totalDamage += shot;
+                    hull -= shot;
+                    systems[target] = Math.max(systems[target] - shot, 0);
 
 
                 }
@@ -109,6 +119,26 @@ public class Ship {
         return shield;
     }
 
+
+
+
+
+
+    public void calculateState()
+    {
+
+        calculateOxygenLevels();
+        rechargeShields();
+
+
+        for(Person p : crew)
+        {
+            p.breathe(oxygenLevel);
+        }
+
+
+
+    }
 
 
 

@@ -10,7 +10,7 @@ public class Person {
 
 
 
-    public void breathe(int oxygenLevel) {
+    public void breathe(double oxygenLevel) {
         if(oxygenLevel < 0.20)
             healthPoints -= 6;
     }
