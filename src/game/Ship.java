@@ -26,8 +26,6 @@ public class Ship {
 
 
 
-//    system power is represented by an int
-    int [] power;
 
 
 
@@ -35,12 +33,12 @@ public class Ship {
     double oxygenUsageRate = 2;
     double oxygenProductionRate = 5;
 
-    int shieldId = 0;
-    int weaponId = 1;
-    int steeringId = 2;
-    int engineId = 3;
-    int oxygenId = 4;
-    int medicalId = 5;
+    static int shieldId = 0;
+    static int weaponId = 1;
+    static int steeringId = 2;
+    static int engineId = 3;
+    static int oxygenId = 4;
+    static int medicalId = 5;
 
 
     int[] shots = {1, 1};
@@ -51,7 +49,7 @@ public class Ship {
     double calculateEvasion()
     {
 
-        return Math.floor(Math.min(systems[1], power[1])) * (systems[shieldId] >= 1 ? 1 : 0) * 0.1;
+        return Math.floor(systems[engineId]) * 0.1;
 
 //        TODO: include crew member effect
 
@@ -94,6 +92,14 @@ public class Ship {
                     hull -= shot;
                     systems[target] = Math.max(systems[target] - shot, 0);
 
+                    for(Person p : crew)
+                    {
+                        if(p.getRoomId() == target)
+                        {
+                            p.receiveDamage(shot);
+                        }
+                    }
+
 
                 }
             }
@@ -107,7 +113,7 @@ public class Ship {
 
     public double calculateOxygenLevels()
     {
-        double newOxygenLevel = oxygenLevel - oxygenUsageRate + Math.min(systems[oxygenId], power[oxygenId]);
+        double newOxygenLevel = oxygenLevel - oxygenUsageRate + Math.floor(systems[oxygenId]) * oxygenProductionRate;
         oxygenLevel = newOxygenLevel;
         return newOxygenLevel;
     }
