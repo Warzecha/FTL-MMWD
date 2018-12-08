@@ -3,9 +3,11 @@ package game;
 public class Person {
 
     int healthPoints;
-    boolean fighting;
-    boolean working;
+    boolean repairing;
+
+
     int roomId;
+
 
 
     static int damageFromShots = 30;
@@ -25,10 +27,11 @@ public class Person {
 
 
 
-    public int getRoomId()
-    {
-        return roomId;
-    }
+    public int getRoomId() {return roomId; }
+
+    public boolean isRepairing() {return repairing; }
+
+    public void startRepairing() {repairing = true; }
 
 
 

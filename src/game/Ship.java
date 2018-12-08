@@ -5,55 +5,70 @@ import java.util.Random;
 
 public class Ship {
 
-    float shield;
-    int hull;
+    private int hull = 30;
+    private double shield = 2;
+    private double weapones = 0;
 
 
-    Person crew[];
-
-    Random r = new Random();
-
-    double oxygenLevel; //value between 0 and 100
-
-
-//    systems are represented by a float between 0 and maximum power.
-//    0 - broken
-//    1 - working condition
-    float [] systems;
+    private Person[] crew;
 
 
 
 
 
 
+    //    systems are represented by a float between 0 and maximum power.
+    private float [] systems;
+    float [] maxSystems;
+
+    private Random r = new Random();
 
 
 
-    double shieldChargeRate = 0.02;
-    double oxygenUsageRate = 2;
-    double oxygenProductionRate = 5;
 
-    static int shieldId = 0;
+
+
+    private double shieldChargeRate = 0.02;
+    private double weaponesChargeRate = 0.02;
+    private double oxygenUsageRate = 2;
+    private double oxygenProductionRate = 5;
+
+    private static int shieldId = 0;
     static int weaponId = 1;
-    static int steeringId = 2;
-    static int engineId = 3;
-    static int oxygenId = 4;
+    private static int steeringId = 2;
+    private static int engineId = 3;
+    private static int oxygenId = 4;
     static int medicalId = 5;
 
 
-    int[] shots = {1, 1};
+    private int[] shots = {1, 1};
+    private double oxygenLevel; //value between 0 and 100
 
 
 
 
-    double calculateEvasion()
+    public double calculateEvasion()
     {
 
-        return Math.floor(systems[engineId]) * 0.1;
+        double baseEvasion = Math.floor(systems[engineId]) * Math.floor(systems[steeringId]) * 0.1;
 
-//        TODO: include crew member effect
+        double operatedEffect = 0;
+        boolean oparated = false;
+        for(Person p : crew)
+        {
+            if(p.getRoomId() == engineId && !p.isRepairing())
+            {
+                oparated = true;
+            }
 
+        }
 
+        if(oparated)
+        {
+            operatedEffect = 0.1;
+        }
+
+        return Math.max(baseEvasion + operatedEffect, 1);
     }
 
 
@@ -111,20 +126,27 @@ public class Ship {
 
 
 
-    public double calculateOxygenLevels()
+    private void calculateOxygenLevels()
     {
-        double newOxygenLevel = oxygenLevel - oxygenUsageRate + Math.floor(systems[oxygenId]) * oxygenProductionRate;
-        oxygenLevel = newOxygenLevel;
-        return newOxygenLevel;
+        oxygenLevel = oxygenLevel - oxygenUsageRate + Math.floor(systems[oxygenId]) * oxygenProductionRate;
     }
 
 
-    double rechargeShields()
+    private void calculateShields()
     {
-        shield += shieldChargeRate;
-        return shield;
+        double newShieldLevel = shield + shieldChargeRate;
+        shield = Math.max(newShieldLevel, Math.floor(systems[shieldId]));
+
     }
 
+
+
+    boolean canShoot() {return weapones == 1;}
+
+    void rechargeWeapones()
+    {
+        weapones = Math.max(weapones + weaponesChargeRate, 1);
+    }
 
 
 
@@ -132,18 +154,14 @@ public class Ship {
 
     public void calculateState()
     {
-
         calculateOxygenLevels();
-        rechargeShields();
+        calculateShields();
 
 
         for(Person p : crew)
         {
             p.breathe(oxygenLevel);
         }
-
-
-
     }
 
 
