@@ -11,7 +11,7 @@ public class Genome {
 
 
 
-    Genome(int length)
+    public Genome(int length)
     {
         arr = new double [length];
 
@@ -24,7 +24,7 @@ public class Genome {
 
 
 
-    Genome(int length, double fillWith)
+    public Genome(int length, double fillWith)
     {
         arr = new double [length];
 
@@ -37,10 +37,21 @@ public class Genome {
 
 
 
-    int getLength() { return arr.length; }
+    public int getLength() { return arr.length; }
 
-    double getGene(int i) {return arr[i]; }
+    public double getGene(int i) {
+        if (i >= arr.length) {
+            throw new IllegalArgumentException("Gene index is too big! Index: " + i + ", size: " + arr.length);
+        }
+        return arr[i];
+    }
 
+    public void setGene(int i, double gene) {
+        if (i >= arr.length) {
+            throw new IllegalArgumentException("Gene index is too big! Index: " + i + ", size: " + arr.length);
+        }
+        arr[i] = gene;
+    }
 
 
     Genome cross(Genome other)
