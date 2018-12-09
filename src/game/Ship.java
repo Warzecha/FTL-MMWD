@@ -1,6 +1,8 @@
 package game;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Ship {
@@ -10,7 +12,9 @@ public class Ship {
     private double weapones = 0;
 
 
-    private Person[] crew;
+//    private Person[] crew = new Person[0];
+
+    private List<Person> crew = new ArrayList<Person>(0);
 
 
 
@@ -44,7 +48,16 @@ public class Ship {
     private int[] shots = {1, 1};
     private double oxygenLevel; //value between 0 and 100
 
+    public Ship() {
+        maxSystems = new float[]{2, 2, 1, 3, 1};
+        systems = maxSystems.clone();
 
+
+    }
+
+
+
+    public int getCrewCount(){ return crew.size(); }
 
 
     public double calculateEvasion()
@@ -68,7 +81,7 @@ public class Ship {
             operatedEffect = 0.1;
         }
 
-        return Math.max(baseEvasion + operatedEffect, 1);
+        return baseEvasion + operatedEffect;
     }
 
 
@@ -165,7 +178,68 @@ public class Ship {
     }
 
 
+    void addCrewmember(Person p)
+    {
+        crew.add(p);
+    }
 
+
+
+
+
+
+    public static int getShieldId() {
+        return shieldId;
+    }
+
+    public static int getWeaponId() {
+        return weaponId;
+    }
+
+    public static int getSteeringId() {
+        return steeringId;
+    }
+
+    public static int getEngineId() {
+        return engineId;
+    }
+
+    public static int getOxygenId() {
+        return oxygenId;
+    }
+
+
+    public double getShield() {
+        return shield;
+    }
+
+    void setShield(double shield) {
+        this.shield = shield;
+    }
+
+
+
+    public double getEngines()
+    {
+        return systems[engineId];
+    }
+
+    public void setSystems(int id, float value)
+    {
+        if(value < 0)
+        {
+            throw new RuntimeException("Invalid value");
+        }
+
+        if(id < 0 || id >= systems.length)
+        {
+            throw new RuntimeException("Index out of range");
+        }
+
+
+        systems[id] = Math.min(value, maxSystems[id]);
+
+    }
 
 
 
