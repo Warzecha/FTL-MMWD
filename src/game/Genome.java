@@ -10,30 +10,36 @@ public class Genome {
     private Random r = new Random();
 
 
-    int getLength() { return arr.length; }
 
-
-    Genome(int length, boolean random)
+    Genome(int length)
     {
         arr = new double [length];
 
-
-        if(random)
+        for(int i = 0; i < length; i++)
         {
-            for(int i = 0; i < length; i++)
-            {
-                arr[i] = r.nextDouble();
-
-            }
+            arr[i] = r.nextDouble();
 
         }
-
-
     }
 
 
 
+    Genome(int length, double fillWith)
+    {
+        arr = new double [length];
 
+        for(int i = 0; i < length; i++)
+        {
+            arr[i] = fillWith;
+
+        }
+    }
+
+
+
+    int getLength() { return arr.length; }
+
+    double getGene(int i) {return arr[i]; }
 
 
 
@@ -44,7 +50,7 @@ public class Genome {
             throw new RuntimeException("Genomes must be of the same length");
 
 
-        Genome newGenome = new Genome(this.getLength(), false);
+        Genome newGenome = new Genome(this.getLength(), 0);
 
 
 
