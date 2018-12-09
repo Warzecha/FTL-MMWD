@@ -9,15 +9,27 @@ public class Person {
     int roomId;
 
 
-
     static int damageFromShots = 30;
 
+    static int suffocationRate = 6;
 
+    public Person(int roomId) {
+        this.healthPoints = 100;
+        this.roomId = roomId;
+    }
+
+    public static int getSuffocationRate() {
+        return suffocationRate;
+    }
+
+    public static int getDamageFromShots() {
+        return damageFromShots;
+    }
 
 
     public void breathe(double oxygenLevel) {
         if(oxygenLevel < 0.20)
-            healthPoints -= 6;
+            healthPoints -= suffocationRate;
     }
 
     public void receiveDamage(int damage)
@@ -34,5 +46,7 @@ public class Person {
     public void startRepairing() {repairing = true; }
 
 
-
+    public int getHealthPoints() {
+        return healthPoints;
+    }
 }
