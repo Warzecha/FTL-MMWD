@@ -9,45 +9,36 @@ public class Ship {
 
     private int hull = 30;
     private double shield = 2;
+
     private double weapones = 0;
 
-
-//    private Person[] crew = new Person[0];
 
     private List<Person> crew = new ArrayList<Person>(0);
 
 
-
-
-
-
     //    systems are represented by a float between 0 and maximum power.
+
     private float [] systems;
     float [] maxSystems;
 
-    private Random r = new Random();
-
-
-
-
-
+//    private Random r = new Random();
 
     private double shieldChargeRate = 0.02;
+
     private double weaponesChargeRate = 0.02;
     private double oxygenUsageRate = 2;
     private double oxygenProductionRate = 5;
-
     private static int shieldId = 0;
-    static int weaponId = 1;
+
+    private static int weaponId = 1;
     private static int steeringId = 2;
     private static int engineId = 3;
     private static int oxygenId = 4;
     static int medicalId = 5;
 
-
     private int[] shots = {1, 1};
-    private double oxygenLevel; //value between 0 and 100
 
+    private double oxygenLevel = 100; //value between 0 and 100
     public Ship() {
         maxSystems = new float[]{2, 2, 1, 3, 1};
         systems = maxSystems.clone();
@@ -86,15 +77,16 @@ public class Ship {
 
 
 
-    public int dealDamage(Ship enemy, int target)
+    public int dealDamage(Ship enemy, int target, Random rng)
     {
-        return enemy.receiveDamage(target, shots);
+        return enemy.receiveDamage(target, shots, rng);
     }
 
 
 
 
-    public int receiveDamage(int target, int [] shots)
+
+    public int receiveDamage(int target, int [] shots, Random rng)
     {
 
 
@@ -102,7 +94,7 @@ public class Ship {
 
         for(int shot : shots)
         {
-            double chance = r.nextDouble();
+            double chance = rng.nextDouble();
 
             if(chance <= calculateEvasion())
             {
@@ -154,7 +146,7 @@ public class Ship {
 
 
 
-    boolean canShoot() {return weapones == 1;}
+    public boolean canShoot() {return weapones == 1;}
 
     void rechargeWeapones()
     {
@@ -217,6 +209,10 @@ public class Ship {
         this.shield = shield;
     }
 
+    public void setWeapones(double weapones) {
+        this.weapones = weapones;
+    }
+
 
 
     public double getEngines()
@@ -240,6 +236,10 @@ public class Ship {
         systems[id] = Math.min(value, maxSystems[id]);
 
     }
+
+
+
+    
 
 
 

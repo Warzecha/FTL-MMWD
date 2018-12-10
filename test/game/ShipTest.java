@@ -44,10 +44,28 @@ class ShipTest {
 
     @Test
     void canShoot() {
+
+        Ship s = new Ship();
+        s.setWeapones(0);
+        assertFalse(s.canShoot());
+
+        s.setWeapones(0.5);
+        assertFalse(s.canShoot());
+
+        s.setWeapones(1);
+        assertTrue(s.canShoot());
     }
 
     @Test
     void rechargeWeapones() {
+
+
+        Ship s = new Ship();
+        s.setWeapones(0);
+
+
+
+
     }
 
     @Test
