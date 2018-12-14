@@ -51,7 +51,7 @@ class ShipTest {
 
     @Test
     void dealDamage() {
-
+//        TODO: Implement this test
 
     }
 
@@ -149,6 +149,7 @@ class ShipTest {
 
     @Test
     void calculateState() {
+//        TODO: Implement test
     }
 
     @Test
@@ -167,6 +168,20 @@ class ShipTest {
 
     }
 
+    @Test
+    void newShipIsNotDamaged() {
+        for(int i = 0; i <= 4; i++)
+        {
+            assertFalse(ship.isDamaged(i));
+        }
+    }
+
+    @Test
+    void ShipIsDamaged() {
+        ship.setSystems(1, 0.9);
+        assertTrue(ship.isDamaged(1));
+    }
+
 
     @Test
     void isOperated() {
@@ -174,10 +189,56 @@ class ShipTest {
         Person p = new Person(1);
         ship.addCrewmember(p);
         assertTrue(ship.isOperated(1));
-        p.startRepairing();
+        p.repair();
         assertFalse(ship.isOperated(1));
 
     }
+
+
+    @Test
+    void singlePresonRepairing()
+    {
+        Person p = new Person(1);
+        ship.addCrewmember(p);
+        ship.setSystems(1, 0);
+
+        ship.repairBrokenSystems();
+
+        assertTrue(p.isRepairing());
+        assertEquals(Person.getRepairRate(), ship.getSystems(1), 0.01);
+    }
+
+    @Test
+    void multiplePeopleRepairing() {
+        Person p1 = new Person(1);
+        Person p2 = new Person(1);
+        ship.addCrewmember(p1);
+        ship.addCrewmember(p2);
+        ship.setSystems(1, 0);
+
+        ship.repairBrokenSystems();
+
+        assertTrue(p1.isRepairing());
+        assertTrue(p2.isRepairing());
+        assertEquals(2 * Person.getRepairRate(), ship.getSystems(1), 0.01);
+    }
+
+    @Test
+    void stopRepairingIfCompleted()
+    {
+        Person p = new Person(1);
+        ship.addCrewmember(p);
+        ship.setSystems(1, 0.99);
+
+        ship.repairBrokenSystems();
+
+        assertEquals(1, ship.getSystems(1), 0.001);
+        assertFalse(p.isRepairing());
+    }
+
+
+
+
 
 
 }
