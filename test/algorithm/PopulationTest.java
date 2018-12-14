@@ -11,20 +11,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class PopulationTest {
 
     @Test
-    public void testCreateEmptyPopulation() {
+    public void createsEmptyPopulation() {
         Population population = new Population();
         assertTrue(population.getSize() == 0);
     }
 
     @Test
-    public void testCreateInitialPopulation() {
+    public void createsInitialPopulation() {
         Population population = new Population();
         population.createInitialPopulation(20);
         assertTrue(population.getSize() == 20);
     }
 
     @Test
-    public void testCrossover() {
+    public void crossover() {
         CrossoverOperator crossoverOperator = new CrossoverOperator() {
             @Override
             public void crossGenomes(Genome genomeA, Genome genomeB) {
@@ -52,7 +52,7 @@ public class PopulationTest {
     }
 
     @Test
-    public void testMutation() {
+    public void mutation() {
         MutationOperator mutationOperator = new MutationOperator() {
             @Override
             public void mutateGenome(Genome genome) {
@@ -71,7 +71,7 @@ public class PopulationTest {
     }
 
     @Test
-    public void testSelection() {
+    public void selection() {
         SelectionOperator selectionOperator = new SelectionOperator() {
             @Override
             public ArrayList<Genome> applySelection(ArrayList<GenomeWithFitness> genomesWithFitness) {
@@ -104,7 +104,7 @@ public class PopulationTest {
     }
 
     @Test
-    public void testMultiplication() {
+    public void multiplication() {
         Population population = new Population();
         population.getGenomes().add(simpleGenome(1));
         population.getGenomes().add(simpleGenome(2));
