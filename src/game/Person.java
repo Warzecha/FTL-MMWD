@@ -46,7 +46,11 @@ public class Person {
 
     public boolean isRepairing() {return repairing; }
 
-    public void startRepairing() {repairing = true; }
+    public void repair() {repairing = true; }
+
+    public void stopRepairing() {
+        repairing = false;
+    }
 
 
     public int getHealthPoints() {
