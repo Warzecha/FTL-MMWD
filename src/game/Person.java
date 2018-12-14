@@ -2,16 +2,17 @@ package game;
 
 public class Person {
 
-    int healthPoints;
-    boolean repairing;
+    private int healthPoints;
+    private boolean repairing;
 
 
-    int roomId;
+    private int roomId;
 
 
-    static int damageFromShots = 30;
+    private static int damageFromShots = 30;
+    private static int suffocationRate = 6;
+    private static double repairRate = 0.05;
 
-    static int suffocationRate = 6;
 
     public Person(int roomId) {
         this.healthPoints = 100;
@@ -21,9 +22,11 @@ public class Person {
     public static int getSuffocationRate() {
         return suffocationRate;
     }
-
     public static int getDamageFromShots() {
         return damageFromShots;
+    }
+    public static double getRepairRate() {
+        return repairRate;
     }
 
 

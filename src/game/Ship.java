@@ -29,6 +29,7 @@ public class Ship {
     private static double oxygenProductionRate = 5;
     private static double operatedChargeRateMultiplier = 1.5;
 
+
     private static int shieldId = 0;
     private static int weaponId = 1;
     private static int steeringId = 2;
@@ -223,6 +224,10 @@ public class Ship {
         return systems.get(engineId);
     }
 
+    public double getSystems(int id) {
+        return systems.get(id);
+    }
+
     public void setSystems(int id, float value)
     {
         if(value < 0)
@@ -253,6 +258,13 @@ public class Ship {
         }
 
         return oparated;
+    }
+
+
+
+    public void repairBrokenSystems()
+    {
+
     }
 
 

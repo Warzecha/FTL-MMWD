@@ -180,4 +180,38 @@ class ShipTest {
     }
 
 
+
+    @Test
+    void singlePresonRepairing()
+    {
+        Person p = new Person(1);
+        ship.addCrewmember(p);
+        ship.setSystems(1, 0);
+
+        ship.repairBrokenSystems();
+
+        assertTrue(p.isRepairing());
+        assertEquals(Person.getRepairRate(), ship.getSystems(1), 0.01);
+    }
+
+    @Test
+    void multiplePeopleRepairing() {
+        Person p1 = new Person(1);
+        Person p2 = new Person(1);
+        ship.addCrewmember(p1);
+        ship.addCrewmember(p2);
+        ship.setSystems(1, 0);
+
+        ship.repairBrokenSystems();
+
+        assertTrue(p1.isRepairing());
+        assertTrue(p2.isRepairing());
+        assertEquals(2 * Person.getRepairRate(), ship.getSystems(1), 0.01);
+    }
+
+
+
+
+
+
 }
