@@ -1,57 +1,51 @@
 package game;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Ship {
 
     private int hull = 30;
-    private double shield = 2;
+    private double shield;
+
+
+
     private double weapones = 0;
 
-
-//    private Person[] crew = new Person[0];
 
     private List<Person> crew = new ArrayList<Person>(0);
 
 
+    //    systems are represented by a double between 0 and maximum power.
+    private ArrayList<Double> systems;
+    private ArrayList<Double> maxSystems;
 
 
 
+    private static double shieldChargeRate = 0.02;
 
-    //    systems are represented by a float between 0 and maximum power.
-    private float [] systems;
-    float [] maxSystems;
-
-    private Random r = new Random();
-
-
-
-
-
-
-    private double shieldChargeRate = 0.02;
-    private double weaponesChargeRate = 0.02;
-    private double oxygenUsageRate = 2;
-    private double oxygenProductionRate = 5;
+    private static double weaponesChargeRate = 0.02;
+    private static double oxygenUsageRate = 2;
+    private static double oxygenProductionRate = 5;
+    private static double operatedChargeRateMultiplier = 1.5;
 
     private static int shieldId = 0;
-    static int weaponId = 1;
+    private static int weaponId = 1;
     private static int steeringId = 2;
     private static int engineId = 3;
     private static int oxygenId = 4;
     static int medicalId = 5;
 
 
-    private int[] shots = {1, 1};
-    private double oxygenLevel; //value between 0 and 100
+    private ArrayList<Integer> shots;
 
+    private double oxygenLevel = 100; //value between 0 and 100
     public Ship() {
-        maxSystems = new float[]{2, 2, 1, 3, 1};
-        systems = maxSystems.clone();
 
+        maxSystems = new ArrayList<>(Arrays.asList(1.0, 2.0, 1.0, 2.0, 1.0));
+        systems = new ArrayList<>(maxSystems);
+        shots = new ArrayList<>(Arrays.asList(1, 1));
+        shield = systems.get(shieldId);
 
     }
 
@@ -63,20 +57,12 @@ public class Ship {
     public double calculateEvasion()
     {
 
-        double baseEvasion = Math.floor(systems[engineId]) * Math.floor(systems[steeringId]) * 0.1;
+        double baseEvasion = Math.floor(systems.get(engineId)) * Math.floor(systems.get(steeringId)) * 0.1;
 
         double operatedEffect = 0;
-        boolean oparated = false;
-        for(Person p : crew)
-        {
-            if(p.getRoomId() == engineId && !p.isRepairing())
-            {
-                oparated = true;
-            }
 
-        }
 
-        if(oparated)
+        if(isOperated(engineId))
         {
             operatedEffect = 0.1;
         }
@@ -86,15 +72,16 @@ public class Ship {
 
 
 
-    public int dealDamage(Ship enemy, int target)
+    public int dealDamage(Ship enemy, int target, Random rng)
     {
-        return enemy.receiveDamage(target, shots);
+        return enemy.receiveDamage(target, shots, rng);
     }
 
 
 
 
-    public int receiveDamage(int target, int [] shots)
+
+    public int receiveDamage(int target, ArrayList<Integer> shots, Random rng)
     {
 
 
@@ -102,7 +89,7 @@ public class Ship {
 
         for(int shot : shots)
         {
-            double chance = r.nextDouble();
+            double chance = rng.nextDouble();
 
             if(chance <= calculateEvasion())
             {
@@ -118,7 +105,7 @@ public class Ship {
                 {
                     totalDamage += shot;
                     hull -= shot;
-                    systems[target] = Math.max(systems[target] - shot, 0);
+                    systems.set(target, Math.max(systems.get(target) - shot, 0));
 
                     for(Person p : crew)
                     {
@@ -141,24 +128,28 @@ public class Ship {
 
     private void calculateOxygenLevels()
     {
-        oxygenLevel = oxygenLevel - oxygenUsageRate + Math.floor(systems[oxygenId]) * oxygenProductionRate;
+        oxygenLevel = oxygenLevel - oxygenUsageRate + Math.floor(systems.get(oxygenId)) * oxygenProductionRate;
     }
 
 
     private void calculateShields()
     {
         double newShieldLevel = shield + shieldChargeRate;
-        shield = Math.max(newShieldLevel, Math.floor(systems[shieldId]));
+        shield = Math.max(newShieldLevel, Math.floor(systems.get(shieldId)));
 
     }
 
 
 
-    boolean canShoot() {return weapones == 1;}
+    public boolean canShoot() {return weapones == 1;}
 
     void rechargeWeapones()
     {
-        weapones = Math.max(weapones + weaponesChargeRate, 1);
+        double weaponesRecharge = weaponesChargeRate;
+        if(isOperated(weaponId)) {
+            weaponesRecharge *= operatedChargeRateMultiplier;
+        }
+        weapones = Math.min(weapones + weaponesRecharge, 1);
     }
 
 
@@ -213,15 +204,23 @@ public class Ship {
         return shield;
     }
 
-    void setShield(double shield) {
+    public void setShield(double shield) {
         this.shield = shield;
+    }
+
+    public double getWeapones() {
+        return weapones;
+    }
+
+    public void setWeapones(double weapones) {
+        this.weapones = weapones;
     }
 
 
 
     public double getEngines()
     {
-        return systems[engineId];
+        return systems.get(engineId);
     }
 
     public void setSystems(int id, float value)
@@ -231,15 +230,36 @@ public class Ship {
             throw new RuntimeException("Invalid value");
         }
 
-        if(id < 0 || id >= systems.length)
+        if(id < 0 || id >= systems.size())
         {
             throw new RuntimeException("Index out of range");
         }
 
 
-        systems[id] = Math.min(value, maxSystems[id]);
+        systems.set(id, Math.min(value, maxSystems.get(id)));
 
     }
+
+
+    public boolean isOperated(int roomId) {
+        boolean oparated = false;
+        for(Person p : crew)
+        {
+            if(p.getRoomId() == roomId && !p.isRepairing())
+            {
+                oparated = true;
+            }
+
+        }
+
+        return oparated;
+    }
+
+
+
+
+
+
 
 
 
