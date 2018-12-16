@@ -209,6 +209,18 @@ class ShipTest {
     }
 
     @Test
+    void calculateCrewState()
+    {
+        Person p = new Person(1);
+        ship.addCrewmember(p);
+        ship.setOxygenLevel(0);
+        ship.calculateState();
+
+        assertTrue(p.getHealthPoints() < 100);
+
+    }
+
+    @Test
     void addCrewmember() {
 
 
