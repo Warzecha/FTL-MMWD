@@ -112,8 +112,11 @@ public class Ship {
     }
 
     private void calculateShields() {
-        double newShieldLevel = shield + shieldChargeRate;
-        shield = Math.max(newShieldLevel, Math.floor(systems.get(shieldId)));
+        double shieldRecharge = shieldChargeRate;
+        if(isOperated(shieldId)) {
+            shieldRecharge *= operatedChargeRateMultiplier;
+        }
+        shield = Math.min(shield + shieldRecharge, 1);
 
     }
 

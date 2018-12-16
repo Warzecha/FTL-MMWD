@@ -163,6 +163,51 @@ class ShipTest {
         assertEquals(ship.getOxygenLevel(), 100);
     }
 
+
+    @Test
+    void calculateShieldState() {
+
+        assertEquals(ship.getShield(), 1);
+        ship.calculateState();
+        assertEquals(ship.getShield(), 1);
+
+        ship.setShield(0);
+        ship.calculateState();
+        assertTrue(ship.getShield() > 0);
+
+    }
+
+    @Test
+    void calculateShieldState_operatedBonus()
+    {
+        ship.setShield(0.14);
+        ship.calculateState();
+        double notOperated = ship.getShield();
+
+
+        ship.addCrewmember(new Person(Ship.getShieldId()));
+
+        ship.setShield(0.14);
+        ship.calculateState();
+        double operated = ship.getShield();
+
+
+        assertTrue(operated > notOperated);
+    }
+
+    @Test
+    void calculateShieldState_maxValue() {
+
+
+        ship.calculateState();
+        assertEquals(ship.getShield(), 1);
+
+
+        ship.setShield(0.99);
+        ship.calculateState();
+        assertEquals(ship.getShield(), 1);
+    }
+
     @Test
     void addCrewmember() {
 
