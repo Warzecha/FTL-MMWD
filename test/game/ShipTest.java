@@ -51,6 +51,10 @@ class ShipTest {
 
     @Test
     void dealDamage() {
+        Ship enemy = new Ship();
+        Random rng = new Random();
+
+
 
 
     }
