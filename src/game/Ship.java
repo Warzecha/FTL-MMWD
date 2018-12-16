@@ -5,6 +5,8 @@ import java.util.*;
 
 public class Ship {
 
+
+
     private int hull = 30;
     private double shield;
     private double weapones = 0;
@@ -141,7 +143,6 @@ public class Ship {
         }
     }
 
-
     public static int getShieldId() {
         return shieldId;
     }
@@ -156,6 +157,10 @@ public class Ship {
     }
     public static int getOxygenId() {
         return oxygenId;
+    }
+
+    public int getHull() {
+        return hull;
     }
 
     public double getShield() {
