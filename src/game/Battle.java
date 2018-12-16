@@ -21,4 +21,10 @@ public class Battle {
     public int getTime() {
         return time;
     }
+
+    public void nextMoment() {
+        ship1.calculateState();
+        ship2.calculateState();
+        time++;
+    }
 }
