@@ -17,7 +17,7 @@ public class Ship {
     private ArrayList<Double> maxSystems;
     private ArrayList<Integer> shots;
 
-    private double oxygenLevel = 100; //value between 0 and 100
+    private int oxygenLevel = 100; //value between 0 and 100
 
 
     private static double shieldChargeRate = 0.02;
@@ -107,8 +107,8 @@ public class Ship {
         return enemy.receiveDamage(target, shots, rng);
     }
 
-    private void calculateOxygenLevels() {
-        oxygenLevel = oxygenLevel - oxygenUsageRate + Math.floor(systems.get(oxygenId)) * oxygenProductionRate;
+    public void calculateOxygenLevels() {
+        oxygenLevel = (int) Math.min((oxygenLevel - oxygenUsageRate + Math.floor(systems.get(oxygenId)) * oxygenProductionRate), 100);
     }
 
     private void calculateShields() {
@@ -174,6 +174,14 @@ public class Ship {
         return systems.get(engineId);
     }
 
+    public int getOxygenLevel() {
+        return oxygenLevel;
+    }
+
+    public void setOxygenLevel(int oxygenLevel) {
+        this.oxygenLevel = oxygenLevel;
+    }
+
     public double getSystems(int id) {
         return systems.get(id);
     }
@@ -230,12 +238,6 @@ public class Ship {
         }
 
     }
-
-
-
-
-
-
 
 
 

@@ -146,10 +146,21 @@ class ShipTest {
     }
 
 
-
     @Test
-    void calculateState() {
-//        TODO: Implement test
+    void calculateOxygenState() {
+
+        assertEquals(ship.getOxygenLevel(), 100);
+        ship.calculateState();
+        assertEquals(ship.getOxygenLevel(), 100);
+
+        ship.setOxygenLevel(0);
+        ship.calculateState();
+        assertTrue(ship.getOxygenLevel() > 0);
+
+
+        ship.setOxygenLevel(99);
+        ship.calculateState();
+        assertEquals(ship.getOxygenLevel(), 100);
     }
 
     @Test
