@@ -2,9 +2,9 @@ package game;
 
 public class Battle {
 
-    Ship ship1;
-    Ship ship2;
-    int time = 0;
+    private Ship ship1;
+    private Ship ship2;
+    private int time = 0;
 
     public Battle(Ship ship1, Ship ship2) {
         this.ship1 = ship1;
