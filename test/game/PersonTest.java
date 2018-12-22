@@ -95,8 +95,8 @@ public class PersonTest {
         Executable bigRoomId = () -> p.moveTo(1000);
         Executable negativeRoomId = () -> p.moveTo(-1);
 
-        assertThrows(IllegalArgumentException.class, bigRoomId, "a message");
-        assertThrows(IllegalArgumentException.class, negativeRoomId, "a message");
+        assertThrows(IllegalArgumentException.class, bigRoomId);
+        assertThrows(IllegalArgumentException.class, negativeRoomId);
 
     }
 
