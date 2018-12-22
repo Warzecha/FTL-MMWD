@@ -1,5 +1,8 @@
 package game;
 
+
+import game.exception.NoSuchRoomException;
+
 public class Person {
 
     private int healthPoints;
@@ -56,15 +59,14 @@ public class Person {
     }
 
 
-    public void setRoomId(int roomId) {
-        if(roomId >= boardedShip.getRoomCount()) {
-            throw new RuntimeException("There is no room with this id");
-        }
+    public void setRoomId(int roomId) throws NoSuchRoomException {
+        validateRoomId(roomId);
         this.roomId = roomId;
     }
     public int getRoomId() {
-        if(isMoving)
+        if(isMoving) {
             return 0;
+        }
         return roomId;
     }
 
@@ -81,13 +83,20 @@ public class Person {
         return isMoving;
     }
 
-    public void moveTo(int target) {
-        if(target >= boardedShip.getRoomCount() || target < 0) {
-            throw new IllegalArgumentException("Invalid roomId");
-        }
+    public void moveTo(int target) throws NoSuchRoomException {
+        validateRoomId(target);
         isMoving = true;
         roomId = target;
 
+    }
+
+    private void validateRoomId(int roomId) throws NoSuchRoomException {
+        if(roomId >= boardedShip.getRoomCount()) {
+            throw new NoSuchRoomException("There is no room with this id: " + roomId);
+        }
+        if(roomId < 0) {
+            throw new NoSuchRoomException("RoomId must be a positive value");
+        }
     }
 
 

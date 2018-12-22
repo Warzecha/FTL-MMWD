@@ -1,5 +1,6 @@
 package game;
 
+import game.exception.NoSuchRoomException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,13 +28,13 @@ class ShipTest {
     }
 
     @Test
-    void calculateEvasionIsGreatedWhenOerated() {
+    void calculateEvasionIsGreatedWhenOprated() throws NoSuchRoomException {
         ship.addCrewmember(new Person(), Ship.getEngineId());
         assertEquals(0.1 * ship.getEngines() + 0.1, ship.calculateEvasion(), 0.05);
     }
 
     @Test
-    void calculateEvasionIsNotAffectedWhenOperatedByMultiplePeople() {
+    void calculateEvasionIsNotAffectedWhenOperatedByMultiplePeople() throws NoSuchRoomException {
         ship.addCrewmember(new Person(), Ship.getEngineId());
         ship.addCrewmember(new Person(), Ship.getEngineId());
         assertEquals(0.1 * ship.getEngines() + 0.1, ship.calculateEvasion(), 0.05);
@@ -64,7 +65,7 @@ class ShipTest {
     }
 
     @Test
-    void receiveDamageWhenEnginesAreOperatedAndShieldsAreOn() {
+    void receiveDamageWhenEnginesAreOperatedAndShieldsAreOn() throws NoSuchRoomException {
 
         Random rng = new Random(10);
         ship.addCrewmember(new Person(), Ship.getEngineId());
@@ -76,7 +77,7 @@ class ShipTest {
     }
 
     @Test
-    void receiveDamageWhenEnginesAreOperatedAndShieldsAreOff() {
+    void receiveDamageWhenEnginesAreOperatedAndShieldsAreOff() throws NoSuchRoomException {
 
         Random rng = new Random(10);
         ship.addCrewmember(new Person(), Ship.getEngineId());
@@ -113,7 +114,7 @@ class ShipTest {
 
 
     @Test
-    void receiveDamageAffectsCrewInTargetRoom() {
+    void receiveDamageAffectsCrewInTargetRoom() throws NoSuchRoomException {
 
         Random rng = new Random(10);
         Person p = new Person();
@@ -128,7 +129,7 @@ class ShipTest {
 
     @Test
 
-    void receiveDamageAimedAtCentralRoomShouldAffectMovingCrew() {
+    void receiveDamageAimedAtCentralRoomShouldAffectMovingCrew() throws NoSuchRoomException {
 
         Random rng = new Random(10);
         Person p = new Person();
@@ -177,7 +178,7 @@ class ShipTest {
 
 
     @Test
-    void rechargeWeapones_operated() {
+    void rechargeWeapones_operated() throws NoSuchRoomException {
         ship.addCrewmember(new Person(), Ship.getWeaponId());
 
         ship.rechargeWeapones();
@@ -224,8 +225,7 @@ class ShipTest {
 
 
     @Test
-    void rechargeSpeedIncresesWhenShieldAreOperated()
-    {
+    void rechargeSpeedIncresesWhenShieldAreOperated() throws NoSuchRoomException {
         ship.setShield(0.14);
         ship.calculateState();
         double notOperated = ship.getShield();
@@ -252,7 +252,7 @@ class ShipTest {
     }
 
     @Test
-    void addCrewmember() {
+    void addCrewmember() throws NoSuchRoomException {
         ship.addCrewmember(new Person(), 3);
         assertEquals(1, ship.getCrewCount());
 
@@ -291,7 +291,7 @@ class ShipTest {
 
 
     @Test
-    void isOperated() {
+    void isOperated() throws NoSuchRoomException {
         assertFalse(ship.isOperated(1));
         Person p = new Person();
         ship.addCrewmember(p, 1);
@@ -300,7 +300,7 @@ class ShipTest {
 
     @Test
 
-    void systemsUnderRepairAreNotOperated() {
+    void systemsUnderRepairAreNotOperated() throws NoSuchRoomException {
         Person p = new Person();
         ship.addCrewmember(p, 1);
         p.repair();
@@ -308,8 +308,7 @@ class ShipTest {
     }
 
     @Test
-    void repairBrokenSystems()
-    {
+    void repairBrokenSystems() throws NoSuchRoomException {
         Person p = new Person();
         ship.addCrewmember(p, 1);
         ship.setSystems(1, 0);
@@ -321,7 +320,7 @@ class ShipTest {
     }
 
     @Test
-    void repairBrokenSystemsIsFasterWhenMultiplePeopleAreRepairing() {
+    void repairBrokenSystemsIsFasterWhenMultiplePeopleAreRepairing() throws NoSuchRoomException {
         Person p1 = new Person();
         Person p2 = new Person();
         ship.addCrewmember(p1, 1);
@@ -336,8 +335,7 @@ class ShipTest {
     }
 
     @Test
-    void repairBrokenSystemsStopsRepairingWhenfinished()
-    {
+    void repairBrokenSystemsStopsRepairingWhenfinished() throws NoSuchRoomException {
         Person p = new Person();
         ship.addCrewmember(p, 1);
         ship.setSystems(1, 0.99);

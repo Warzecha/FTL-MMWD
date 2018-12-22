@@ -1,6 +1,8 @@
 package game;
 
 
+import game.exception.NoSuchRoomException;
+
 import java.util.*;
 
 public class Ship {
@@ -48,8 +50,7 @@ public class Ship {
 
     }
 
-    void addCrewmember(Person p, int roomId)
-    {
+    void addCrewmember(Person p, int roomId) throws NoSuchRoomException {
         p.setBoardedShip(this);
         p.setRoomId(roomId);
         crew.add(p);
