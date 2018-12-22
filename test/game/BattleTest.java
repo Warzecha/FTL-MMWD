@@ -16,7 +16,7 @@ class BattleTest {
     void setup() {
         ship1 = new Ship();
         ship2 = new Ship();
-        battle = new Battle(ship1, ship2);
+        battle = new Battle(ship1, ship2, 100);
 
     }
 
@@ -27,5 +27,13 @@ class BattleTest {
         assertEquals(1, battle.getTime());
 
     }
+
+
+    @Test
+    void fightEndsAtEndTime() {
+        battle.fight();
+        assertEquals(100, battle.getTime());
+    }
+
 
 }

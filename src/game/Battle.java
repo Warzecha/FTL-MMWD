@@ -4,11 +4,13 @@ public class Battle {
 
     private final Ship ship1;
     private final Ship ship2;
+    private final int endTime;
     private int time = 0;
 
-    public Battle(Ship ship1, Ship ship2) {
+    public Battle(Ship ship1, Ship ship2, int endTime) {
         this.ship1 = ship1;
         this.ship2 = ship2;
+        this.endTime = endTime;
     }
 
     public Ship getShip1() {
@@ -27,4 +29,17 @@ public class Battle {
         ship2.calculateState();
         time++;
     }
+
+    public int fight() {
+        while (time < endTime) {
+
+
+
+            nextMoment();
+        }
+        return 0;
+    }
+
+
+
 }
