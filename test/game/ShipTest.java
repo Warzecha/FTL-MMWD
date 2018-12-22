@@ -22,32 +22,35 @@ class ShipTest {
 
 
     @Test
-    void calculateEvasion() {
-
-
-
-
+    void calculateEvasion_notOperated() {
         assertEquals(0.1 * ship.getEngines(), ship.calculateEvasion(), 0.05);
+    }
 
-
+    @Test
+    void calculateEvasion_operated() {
         ship.addCrewmember(new Person(Ship.getEngineId()));
         assertEquals(0.1 * ship.getEngines() + 0.1, ship.calculateEvasion(), 0.05);
+    }
 
-
+    @Test
+    void calculateEvasion_operatedByMultiplePeople_effectsDoNotSumUp() {
+        ship.addCrewmember(new Person(Ship.getEngineId()));
         ship.addCrewmember(new Person(Ship.getEngineId()));
         assertEquals(0.1 * ship.getEngines() + 0.1, ship.calculateEvasion(), 0.05);
+    }
 
-
-        ship = new Ship();
+    @Test
+    void calculateEvasion_enginesDamaged() {
         ship.setSystems(Ship.getEngineId(), 0);
         assertEquals(0, ship.calculateEvasion(), 0.05);
+    }
 
-
-        ship = new Ship();
+    @Test
+    void calculateEvasion_steeringDamaged() {
         ship.setSystems(Ship.getSteeringId(), 0);
         assertEquals(0, ship.calculateEvasion(), 0.05);
-
     }
+
 
     @Test
     void dealDamage() {
@@ -56,7 +59,7 @@ class ShipTest {
     }
 
     @Test
-    void receiveDamageEnginesOperatedAndShieldsOn() {
+    void receiveDamage_enginesOperatedAndShieldsOn() {
 
         Random rng = new Random(10);
         ship.addCrewmember(new Person(Ship.getEngineId()));
@@ -68,7 +71,7 @@ class ShipTest {
     }
 
     @Test
-    void receiveDamageEnginesOperatedAndShieldsOff() {
+    void receiveDamage_enginesOperatedAndShieldsOff() {
 
         Random rng = new Random(10);
         ship.addCrewmember(new Person(Ship.getEngineId()));
@@ -81,7 +84,7 @@ class ShipTest {
     }
 
     @Test
-    void receiveDamageEnginesNotOperatedAndShieldsOn() {
+    void receiveDamage_enginesNotOperatedAndShieldsOn() {
 
         Random rng = new Random(10);
 
@@ -92,7 +95,7 @@ class ShipTest {
     }
 
     @Test
-    void receiveDamageEnginesNotOperatedAndShieldsOff() {
+    void receiveDamage_enginesNotOperatedAndShieldsOff() {
 
         Random rng = new Random(10);
         ship.setShield(0);
@@ -103,22 +106,41 @@ class ShipTest {
         assertEquals(1, ship.receiveDamage(Ship.getWeaponId(), shots, rng));
     }
 
+
     @Test
-    void canShoot() {
+    void receiveDamage_crewInTargetRoom_shouldReveiveDamage() {
+
+        Random rng = new Random(10);
+        Person p = new Person(1);
+        ship.addCrewmember(p);
+        ship.setShield(0);
+        ArrayList shots = new ArrayList<>(Arrays.asList(1, 1));
+        ship.receiveDamage(1, shots, rng);
+
+        assertTrue(p.getHealthPoints() < 100);
+    }
 
 
-        ship.setWeapones(0);
-        assertFalse(ship.canShoot());
-
-        ship.setWeapones(0.5);
-        assertFalse(ship.canShoot());
-
+    @Test
+    void canShoot_weaponesCharged_True() {
         ship.setWeapones(1);
         assertTrue(ship.canShoot());
     }
 
     @Test
-    void rechargeWeaponesNotOperated() {
+    void canShoot_weaponesHalfCharged_False() {
+        ship.setWeapones(0.5);
+        assertFalse(ship.canShoot());
+    }
+
+    @Test
+    void canShoot_weaponesNotCharged_False() {
+        ship.setWeapones(0);
+        assertFalse(ship.canShoot());
+    }
+
+    @Test
+    void rechargeWeapones_notOperated() {
 
         ship.rechargeWeapones();
         assertEquals(0.02, ship.getWeapones(), 0.0005);
@@ -132,7 +154,7 @@ class ShipTest {
 
 
     @Test
-    void rechargeWeaponesOperated() {
+    void rechargeWeapones_operated() {
         ship.addCrewmember(new Person(Ship.getWeaponId()));
 
         ship.rechargeWeapones();
@@ -145,58 +167,133 @@ class ShipTest {
 
     }
 
-
-
     @Test
-    void calculateState() {
-//        TODO: Implement test
+    void calculateOxygenState_emptyTank() {
+        ship.setOxygenLevel(0);
+        ship.calculateState();
+        assertTrue(ship.getOxygenLevel() > 0);
     }
 
     @Test
-    void addCrewmember() {
+    void calculateOxygenState_almostFullTank() {
+        ship.setOxygenLevel(99);
+        ship.calculateState();
+        assertEquals(100, ship.getOxygenLevel());
+    }
+
+    @Test
+    void calculateOxygenState_fullTank() {
+        ship.calculateState();
+        assertEquals(100, ship.getOxygenLevel());
+
+    }
 
 
+    @Test
+    void calculateShieldState_emptyShield() {
+        ship.setShield(0);
+        ship.calculateState();
+        assertTrue(ship.getShield() > 0);
+    }
 
-        assertEquals(0, ship.getCrewCount());
+    @Test
+    void calculateShieldState_almostFullShield() {
+        ship.setShield(0.99);
+        ship.calculateState();
+        assertEquals(1, ship.getShield());
+    }
 
+    @Test
+    void calculateShieldState_fullShield() {
+        ship.calculateState();
+        assertEquals(1, ship.getShield());
+    }
+
+    @Test
+    void calculateShieldState_operatedBonus()
+    {
+        ship.setShield(0.14);
+        ship.calculateState();
+        double notOperated = ship.getShield();
+
+
+        ship.addCrewmember(new Person(Ship.getShieldId()));
+
+        ship.setShield(0.14);
+        ship.calculateState();
+        double operated = ship.getShield();
+
+        assertTrue(operated > notOperated);
+    }
+
+    @Test
+    void calculateCrewState_crewSuffocating()
+    {
+        Person p = new Person(1);
+        ship.addCrewmember(p);
+        ship.setOxygenLevel(0);
+        ship.calculateState();
+
+        assertTrue(p.getHealthPoints() < 100);
+    }
+
+    @Test
+    void addCrewmember_addSinglePerson() {
         ship.addCrewmember(new Person(3));
 
         assertEquals(1, ship.getCrewCount());
         ship.addCrewmember(new Person(4));
         ship.addCrewmember(new Person(1));
         assertEquals(3, ship.getCrewCount());
-
     }
 
     @Test
-    void newShipIsNotDamaged() {
+    void addCrewmember_addMultiplePeople() {
+        ship.addCrewmember(new Person(3));
+        ship.addCrewmember(new Person(4));
+        ship.addCrewmember(new Person(1));
+        assertEquals(3, ship.getCrewCount());
+    }
+
+    @Test
+    void isDamaged_newShip_systemsAreNotDamaged() {
         for(int i = 0; i <= 4; i++)
         {
             assertFalse(ship.isDamaged(i));
         }
+
+        assertEquals(30, ship.getHull());
     }
 
     @Test
-    void ShipIsDamaged() {
+    void isDamaged_systemIsDamaged() {
         ship.setSystems(1, 0.9);
         assertTrue(ship.isDamaged(1));
     }
 
+    @Test
+    void isOperated_notOperated_False() {
+        assertFalse(ship.isOperated(1));
+    }
 
     @Test
-    void isOperated() {
-        assertFalse(ship.isOperated(1));
+    void isOperated_operated_True() {
         Person p = new Person(1);
         ship.addCrewmember(p);
         assertTrue(ship.isOperated(1));
+    }
+
+    @Test
+    void isOperated_underRepair_False() {
+        Person p = new Person(1);
+        ship.addCrewmember(p);
         p.repair();
         assertFalse(ship.isOperated(1));
-
     }
 
 
     @Test
-    void singlePresonRepairing()
+    void repairBrokenSystems_singlePresonRepairing()
     {
         Person p = new Person(1);
         ship.addCrewmember(p);
@@ -209,7 +306,7 @@ class ShipTest {
     }
 
     @Test
-    void multiplePeopleRepairing() {
+    void repairBrokenSystems_multiplePeopleRepairing() {
         Person p1 = new Person(1);
         Person p2 = new Person(1);
         ship.addCrewmember(p1);
@@ -224,7 +321,7 @@ class ShipTest {
     }
 
     @Test
-    void stopRepairingIfCompleted()
+    void repairBrokenSystems_finishingRepairs_stopRepairing()
     {
         Person p = new Person(1);
         ship.addCrewmember(p);
@@ -235,8 +332,6 @@ class ShipTest {
         assertEquals(1, ship.getSystems(1), 0.001);
         assertFalse(p.isRepairing());
     }
-
-
 
 
 

@@ -30,8 +30,8 @@ public class Person {
     }
 
 
-    public void breathe(double oxygenLevel) {
-        if(oxygenLevel < 0.20)
+    public void breathe(int oxygenLevel) {
+        if(oxygenLevel < 20)
             healthPoints -= suffocationRate;
     }
 

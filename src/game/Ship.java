@@ -5,6 +5,8 @@ import java.util.*;
 
 public class Ship {
 
+
+
     private int hull = 30;
     private double shield;
     private double weapones = 0;
@@ -17,7 +19,7 @@ public class Ship {
     private ArrayList<Double> maxSystems;
     private ArrayList<Integer> shots;
 
-    private double oxygenLevel = 100; //value between 0 and 100
+    private int oxygenLevel = 100; //value between 0 and 100
 
 
     private static double shieldChargeRate = 0.02;
@@ -107,13 +109,16 @@ public class Ship {
         return enemy.receiveDamage(target, shots, rng);
     }
 
-    private void calculateOxygenLevels() {
-        oxygenLevel = oxygenLevel - oxygenUsageRate + Math.floor(systems.get(oxygenId)) * oxygenProductionRate;
+    public void calculateOxygenLevels() {
+        oxygenLevel = (int) Math.min((oxygenLevel - oxygenUsageRate + Math.floor(systems.get(oxygenId)) * oxygenProductionRate), 100);
     }
 
     private void calculateShields() {
-        double newShieldLevel = shield + shieldChargeRate;
-        shield = Math.max(newShieldLevel, Math.floor(systems.get(shieldId)));
+        double shieldRecharge = shieldChargeRate;
+        if(isOperated(shieldId)) {
+            shieldRecharge *= operatedChargeRateMultiplier;
+        }
+        shield = Math.min(shield + shieldRecharge, 1);
 
     }
 
@@ -138,7 +143,6 @@ public class Ship {
         }
     }
 
-
     public static int getShieldId() {
         return shieldId;
     }
@@ -153,6 +157,10 @@ public class Ship {
     }
     public static int getOxygenId() {
         return oxygenId;
+    }
+
+    public int getHull() {
+        return hull;
     }
 
     public double getShield() {
@@ -172,6 +180,14 @@ public class Ship {
     public double getEngines()
     {
         return systems.get(engineId);
+    }
+
+    public int getOxygenLevel() {
+        return oxygenLevel;
+    }
+
+    public void setOxygenLevel(int oxygenLevel) {
+        this.oxygenLevel = oxygenLevel;
     }
 
     public double getSystems(int id) {
@@ -230,12 +246,6 @@ public class Ship {
         }
 
     }
-
-
-
-
-
-
 
 
 
