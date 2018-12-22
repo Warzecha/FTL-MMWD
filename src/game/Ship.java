@@ -209,6 +209,10 @@ public class Ship {
 
     }
 
+    public double getMaxSystems(int id) {
+        return maxSystems.get(id);
+    }
+
 
     public boolean isOperated(int roomId) {
         boolean oparated = false;
