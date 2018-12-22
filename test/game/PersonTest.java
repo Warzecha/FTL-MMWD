@@ -6,13 +6,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PersonTest {
 
+    Ship ship;
     Person p;
 
     @BeforeEach
     void setup()
     {
-        p = new Person(3);
+        ship = new Ship();
+        p = new Person();
+        ship.addCrewmember(p);
     }
+
+    @Test
+    void setShip() {
+        p.setBoardedShip(ship);
+        assertSame(ship, p.getBoardedShip());
+    }
+
 
     @Test
     void breathe() {
@@ -36,9 +46,21 @@ public class PersonTest {
 
     @Test
     void getRoomId() {
-        assertEquals(3, p.getRoomId());
+        assertEquals(0, p.getRoomId());
     }
 
+    @Test
+    void getRoomId_whileMoving() {
+        p.moveTo(3);
+        assertEquals(0, p.getRoomId());
+    }
+
+    @Test
+    void getRoomId_afterMoving() {
+        p.moveTo(3);
+        p.finalizeMovement();
+        assertEquals(3, p.getRoomId());
+    }
 
     @Test
     void startRepairing() {
@@ -53,6 +75,16 @@ public class PersonTest {
 
         p.stopRepairing();
         assertFalse(p.isRepairing());
+    }
+
+
+    @Test
+    void moveCrewmember() {
+        p.moveTo(1);
+
+        assertTrue(p.isMoving());
+
+
     }
 
 

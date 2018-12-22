@@ -28,14 +28,14 @@ class ShipTest {
 
     @Test
     void calculateEvasion_operated() {
-        ship.addCrewmember(new Person(Ship.getEngineId()));
+        ship.addCrewmember(new Person(), Ship.getEngineId());
         assertEquals(0.1 * ship.getEngines() + 0.1, ship.calculateEvasion(), 0.05);
     }
 
     @Test
     void calculateEvasion_operatedByMultiplePeople_effectsDoNotSumUp() {
-        ship.addCrewmember(new Person(Ship.getEngineId()));
-        ship.addCrewmember(new Person(Ship.getEngineId()));
+        ship.addCrewmember(new Person(), Ship.getEngineId());
+        ship.addCrewmember(new Person(), Ship.getEngineId());
         assertEquals(0.1 * ship.getEngines() + 0.1, ship.calculateEvasion(), 0.05);
     }
 
@@ -62,7 +62,7 @@ class ShipTest {
     void receiveDamage_enginesOperatedAndShieldsOn() {
 
         Random rng = new Random(10);
-        ship.addCrewmember(new Person(Ship.getEngineId()));
+        ship.addCrewmember(new Person(), Ship.getEngineId());
 
         ArrayList shots = new ArrayList<>(Arrays.asList(1, 1));
 
@@ -74,7 +74,7 @@ class ShipTest {
     void receiveDamage_enginesOperatedAndShieldsOff() {
 
         Random rng = new Random(10);
-        ship.addCrewmember(new Person(Ship.getEngineId()));
+        ship.addCrewmember(new Person(), Ship.getEngineId());
         ship.setShield(0);
 
         ArrayList shots = new ArrayList<>(Arrays.asList(1, 1));
@@ -111,8 +111,8 @@ class ShipTest {
     void receiveDamage_crewInTargetRoom_shouldReveiveDamage() {
 
         Random rng = new Random(10);
-        Person p = new Person(1);
-        ship.addCrewmember(p);
+        Person p = new Person();
+        ship.addCrewmember(p, 1);
         ship.setShield(0);
         ArrayList shots = new ArrayList<>(Arrays.asList(1, 1));
         ship.receiveDamage(1, shots, rng);
@@ -155,7 +155,7 @@ class ShipTest {
 
     @Test
     void rechargeWeapones_operated() {
-        ship.addCrewmember(new Person(Ship.getWeaponId()));
+        ship.addCrewmember(new Person(), Ship.getWeaponId());
 
         ship.rechargeWeapones();
         assertEquals(0.03, ship.getWeapones(), 0.0005);
@@ -217,7 +217,7 @@ class ShipTest {
         double notOperated = ship.getShield();
 
 
-        ship.addCrewmember(new Person(Ship.getShieldId()));
+        ship.addCrewmember(new Person(), Ship.getShieldId());
 
         ship.setShield(0.14);
         ship.calculateState();
@@ -229,7 +229,7 @@ class ShipTest {
     @Test
     void calculateCrewState_crewSuffocating()
     {
-        Person p = new Person(1);
+        Person p = new Person();
         ship.addCrewmember(p);
         ship.setOxygenLevel(0);
         ship.calculateState();
@@ -239,20 +239,27 @@ class ShipTest {
 
     @Test
     void addCrewmember_addSinglePerson() {
-        ship.addCrewmember(new Person(3));
+        ship.addCrewmember(new Person(), 3);
 
         assertEquals(1, ship.getCrewCount());
-        ship.addCrewmember(new Person(4));
-        ship.addCrewmember(new Person(1));
+        ship.addCrewmember(new Person(), 4);
+        ship.addCrewmember(new Person(), 1);
         assertEquals(3, ship.getCrewCount());
     }
 
     @Test
     void addCrewmember_addMultiplePeople() {
-        ship.addCrewmember(new Person(3));
-        ship.addCrewmember(new Person(4));
-        ship.addCrewmember(new Person(1));
+        ship.addCrewmember(new Person(), 3);
+        ship.addCrewmember(new Person(), 4);
+        ship.addCrewmember(new Person(), 1);
         assertEquals(3, ship.getCrewCount());
+    }
+
+    @Test
+    void addCrewmember_boardedShip() {
+        Person p = new Person();
+        ship.addCrewmember(p);
+        assertSame(ship, p.getBoardedShip());
     }
 
     @Test
@@ -278,15 +285,15 @@ class ShipTest {
 
     @Test
     void isOperated_operated_True() {
-        Person p = new Person(1);
-        ship.addCrewmember(p);
+        Person p = new Person();
+        ship.addCrewmember(p, 1);
         assertTrue(ship.isOperated(1));
     }
 
     @Test
     void isOperated_underRepair_False() {
-        Person p = new Person(1);
-        ship.addCrewmember(p);
+        Person p = new Person();
+        ship.addCrewmember(p, 1);
         p.repair();
         assertFalse(ship.isOperated(1));
     }
@@ -295,8 +302,8 @@ class ShipTest {
     @Test
     void repairBrokenSystems_singlePresonRepairing()
     {
-        Person p = new Person(1);
-        ship.addCrewmember(p);
+        Person p = new Person();
+        ship.addCrewmember(p, 1);
         ship.setSystems(1, 0);
 
         ship.repairBrokenSystems();
@@ -307,10 +314,10 @@ class ShipTest {
 
     @Test
     void repairBrokenSystems_multiplePeopleRepairing() {
-        Person p1 = new Person(1);
-        Person p2 = new Person(1);
-        ship.addCrewmember(p1);
-        ship.addCrewmember(p2);
+        Person p1 = new Person();
+        Person p2 = new Person();
+        ship.addCrewmember(p1, 1);
+        ship.addCrewmember(p2, 1);
         ship.setSystems(1, 0);
 
         ship.repairBrokenSystems();
@@ -323,8 +330,8 @@ class ShipTest {
     @Test
     void repairBrokenSystems_finishingRepairs_stopRepairing()
     {
-        Person p = new Person(1);
-        ship.addCrewmember(p);
+        Person p = new Person();
+        ship.addCrewmember(p, 1);
         ship.setSystems(1, 0.99);
 
         ship.repairBrokenSystems();
@@ -333,6 +340,10 @@ class ShipTest {
         assertFalse(p.isRepairing());
     }
 
+    @Test
+    void getRoomCount() {
+        assertEquals(6, ship.getRoomCount());
+    }
 
 
 

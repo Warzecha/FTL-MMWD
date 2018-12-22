@@ -30,28 +30,39 @@ public class Ship {
     private static double operatedChargeRateMultiplier = 1.5;
 
 
-    private static int shieldId = 0;
-    private static int weaponId = 1;
-    private static int steeringId = 2;
-    private static int engineId = 3;
-    private static int oxygenId = 4;
-    private static int medicalId = 5;
+    private static int shieldId = 1;
+    private static int weaponId = 2;
+    private static int steeringId = 3;
+    private static int engineId = 4;
+    private static int oxygenId = 5;
+    private static int medicalId = 6;
 
 
 
     public Ship() {
 
-        maxSystems = new ArrayList<>(Arrays.asList(1.0, 1.0, 1.0, 2.0, 1.0));
+        maxSystems = new ArrayList<>(Arrays.asList(0.0, 1.0, 1.0, 1.0, 2.0, 1.0));
         systems = new ArrayList<>(maxSystems);
         shots = new ArrayList<>(Arrays.asList(1, 1));
         shield = systems.get(shieldId);
 
     }
 
-    void addCrewmember(Person p)
+    void addCrewmember(Person p, int roomId)
     {
+        p.setBoardedShip(this);
+        p.setRoomId(roomId);
         crew.add(p);
     }
+
+    void addCrewmember(Person p)
+    {
+        p.setBoardedShip(this);
+        crew.add(p);
+    }
+
+
+
     public int getCrewCount(){ return crew.size(); }
 
     public double calculateEvasion() {
@@ -248,5 +259,7 @@ public class Ship {
     }
 
 
-
+    public int getRoomCount() {
+        return systems.size();
+    }
 }
