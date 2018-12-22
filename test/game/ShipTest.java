@@ -22,44 +22,49 @@ class ShipTest {
 
 
     @Test
-    void calculateEvasion_notOperated() {
+    void calculateEvasion() {
         assertEquals(0.1 * ship.getEngines(), ship.calculateEvasion(), 0.05);
     }
 
     @Test
-    void calculateEvasion_operated() {
+    void calculateEvasionIsGreatedWhenOerated() {
         ship.addCrewmember(new Person(), Ship.getEngineId());
         assertEquals(0.1 * ship.getEngines() + 0.1, ship.calculateEvasion(), 0.05);
     }
 
     @Test
-    void calculateEvasion_operatedByMultiplePeople_effectsDoNotSumUp() {
+    void calculateEvasionIsNotAffectedWhenOperatedByMultiplePeople() {
         ship.addCrewmember(new Person(), Ship.getEngineId());
         ship.addCrewmember(new Person(), Ship.getEngineId());
         assertEquals(0.1 * ship.getEngines() + 0.1, ship.calculateEvasion(), 0.05);
     }
 
     @Test
-    void calculateEvasion_enginesDamaged() {
+    void calculateEvasionReturnsZeroWhenEnginesAreDamaged() {
         ship.setSystems(Ship.getEngineId(), 0);
         assertEquals(0, ship.calculateEvasion(), 0.05);
     }
 
     @Test
-    void calculateEvasion_steeringDamaged() {
+    void calculateEvasionReturnsZeroWhenSteeringIsDamaged() {
         ship.setSystems(Ship.getSteeringId(), 0);
         assertEquals(0, ship.calculateEvasion(), 0.05);
     }
 
 
     @Test
-    void dealDamage() {
-//        TODO: Implement this test
+    void dealDamageDischargesWeapones() {
+        Ship enemy = new Ship();
+        Random rng = new Random(10);
+        ship.setWeapones(1);
+
+        ship.dealDamage(enemy, 0, rng);
+        assertEquals(0, ship.getWeapones());
 
     }
 
     @Test
-    void receiveDamage_enginesOperatedAndShieldsOn() {
+    void receiveDamageWhenEnginesAreOperatedAndShieldsAreOn() {
 
         Random rng = new Random(10);
         ship.addCrewmember(new Person(), Ship.getEngineId());
@@ -71,7 +76,7 @@ class ShipTest {
     }
 
     @Test
-    void receiveDamage_enginesOperatedAndShieldsOff() {
+    void receiveDamageWhenEnginesAreOperatedAndShieldsAreOff() {
 
         Random rng = new Random(10);
         ship.addCrewmember(new Person(), Ship.getEngineId());
@@ -84,7 +89,7 @@ class ShipTest {
     }
 
     @Test
-    void receiveDamage_enginesNotOperatedAndShieldsOn() {
+    void receiveDamageWhenEnginesAreNotOperatedAndShieldsAreOn() {
 
         Random rng = new Random(10);
 
@@ -95,7 +100,7 @@ class ShipTest {
     }
 
     @Test
-    void receiveDamage_enginesNotOperatedAndShieldsOff() {
+    void receiveDamageWhenEnginesAreNotOperatedAndShieldsAreOff() {
 
         Random rng = new Random(10);
         ship.setShield(0);
@@ -108,7 +113,7 @@ class ShipTest {
 
 
     @Test
-    void receiveDamage_crewInTargetRoom_shouldReveiveDamage() {
+    void receiveDamageAffectsCrewInTargetRoom() {
 
         Random rng = new Random(10);
         Person p = new Person();
@@ -123,7 +128,7 @@ class ShipTest {
 
     @Test
 
-    void receiveDamage_crewMoving_shouldReveiveDamage() {
+    void receiveDamageAimedAtCentralRoomShouldAffectMovingCrew() {
 
         Random rng = new Random(10);
         Person p = new Person();
@@ -131,7 +136,6 @@ class ShipTest {
         ship.setShield(0);
         ship.setSystems(Ship.getEngineId(), 0);
         ArrayList shots = new ArrayList<>(Arrays.asList(1, 1));
-
 
         p.moveTo(3);
         ship.receiveDamage(0, shots, rng);

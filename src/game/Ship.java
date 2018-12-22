@@ -117,7 +117,13 @@ public class Ship {
 
     public int dealDamage(Ship enemy, int target, Random rng)
     {
-        return enemy.receiveDamage(target, shots, rng);
+        if(canShoot())
+        {
+            setWeapones(0);
+            return enemy.receiveDamage(target, shots, rng);
+        }
+        else return 0;
+
     }
 
     public void calculateOxygenLevels() {

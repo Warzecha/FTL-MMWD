@@ -13,8 +13,7 @@ class BattleTest {
 
 
     @BeforeEach
-    void setup()
-    {
+    void setup() {
         ship1 = new Ship();
         ship2 = new Ship();
         battle = new Battle(ship1, ship2);
@@ -23,9 +22,7 @@ class BattleTest {
 
 
     @Test
-    void nextMomentIncrementsTime()
-    {
-
+    void nextMomentIncrementsTime() {
         battle.nextMoment();
         assertEquals(1, battle.getTime());
 

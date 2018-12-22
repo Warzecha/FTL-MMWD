@@ -11,8 +11,7 @@ public class PersonTest {
     Person p;
 
     @BeforeEach
-    void setup()
-    {
+    void setup() {
         ship = new Ship();
         p = new Person();
         ship.addCrewmember(p);
@@ -24,16 +23,22 @@ public class PersonTest {
         assertSame(ship, p.getBoardedShip());
     }
 
+    @Test
+    void breatheDoesNotChaneHealthWhenOxygenIsSufficient() {
+        int startHealth = 100;
+        p.breathe(50);
+        assertEquals(startHealth, p.getHealthPoints());
+    }
 
     @Test
-    void breathe() {
+    void breatheDecresesHealthWhenOxygenTooLow() {
         int startHealth = 100;
         p.breathe(0);
         assertEquals(startHealth - Person.getSuffocationRate(), p.getHealthPoints());
     }
 
     @Test
-    void receiveDamage() {
+    void receiveDamageDecreasesHealth() {
         int health = 100;
 
         p.receiveDamage(1);
@@ -51,13 +56,13 @@ public class PersonTest {
     }
 
     @Test
-    void getRoomId_whileMoving() {
+    void getRoomIdReturnsZeroWhenMoving() {
         p.moveTo(3);
         assertEquals(0, p.getRoomId());
     }
 
     @Test
-    void getRoomId_afterMoving() {
+    void getRoomIdReturnsTargetRoomAfterMoving() {
         p.moveTo(3);
         p.finalizeMovement();
         assertEquals(3, p.getRoomId());
@@ -84,7 +89,7 @@ public class PersonTest {
     }
 
     @Test
-    void moveCrewmember_invalidRoomId() {
+    void moveCrewmemberToInvalidRoomIdThrowsException() {
 
 
         Executable bigRoomId = () -> p.moveTo(1000);
