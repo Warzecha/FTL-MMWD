@@ -104,20 +104,21 @@ public class PersonTest {
     }
 
     @Test
-    void moveCrewmemberToInvalidRoomIdThrowsException() {
-
-
+    void moveCrewmemberToNonexistentRoomIdThrowsException() {
         Executable bigRoomId = () -> p.moveTo(1000);
-        Executable negativeRoomId = () -> p.moveTo(-1);
-
         assertThrows(NoSuchRoomException.class, bigRoomId);
-        assertThrows(NoSuchRoomException.class, negativeRoomId);
+    }
 
+    @Test
+    void moveCrewmemberToNegativeRoomIdThrowsException() {
+        Executable negativeRoomId = () -> p.moveTo(-1);
+        assertThrows(NoSuchRoomException.class, negativeRoomId);
     }
 
     @Test
     void finalizeMovement() throws NoSuchRoomException {
         p.moveTo(1);
+        assertTrue(p.isMoving());
         p.finalizeMovement();
         assertFalse(p.isMoving());
         assertEquals(1, p.getRoomId());
