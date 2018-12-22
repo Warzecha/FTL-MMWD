@@ -122,6 +122,24 @@ class ShipTest {
 
 
     @Test
+    void receiveDamage_crewMoving_shouldReveiveDamage() {
+
+        Random rng = new Random(10);
+        Person p = new Person();
+        ship.addCrewmember(p, 1);
+        ship.setShield(0);
+        ship.setSystems(Ship.getEngineId(), 0);
+        ArrayList shots = new ArrayList<>(Arrays.asList(1, 1));
+
+
+        p.moveTo(3);
+        ship.receiveDamage(0, shots, rng);
+
+        assertTrue(p.getHealthPoints() < 100);
+    }
+
+
+    @Test
     void canShoot_weaponesCharged_True() {
         ship.setWeapones(1);
         assertTrue(ship.canShoot());

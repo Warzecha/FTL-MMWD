@@ -82,8 +82,8 @@ public class Person {
     }
 
     public void moveTo(int target) {
-        if(target >= boardedShip.getRoomCount()) {
-            throw new RuntimeException("There is no room with this id");
+        if(target >= boardedShip.getRoomCount() || target < 0) {
+            throw new IllegalArgumentException("Invalid roomId");
         }
         isMoving = true;
         roomId = target;

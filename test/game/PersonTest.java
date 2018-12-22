@@ -2,6 +2,7 @@ package game;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PersonTest {
@@ -71,21 +72,39 @@ public class PersonTest {
     @Test
     void stopRepairing() {
         p.repair();
-        assertTrue(p.isRepairing());
-
         p.stopRepairing();
         assertFalse(p.isRepairing());
     }
 
-
     @Test
     void moveCrewmember() {
         p.moveTo(1);
-
         assertTrue(p.isMoving());
+        assertEquals(0, p.getRoomId());
+    }
 
+    @Test
+    void moveCrewmember_invalidRoomId() {
+
+
+        Executable bigRoomId = () -> p.moveTo(1000);
+        Executable negativeRoomId = () -> p.moveTo(-1);
+
+        assertThrows(IllegalArgumentException.class, bigRoomId, "a message");
+        assertThrows(IllegalArgumentException.class, negativeRoomId, "a message");
 
     }
+
+    @Test
+    void finalizeMovement() {
+        p.moveTo(1);
+        p.finalizeMovement();
+        assertFalse(p.isMoving());
+        assertEquals(1, p.getRoomId());
+    }
+
+
+
 
 
 }
