@@ -23,26 +23,11 @@ class BattleTest {
 
 
     @Test
-    void constructor()
-    {
-        Ship s1 = new Ship();
-        Ship s2 = new Ship();
-        Battle b = new Battle(s1, s2);
-
-        assertEquals(0, b.getTime());
-        assertSame(b.getShip1(), s1);
-        assertSame(b.getShip2(), s2);
-
-    }
-
-
-    @Test
-    void nextMoment()
+    void nextMomentIncrementsTime()
     {
 
         battle.nextMoment();
         assertEquals(1, battle.getTime());
-
 
     }
 
