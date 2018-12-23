@@ -13,23 +13,16 @@ public class Ship {
     private double shield;
     private double weapones = 0;
 
-
     private List<Person> crew = new ArrayList<Person>(0);
 
     //    systems are represented by a double between 0 and maximum power.
     private ArrayList<Double> systems;
     private final ArrayList<Double> maxSystems;
+
     private ArrayList<Integer> shots;
 
     private int oxygenLevel = 100; //value between 0 and 100
-
-
-    private static double shieldChargeRate = 0.02;
-    private static double weaponesChargeRate = 0.02;
-    private static double oxygenUsageRate = 2;
-    private static double oxygenProductionRate = 5;
-    private static double operatedChargeRateMultiplier = 1.5;
-
+    public final ShipParameters parameters = new ShipParameters();
 
 
 
@@ -119,13 +112,13 @@ public class Ship {
     }
 
     public void calculateOxygenLevels() {
-        oxygenLevel = (int) Math.min((oxygenLevel - oxygenUsageRate + Math.floor(systems.get(Room.OXYGEN.getId())) * oxygenProductionRate), 100);
+        oxygenLevel = (int) Math.min((oxygenLevel - parameters.OXYGEN_USAGE_RATE + Math.floor(systems.get(Room.OXYGEN.getId())) * parameters.OXYGEN_PRODUCTION_RATE), 100);
     }
 
     private void calculateShields() {
-        double shieldRecharge = shieldChargeRate;
+        double shieldRecharge = parameters.SHIELD_CHARGE_RATE;
         if(isOperated(Room.SHIELD.getId())) {
-            shieldRecharge *= operatedChargeRateMultiplier;
+            shieldRecharge *= parameters.OPERATION_CHARGE_RATE_BONUS;
         }
         shield = Math.min(shield + shieldRecharge, 1);
 
@@ -134,9 +127,9 @@ public class Ship {
     public boolean canShoot() {return weapones == 1;}
 
     void rechargeWeapones() {
-        double weaponesRecharge = weaponesChargeRate;
+        double weaponesRecharge = parameters.WEAPONED_CHARGE_RATE;
         if(isOperated(Room.WEAPON.getId())) {
-            weaponesRecharge *= operatedChargeRateMultiplier;
+            weaponesRecharge *= parameters.OPERATION_CHARGE_RATE_BONUS;
         }
         weapones = Math.min(weapones + weaponesRecharge, 1);
     }
