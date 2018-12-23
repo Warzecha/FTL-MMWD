@@ -61,7 +61,6 @@ class ShipTest {
 
         ship.dealDamage(enemy, 0, rng);
         assertEquals(0, ship.getWeapones());
-
     }
 
     @Test
