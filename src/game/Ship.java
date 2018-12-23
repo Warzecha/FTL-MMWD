@@ -23,7 +23,6 @@ public class Ship {
 
 
     private static double shieldChargeRate = 0.02;
-
     private static double weaponesChargeRate = 0.02;
     private static double oxygenUsageRate = 2;
     private static double oxygenProductionRate = 5;
@@ -209,7 +208,6 @@ public class Ship {
     public int getOxygenLevel() {
         return oxygenLevel;
     }
-
     public void setOxygenLevel(int oxygenLevel) {
         this.oxygenLevel = oxygenLevel;
     }
@@ -220,12 +218,12 @@ public class Ship {
     public void setSystems(int id, double value) {
         if(value < 0)
         {
-            throw new RuntimeException("Invalid value");
+            throw new IllegalArgumentException("Invalid value");
         }
 
         if(id < 0 || id >= systems.size())
         {
-            throw new RuntimeException("Index out of range");
+            throw new IllegalArgumentException("Index out of range");
         }
 
 
