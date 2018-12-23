@@ -40,7 +40,7 @@ public class ConnectionGene {
         this.weight = weight;
     }
 
-    public boolean isExpressed() {
+    public boolean isEnabled() {
         return enabled;
     }
 
@@ -54,5 +54,9 @@ public class ConnectionGene {
 
     public void setInnovation(int innovationNumber) {
         this.innovationNumber = innovationNumber;
+    }
+
+    public ConnectionGene copy() {
+        return new ConnectionGene(inNode, outNode, weight, enabled, innovationNumber);
     }
 }

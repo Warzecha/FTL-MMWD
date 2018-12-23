@@ -1,19 +1,24 @@
 package NeatAlgorithm;
 
-public class NodeGenes {
+public class NodeGene {
 
     enum TYPE {
         INPUT,
         HIDDEN,
-        OUTPUT;
+        OUTPUT
     }
 
     private TYPE type;
     private int id;
 
-    public NodeGenes(TYPE type, int id) {
+
+    public NodeGene(TYPE type, int id) {
         this.type = type;
         this.id = id;
+    }
+
+    public NodeGene copy() {
+        return new NodeGene(type, id);
     }
 
     public TYPE getType() {
