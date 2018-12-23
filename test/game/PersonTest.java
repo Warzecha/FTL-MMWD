@@ -1,5 +1,6 @@
 package game;
 
+import game.exception.NoSuchRoomException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -57,12 +58,17 @@ public class PersonTest {
 
     @Test
     void getRoomIdReturnsZeroWhenMoving() {
-        p.moveTo(3);
+        try {
+            p.moveTo(3);
+        } catch (NoSuchRoomException e) {
+            e.printStackTrace();
+            fail();
+        }
         assertEquals(0, p.getRoomId());
     }
 
     @Test
-    void getRoomIdReturnsTargetRoomAfterMoving() {
+    void getRoomIdReturnsTargetRoomAfterMoving() throws NoSuchRoomException {
         p.moveTo(3);
         p.finalizeMovement();
         assertEquals(3, p.getRoomId());
@@ -82,27 +88,37 @@ public class PersonTest {
     }
 
     @Test
-    void moveCrewmember() {
+    void setRoomWithInvalidRoomIdThrowsException() {
+        Executable bigRoomId = () -> p.setRoomId(1000);
+        Executable negativeRoomId = () -> p.setRoomId(-1);
+
+        assertThrows(NoSuchRoomException.class, bigRoomId);
+        assertThrows(NoSuchRoomException.class, negativeRoomId);
+    }
+
+    @Test
+    void moveCrewmember() throws NoSuchRoomException {
         p.moveTo(1);
         assertTrue(p.isMoving());
         assertEquals(0, p.getRoomId());
     }
 
     @Test
-    void moveCrewmemberToInvalidRoomIdThrowsException() {
-
-
+    void moveCrewmemberToNonexistentRoomIdThrowsException() {
         Executable bigRoomId = () -> p.moveTo(1000);
-        Executable negativeRoomId = () -> p.moveTo(-1);
-
-        assertThrows(IllegalArgumentException.class, bigRoomId);
-        assertThrows(IllegalArgumentException.class, negativeRoomId);
-
+        assertThrows(NoSuchRoomException.class, bigRoomId);
     }
 
     @Test
-    void finalizeMovement() {
+    void moveCrewmemberToNegativeRoomIdThrowsException() {
+        Executable negativeRoomId = () -> p.moveTo(-1);
+        assertThrows(NoSuchRoomException.class, negativeRoomId);
+    }
+
+    @Test
+    void finalizeMovement() throws NoSuchRoomException {
         p.moveTo(1);
+        assertTrue(p.isMoving());
         p.finalizeMovement();
         assertFalse(p.isMoving());
         assertEquals(1, p.getRoomId());
