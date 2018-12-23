@@ -2,8 +2,8 @@ package game;
 
 public class Battle {
 
-    private Ship ship1;
-    private Ship ship2;
+    private final Ship ship1;
+    private final Ship ship2;
     private int time = 0;
 
     public Battle(Ship ship1, Ship ship2) {

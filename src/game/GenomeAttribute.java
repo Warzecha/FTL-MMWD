@@ -21,7 +21,6 @@ public class GenomeAttribute {
         double mutationFactor = 1.0 + mutation/1000.0;
         value *= mutationFactor;
         fitValueInRange();
-        System.out.println(value);
     }
 
     public double getValue() {

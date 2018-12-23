@@ -1,23 +1,31 @@
 package game;
 
+
+import game.exception.NoSuchRoomException;
+
 public class Person {
 
     private int healthPoints;
-    private boolean repairing;
-
-
     private int roomId;
+
+
+
+
+    private Ship boardedShip;
+
+    private boolean repairing;
+    private boolean isMoving;
 
 
     private static int damageFromShots = 30;
     private static int suffocationRate = 6;
     private static double repairRate = 0.05;
 
-
-    public Person(int roomId) {
+    public Person() {
         this.healthPoints = 100;
-        this.roomId = roomId;
+        this.roomId = 0;
     }
+
 
     public static int getSuffocationRate() {
         return suffocationRate;
@@ -29,6 +37,16 @@ public class Person {
         return repairRate;
     }
 
+    public int getHealthPoints() {
+        return healthPoints;
+    }
+
+    public void setBoardedShip(Ship boardedShip) {
+        this.boardedShip = boardedShip;
+    }
+    public Ship getBoardedShip() {
+        return boardedShip;
+    }
 
     public void breathe(int oxygenLevel) {
         if(oxygenLevel < 20)
@@ -41,8 +59,16 @@ public class Person {
     }
 
 
-
-    public int getRoomId() {return roomId; }
+    public void setRoomId(int roomId) throws NoSuchRoomException {
+        validateRoomId(roomId);
+        this.roomId = roomId;
+    }
+    public int getRoomId() {
+        if(isMoving) {
+            return 0;
+        }
+        return roomId;
+    }
 
     public boolean isRepairing() {return repairing; }
 
@@ -53,7 +79,28 @@ public class Person {
     }
 
 
-    public int getHealthPoints() {
-        return healthPoints;
+    public boolean isMoving() {
+        return isMoving;
+    }
+
+    public void moveTo(int target) throws NoSuchRoomException {
+        validateRoomId(target);
+        isMoving = true;
+        roomId = target;
+
+    }
+
+    private void validateRoomId(int roomId) throws NoSuchRoomException {
+        if(roomId >= boardedShip.getRoomCount()) {
+            throw new NoSuchRoomException("There is no room with this id: " + roomId);
+        }
+        if(roomId < 0) {
+            throw new NoSuchRoomException("RoomId must be a positive value");
+        }
+    }
+
+
+    public void finalizeMovement() {
+        isMoving = false;
     }
 }

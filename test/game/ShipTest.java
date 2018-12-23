@@ -1,5 +1,6 @@
 package game;
 
+import game.exception.NoSuchRoomException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,97 +23,102 @@ class ShipTest {
 
 
     @Test
-    void calculateEvasion_notOperated() {
+    void calculateEvasion() {
         assertEquals(0.1 * ship.getEngines(), ship.calculateEvasion(), 0.05);
     }
 
     @Test
-    void calculateEvasion_operated() {
-        ship.addCrewmember(new Person(Ship.getEngineId()));
+    void calculateEvasionIsGreatedWhenOprated() throws NoSuchRoomException {
+        ship.addCrewmember(new Person(), Room.ENGINE.getId());
         assertEquals(0.1 * ship.getEngines() + 0.1, ship.calculateEvasion(), 0.05);
     }
 
     @Test
-    void calculateEvasion_operatedByMultiplePeople_effectsDoNotSumUp() {
-        ship.addCrewmember(new Person(Ship.getEngineId()));
-        ship.addCrewmember(new Person(Ship.getEngineId()));
+    void calculateEvasionIsNotAffectedWhenOperatedByMultiplePeople() throws NoSuchRoomException {
+        ship.addCrewmember(new Person(), Room.ENGINE.getId());
+        ship.addCrewmember(new Person(), Room.ENGINE.getId());
         assertEquals(0.1 * ship.getEngines() + 0.1, ship.calculateEvasion(), 0.05);
     }
 
     @Test
-    void calculateEvasion_enginesDamaged() {
-        ship.setSystems(Ship.getEngineId(), 0);
+    void calculateEvasionReturnsZeroWhenEnginesAreDamaged() {
+        ship.setSystemById(Room.ENGINE.getId(), 0);
         assertEquals(0, ship.calculateEvasion(), 0.05);
     }
 
     @Test
-    void calculateEvasion_steeringDamaged() {
-        ship.setSystems(Ship.getSteeringId(), 0);
+    void calculateEvasionReturnsZeroWhenSteeringIsDamaged() {
+        ship.setSystemById(Room.STEERING.getId(), 0);
         assertEquals(0, ship.calculateEvasion(), 0.05);
     }
 
 
     @Test
-    void dealDamage() {
-//        TODO: Implement this test
+    void dealDamageDischargesWeapones() {
+        Ship enemy = new Ship();
+        Random rng = new Random(10);
+        ship.setWeapones(1);
+
+        ship.dealDamage(enemy, 0, rng);
+        assertEquals(0, ship.getWeapones());
 
     }
 
     @Test
-    void receiveDamage_enginesOperatedAndShieldsOn() {
+    void receiveDamageWhenEnginesAreOperatedAndShieldsAreOn() throws NoSuchRoomException {
 
         Random rng = new Random(10);
-        ship.addCrewmember(new Person(Ship.getEngineId()));
+        ship.addCrewmember(new Person(), Room.ENGINE.getId());
 
         ArrayList shots = new ArrayList<>(Arrays.asList(1, 1));
 
-        assertEquals(0, ship.receiveDamage(Ship.getWeaponId(), shots, rng));
-        assertEquals(0, ship.receiveDamage(Ship.getWeaponId(), shots, rng));
+        assertEquals(0, ship.receiveDamage(Room.WEAPON.getId(), shots, rng));
+        assertEquals(0, ship.receiveDamage(Room.WEAPON.getId(), shots, rng));
     }
 
     @Test
-    void receiveDamage_enginesOperatedAndShieldsOff() {
+    void receiveDamageWhenEnginesAreOperatedAndShieldsAreOff() throws NoSuchRoomException {
 
         Random rng = new Random(10);
-        ship.addCrewmember(new Person(Ship.getEngineId()));
+        ship.addCrewmember(new Person(), Room.ENGINE.getId());
         ship.setShield(0);
 
         ArrayList shots = new ArrayList<>(Arrays.asList(1, 1));
 
-        assertEquals(1, ship.receiveDamage(Ship.getWeaponId(), shots, rng));
-        assertEquals(0, ship.receiveDamage(Ship.getWeaponId(), shots, rng));
+        assertEquals(1, ship.receiveDamage(Room.WEAPON.getId(), shots, rng));
+        assertEquals(0, ship.receiveDamage(Room.WEAPON.getId(), shots, rng));
     }
 
     @Test
-    void receiveDamage_enginesNotOperatedAndShieldsOn() {
+    void receiveDamageWhenEnginesAreNotOperatedAndShieldsAreOn() {
 
         Random rng = new Random(10);
 
         ArrayList shots = new ArrayList<>(Arrays.asList(1, 1));
 
-        assertEquals(1, ship.receiveDamage(Ship.getWeaponId(), shots, rng));
-        assertEquals(1, ship.receiveDamage(Ship.getWeaponId(), shots, rng));
+        assertEquals(1, ship.receiveDamage(Room.WEAPON.getId(), shots, rng));
+        assertEquals(1, ship.receiveDamage(Room.WEAPON.getId(), shots, rng));
     }
 
     @Test
-    void receiveDamage_enginesNotOperatedAndShieldsOff() {
+    void receiveDamageWhenEnginesAreNotOperatedAndShieldsAreOff() {
 
         Random rng = new Random(10);
         ship.setShield(0);
 
         ArrayList shots = new ArrayList<>(Arrays.asList(1, 1));
 
-        assertEquals(2, ship.receiveDamage(Ship.getWeaponId(), shots, rng));
-        assertEquals(1, ship.receiveDamage(Ship.getWeaponId(), shots, rng));
+        assertEquals(2, ship.receiveDamage(Room.WEAPON.getId(), shots, rng));
+        assertEquals(1, ship.receiveDamage(Room.WEAPON.getId(), shots, rng));
     }
 
 
     @Test
-    void receiveDamage_crewInTargetRoom_shouldReveiveDamage() {
+    void receiveDamageAffectsCrewInTargetRoom() throws NoSuchRoomException {
 
         Random rng = new Random(10);
-        Person p = new Person(1);
-        ship.addCrewmember(p);
+        Person p = new Person();
+        ship.addCrewmember(p, 1);
         ship.setShield(0);
         ArrayList shots = new ArrayList<>(Arrays.asList(1, 1));
         ship.receiveDamage(1, shots, rng);
@@ -122,19 +128,37 @@ class ShipTest {
 
 
     @Test
-    void canShoot_weaponesCharged_True() {
+
+    void receiveDamageAimedAtCentralRoomShouldAffectMovingCrew() throws NoSuchRoomException {
+
+        Random rng = new Random(10);
+        Person p = new Person();
+        ship.addCrewmember(p, 1);
+        ship.setShield(0);
+        ship.setSystemById(Room.ENGINE.getId(), 0);
+        ArrayList shots = new ArrayList<>(Arrays.asList(1, 1));
+
+        p.moveTo(3);
+        ship.receiveDamage(0, shots, rng);
+
+        assertTrue(p.getHealthPoints() < 100);
+    }
+
+
+    @Test
+    void canShootWithWeaponesCharged() {
         ship.setWeapones(1);
         assertTrue(ship.canShoot());
     }
 
     @Test
-    void canShoot_weaponesHalfCharged_False() {
+    void cannotShootWithWeaponesHalfCharged() {
         ship.setWeapones(0.5);
         assertFalse(ship.canShoot());
     }
 
     @Test
-    void canShoot_weaponesNotCharged_False() {
+    void cannotShootWithWeaponesNotCharged() {
         ship.setWeapones(0);
         assertFalse(ship.canShoot());
     }
@@ -154,8 +178,8 @@ class ShipTest {
 
 
     @Test
-    void rechargeWeapones_operated() {
-        ship.addCrewmember(new Person(Ship.getWeaponId()));
+    void rechargeWeapones_operated() throws NoSuchRoomException {
+        ship.addCrewmember(new Person(), Room.WEAPON.getId());
 
         ship.rechargeWeapones();
         assertEquals(0.03, ship.getWeapones(), 0.0005);
@@ -168,56 +192,46 @@ class ShipTest {
     }
 
     @Test
-    void calculateOxygenState_emptyTank() {
+    void calculateStateIncresesOxygenLevel() {
         ship.setOxygenLevel(0);
         ship.calculateState();
         assertTrue(ship.getOxygenLevel() > 0);
     }
 
     @Test
-    void calculateOxygenState_almostFullTank() {
+    void calculateStateDoesntOverflowOxygenTank() {
         ship.setOxygenLevel(99);
         ship.calculateState();
         assertEquals(100, ship.getOxygenLevel());
-    }
-
-    @Test
-    void calculateOxygenState_fullTank() {
         ship.calculateState();
         assertEquals(100, ship.getOxygenLevel());
-
     }
 
-
     @Test
-    void calculateShieldState_emptyShield() {
+    void calculateStateRechargesShield() {
         ship.setShield(0);
         ship.calculateState();
         assertTrue(ship.getShield() > 0);
     }
 
     @Test
-    void calculateShieldState_almostFullShield() {
+    void calculateStateDoesntOverflowShieldLevel() {
         ship.setShield(0.99);
         ship.calculateState();
         assertEquals(1, ship.getShield());
-    }
-
-    @Test
-    void calculateShieldState_fullShield() {
         ship.calculateState();
         assertEquals(1, ship.getShield());
     }
 
+
     @Test
-    void calculateShieldState_operatedBonus()
-    {
+    void rechargeSpeedIncresesWhenShieldAreOperated() throws NoSuchRoomException {
         ship.setShield(0.14);
         ship.calculateState();
         double notOperated = ship.getShield();
 
 
-        ship.addCrewmember(new Person(Ship.getShieldId()));
+        ship.addCrewmember(new Person(), Room.SHIELD.getId());
 
         ship.setShield(0.14);
         ship.calculateState();
@@ -227,9 +241,9 @@ class ShipTest {
     }
 
     @Test
-    void calculateCrewState_crewSuffocating()
+    void calculateStateSuffocatatesCrewWhenOxygenIsLow()
     {
-        Person p = new Person(1);
+        Person p = new Person();
         ship.addCrewmember(p);
         ship.setOxygenLevel(0);
         ship.calculateState();
@@ -238,25 +252,26 @@ class ShipTest {
     }
 
     @Test
-    void addCrewmember_addSinglePerson() {
-        ship.addCrewmember(new Person(3));
-
+    void addCrewmember() throws NoSuchRoomException {
+        ship.addCrewmember(new Person(), 3);
         assertEquals(1, ship.getCrewCount());
-        ship.addCrewmember(new Person(4));
-        ship.addCrewmember(new Person(1));
+
+        ship.addCrewmember(new Person(), 4);
+        ship.addCrewmember(new Person(), 1);
         assertEquals(3, ship.getCrewCount());
     }
 
-    @Test
-    void addCrewmember_addMultiplePeople() {
-        ship.addCrewmember(new Person(3));
-        ship.addCrewmember(new Person(4));
-        ship.addCrewmember(new Person(1));
-        assertEquals(3, ship.getCrewCount());
-    }
 
     @Test
-    void isDamaged_newShip_systemsAreNotDamaged() {
+    void addCrewmember_boardedShip() {
+        Person p = new Person();
+        ship.addCrewmember(p);
+        assertSame(ship, p.getBoardedShip());
+    }
+
+
+    @Test
+    void newShipIsNotDamaged() {
         for(int i = 0; i <= 4; i++)
         {
             assertFalse(ship.isDamaged(i));
@@ -266,73 +281,75 @@ class ShipTest {
     }
 
     @Test
-    void isDamaged_systemIsDamaged() {
-        ship.setSystems(1, 0.9);
+    void isDamaged() {
+        ship.setSystemById(1, ship.getMaxSystemById(1));
+        assertFalse(ship.isDamaged(1));
+
+        ship.setSystemById(1, 0.9);
         assertTrue(ship.isDamaged(1));
     }
 
-    @Test
-    void isOperated_notOperated_False() {
-        assertFalse(ship.isOperated(1));
-    }
 
     @Test
-    void isOperated_operated_True() {
-        Person p = new Person(1);
-        ship.addCrewmember(p);
+    void isOperated() throws NoSuchRoomException {
+        assertFalse(ship.isOperated(1));
+        Person p = new Person();
+        ship.addCrewmember(p, 1);
         assertTrue(ship.isOperated(1));
     }
 
     @Test
-    void isOperated_underRepair_False() {
-        Person p = new Person(1);
-        ship.addCrewmember(p);
+
+    void systemsUnderRepairAreNotOperated() throws NoSuchRoomException {
+        Person p = new Person();
+        ship.addCrewmember(p, 1);
         p.repair();
         assertFalse(ship.isOperated(1));
     }
 
-
     @Test
-    void repairBrokenSystems_singlePresonRepairing()
-    {
-        Person p = new Person(1);
-        ship.addCrewmember(p);
-        ship.setSystems(1, 0);
+    void repairBrokenSystems() throws NoSuchRoomException {
+        Person p = new Person();
+        ship.addCrewmember(p, 1);
+        ship.setSystemById(1, 0);
 
         ship.repairBrokenSystems();
 
         assertTrue(p.isRepairing());
-        assertEquals(Person.getRepairRate(), ship.getSystems(1), 0.01);
+        assertEquals(Person.getRepairRate(), ship.getSystemById(1), 0.01);
     }
 
     @Test
-    void repairBrokenSystems_multiplePeopleRepairing() {
-        Person p1 = new Person(1);
-        Person p2 = new Person(1);
-        ship.addCrewmember(p1);
-        ship.addCrewmember(p2);
-        ship.setSystems(1, 0);
+    void repairBrokenSystemsIsFasterWhenMultiplePeopleAreRepairing() throws NoSuchRoomException {
+        Person p1 = new Person();
+        Person p2 = new Person();
+        ship.addCrewmember(p1, 1);
+        ship.addCrewmember(p2, 1);
 
+        ship.setSystemById(1, 0);
         ship.repairBrokenSystems();
 
         assertTrue(p1.isRepairing());
         assertTrue(p2.isRepairing());
-        assertEquals(2 * Person.getRepairRate(), ship.getSystems(1), 0.01);
+        assertEquals(2 * Person.getRepairRate(), ship.getSystemById(1), 0.01);
     }
 
     @Test
-    void repairBrokenSystems_finishingRepairs_stopRepairing()
-    {
-        Person p = new Person(1);
-        ship.addCrewmember(p);
-        ship.setSystems(1, 0.99);
+    void repairBrokenSystemsStopsRepairingWhenfinished() throws NoSuchRoomException {
+        Person p = new Person();
+        ship.addCrewmember(p, 1);
+        ship.setSystemById(1, 0.99);
 
         ship.repairBrokenSystems();
 
-        assertEquals(1, ship.getSystems(1), 0.001);
+        assertEquals(1, ship.getSystemById(1), 0.001);
         assertFalse(p.isRepairing());
     }
 
+    @Test
+    void getRoomCount() {
+        assertEquals(6, ship.getRoomCount());
+    }
 
 
 
