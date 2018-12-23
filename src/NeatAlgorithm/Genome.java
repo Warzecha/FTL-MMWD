@@ -118,11 +118,11 @@ public class Genome {
 
 
     public Map<Integer, ConnectionGene> getConnections() {
-        return connections;
+        return new HashMap<Integer, ConnectionGene>(connections);
     }
 
     public Map<Integer, NodeGene> getNodes() {
-        return nodes;
+        return new HashMap<Integer, NodeGene>(nodes);
     }
 
     public int getFitness() {
