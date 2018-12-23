@@ -179,6 +179,13 @@ public class Ship {
     public int getHull() {
         return hull;
     }
+    public void setHull(int value) {
+        hull = value;
+    }
+
+    public boolean idDead() {
+        return hull <= 0;
+    }
 
     public double getShield() {
         return shield;

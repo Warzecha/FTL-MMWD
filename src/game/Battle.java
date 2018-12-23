@@ -35,9 +35,19 @@ public class Battle {
 
 
 
+
+            int winningBonus = 10;
+
+            if(ship1.idDead()) {
+                return ship1.getHull() - ship2.getHull() + winningBonus;
+            }
+            if(ship2.idDead()) {
+                return ship1.getHull() - ship2.getHull() - winningBonus;
+            }
+
             nextMoment();
         }
-        return 0;
+        return ship1.getHull() - ship2.getHull();
     }
 
 

@@ -36,4 +36,17 @@ class BattleTest {
     }
 
 
+    @Test
+    void fightReturnsPositiveValueIfShip1Wins() {
+        ship2.setHull(-1);
+        assertTrue(battle.fight() > 0);
+    }
+
+    @Test
+    void fightReturnsNegativeValueIfShip2Wins() {
+        ship1.setHull(-1);
+        assertTrue(battle.fight() < 0);
+    }
+
+
 }
