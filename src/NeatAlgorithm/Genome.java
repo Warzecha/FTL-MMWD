@@ -9,7 +9,7 @@ public class Genome {
     private static int currentMaxNodeId = 0;
     private Map<Integer, ConnectionGene> connections = new HashMap<>();
     private Map<Integer, NodeGene> nodes = new HashMap<>();
-    private int fitness = 0;
+
 
     Random rng = new Random();
 
@@ -21,7 +21,6 @@ public class Genome {
     public void addNodeGene(NodeGene newNode) {
         nodes.put(newNode.getId(), newNode);
     }
-
 
     public static int getNextInnovationNumber() {
         return ++currentMaxInnovationNumber;
@@ -38,15 +37,6 @@ public class Genome {
     public Map<Integer, NodeGene> getNodes() {
         return new HashMap<Integer, NodeGene>(nodes);
     }
-
-    public int getFitness() {
-        return fitness;
-    }
-
-    public void setFitness(int fitness) {
-        this.fitness = fitness;
-    }
-
 
 
 
@@ -104,8 +94,6 @@ public class Genome {
 
 
     }
-
-
 
     public void addNodeMutation(Random rng) {
 
@@ -190,4 +178,10 @@ public class Genome {
 
         return (AlgorithmSettings.C1 * excessGenes / numberOfGenesInLargerGenome) + (AlgorithmSettings.C2 * disjointGenes / numberOfGenesInLargerGenome) + (AlgorithmSettings.C3 * averageWeight);
     }
+
+    public static boolean areSameSpecies(Genome genome1, Genome genome2) {
+        return getGeneticDistance(genome1, genome2) < AlgorithmSettings.MAX_GENETIC_DISTANCE;
+    }
+
+
 }

@@ -8,23 +8,26 @@ public class NeatCrossover {
 
 
 
-    public static Genome crossGenomes(Genome parent1, Genome parent2) {
+    public static Genome crossGenomes(GenomeWithFitness parent1, GenomeWithFitness parent2) {
+
+        Genome parent1Genome = parent1.getGenome();
+        Genome parent2Genome = parent2.getGenome();
 
         if(parent1.getFitness() < parent2.getFitness()){
-            Genome temp = parent1;
-            parent1 = parent2;
-            parent2 = temp;
+            Genome temp = parent1Genome;
+            parent1Genome = parent2Genome;
+            parent2Genome = temp;
         }
 
         Genome child = new Genome();
         Random rng = new Random();
 
-        for(ConnectionGene connection : parent1.getConnections().values()) {
-            if(parent2.getConnections().containsKey(connection.getInnovation())) {
+        for(ConnectionGene connection : parent1Genome.getConnections().values()) {
+            if(parent2Genome.getConnections().containsKey(connection.getInnovation())) {
                 if(rng.nextBoolean()) {
                     child.addConnectionGene(connection.copy());
                 } else {
-                    child.addConnectionGene(parent2.getConnections().get(connection.getInnovation()).copy());
+                    child.addConnectionGene(parent2Genome.getConnections().get(connection.getInnovation()).copy());
                 }
             } else
             {
@@ -34,7 +37,7 @@ public class NeatCrossover {
 
 //        TODO: handle genomes with equal fitness
 
-        for(NodeGene node : parent1.getNodes().values()) {
+        for(NodeGene node : parent1Genome.getNodes().values()) {
             child.addNodeGene(node.copy());
         }
 
