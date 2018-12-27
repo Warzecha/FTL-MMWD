@@ -36,8 +36,13 @@ public class ConnectionGene {
         return weight;
     }
 
-    public void setWeight(double weight) {
-        this.weight = weight;
+    public void setWeight(double value) {
+        if (value < AlgorithmSettings.MIN_CONNECTION_WEIGHT) {
+            value = AlgorithmSettings.MIN_CONNECTION_WEIGHT;
+        } else if (value > AlgorithmSettings.MAX_CONNECTION_WEIGHT) {
+            value = AlgorithmSettings.MAX_CONNECTION_WEIGHT;
+        }
+        this.weight = value;
     }
 
     public boolean isEnabled() {

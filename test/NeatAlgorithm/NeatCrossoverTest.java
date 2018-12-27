@@ -85,20 +85,20 @@ class NeatCrossoverTest {
     }
 
     @Test
-    void crossoverGeneratesChildWithCorrectNumberOfNodes() {
-        Genome child = NeatCrossover.crossover(parent1, parent2);
+    void crossGenomesGeneratesChildWithCorrectNumberOfNodes() {
+        Genome child = NeatCrossover.crossGenomes(parent1, parent2);
         assertEquals(6, child.getNodes().size());
     }
 
     @Test
-    void crossoverGeneratesChildWithCorrectNumberOfConnections() {
-        Genome child = NeatCrossover.crossover(parent1, parent2);
+    void crossGenomesGeneratesChildWithCorrectNumberOfConnections() {
+        Genome child = NeatCrossover.crossGenomes(parent1, parent2);
         assertEquals(9, child.getConnections().size());
     }
 
     @Test
-    void crossoverGeneratesChildWithConnectionWeightsInheritedFromParents() {
-        Genome child = NeatCrossover.crossover(parent1, parent2);
+    void crossGenomesGeneratesChildWithConnectionWeightsInheritedFromParents() {
+        Genome child = NeatCrossover.crossGenomes(parent1, parent2);
 
         for(ConnectionGene c : child.getConnections().values()) {
             assertTrue(c.getWeight() == 1 || c.getWeight() == 2);
@@ -106,8 +106,8 @@ class NeatCrossoverTest {
     }
 
     @Test
-    void crossoverGeneratesChildWithTheSameEnabledFieldIfBothParentsEnabledFieldsAreEqual() {
-        Genome child = NeatCrossover.crossover(parent1, parent2);
+    void crossGenomesGeneratesChildWithTheSameEnabledFieldIfBothParentsEnabledFieldsAreEqual() {
+        Genome child = NeatCrossover.crossGenomes(parent1, parent2);
 
         for(int i = 1; i <= 5; i++) {
             if(parent1.getConnections().get(i) == parent2.getConnections().get(i)) {
@@ -117,8 +117,8 @@ class NeatCrossoverTest {
     }
 
     @Test
-    void crossoverGeneratesNewConnections() {
-        Genome child = NeatCrossover.crossover(parent1, parent2);
+    void crossGenomesGeneratesNewConnections() {
+        Genome child = NeatCrossover.crossGenomes(parent1, parent2);
 
         for(int i = 1; i <= 7; i++) {
             assertNotSame(parent1.getConnections().get(i), child.getConnections().get(i));
@@ -128,8 +128,8 @@ class NeatCrossoverTest {
 
 
     @Test
-    void crossoverGeneratesNewNodes() {
-        Genome child = NeatCrossover.crossover(parent1, parent2);
+    void crossGenomesGeneratesNewNodes() {
+        Genome child = NeatCrossover.crossGenomes(parent1, parent2);
 
         for(int i = 1; i <= 6; i++) {
             assertNotSame(parent1.getNodes().get(i), child.getNodes().get(i));

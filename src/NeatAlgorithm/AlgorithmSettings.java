@@ -10,5 +10,11 @@ public class AlgorithmSettings {
     final public static double ADD_NODE_MUTATION_CHANCE = 0.03;
     final public static double ADD_CONNECTION_MUTATION_CHANCE = 0.05;
 
+    final public static double PERTURBATION_CHANCE = 0.9;
+//    final public static double NEW_RANDOM_WEIGHT_CHANCE = 0.1;
 
+
+
+    final public static double MIN_CONNECTION_WEIGHT= -1;
+    final public static double MAX_CONNECTION_WEIGHT = 1;
 }

@@ -136,7 +136,15 @@ public class Genome {
 
     }
 
-    public void changeWeightMutation(Random rng) {
+    public void connectionWeightMutation(Random rng) {
+
+        for(ConnectionGene c : connections.values()) {
+            if(rng.nextDouble() <= AlgorithmSettings.PERTURBATION_CHANCE) {
+                c.setWeight(c.getWeight() + rng.nextDouble() - 0.5);
+            } else {
+                c.setWeight(rng.nextDouble() * 2 * (AlgorithmSettings.MAX_CONNECTION_WEIGHT - AlgorithmSettings.MIN_CONNECTION_WEIGHT) + AlgorithmSettings.MIN_CONNECTION_WEIGHT);
+            }
+        }
 
     }
 

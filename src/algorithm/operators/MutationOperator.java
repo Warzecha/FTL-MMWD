@@ -1,7 +1,7 @@
 package algorithm.operators;
 
 
-import NeatAlgorithm.Genome;
+import game.Genome;
 
 public interface MutationOperator {
 

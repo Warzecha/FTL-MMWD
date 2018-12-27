@@ -2,7 +2,7 @@ package algorithm.operators;
 
 
 
-import NeatAlgorithm.Genome;
+import game.Genome;
 
 import java.util.ArrayList;
 

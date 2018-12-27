@@ -4,9 +4,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class GenomeMutationTest {
@@ -36,8 +38,8 @@ class GenomeMutationTest {
         genome.addNodeGene(n3);
         genome.addNodeGene(n4);
 
-        c1 = new ConnectionGene(0, 1, 1, true, Genome.getNextInnovationNumber());
-        c2 = new ConnectionGene(0, 1, 1, true, Genome.getNextInnovationNumber());
+        c1 = new ConnectionGene(0, 1, 0.5, true, Genome.getNextInnovationNumber());
+        c2 = new ConnectionGene(0, 1, 0.5, true, Genome.getNextInnovationNumber());
         genome.addConnectionGene(c1);
         genome.addConnectionGene(c2);
     }
@@ -75,6 +77,34 @@ class GenomeMutationTest {
 
         assertEquals(1, disabledCount);
     }
+
+    @Test
+    void connectionWeightMutationResultsInValueInRange() {
+        Random rng = new Random();
+        for(int i=0; i < 10; i++) {
+            genome.connectionWeightMutation(rng);
+            for(ConnectionGene c : genome.getConnections().values()) {
+//                System.out.println(c.getWeight());
+                assertTrue(AlgorithmSettings.MIN_CONNECTION_WEIGHT <= c.getWeight() && c.getWeight() <= AlgorithmSettings.MAX_CONNECTION_WEIGHT);
+            }
+        }
+    }
+
+    @Test
+    void connectionWeightMutationChangesTheValue() {
+        Random rng = new Random();
+
+        List<Double> oldWeights = genome.getConnections().values().stream().map(ConnectionGene::getWeight).collect(Collectors.toList());
+
+        genome.connectionWeightMutation(rng);
+        List<Double> newWeights = genome.getConnections().values().stream().map(ConnectionGene::getWeight).collect(Collectors.toList());
+
+        for(int i=0; i<oldWeights.size(); i++) {
+            assertNotEquals(oldWeights.get(i), newWeights.get(i));
+        }
+
+    }
+
 
 
 }
