@@ -1,12 +1,14 @@
 package NeatAlgorithm;
 
+import algorithm.operators.CrossoverOperator;
+
 import java.util.Random;
 
 public class NeatCrossover {
 
 
 
-    public static Genome crossover(Genome parent1, Genome parent2) {
+    public static Genome crossGenomes(Genome parent1, Genome parent2) {
 
         if(parent1.getFitness() < parent2.getFitness()){
             Genome temp = parent1;

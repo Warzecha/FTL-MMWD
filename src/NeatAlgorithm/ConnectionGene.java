@@ -44,7 +44,7 @@ public class ConnectionGene {
         return enabled;
     }
 
-    public void setExpressed(boolean enabled) {
+    public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 

@@ -1,6 +1,8 @@
 package algorithm.operators;
 
-import game.Genome;
+
+
+import NeatAlgorithm.Genome;
 
 import java.util.ArrayList;
 

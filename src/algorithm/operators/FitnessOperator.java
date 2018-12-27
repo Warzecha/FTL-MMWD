@@ -1,6 +1,7 @@
 package algorithm.operators;
 
-import game.Genome;
+
+import NeatAlgorithm.Genome;
 
 public interface FitnessOperator {
 

@@ -31,6 +31,25 @@ public class Genome {
         return ++currentMaxNodeId;
     }
 
+    public Map<Integer, ConnectionGene> getConnections() {
+        return new HashMap<Integer, ConnectionGene>(connections);
+    }
+
+    public Map<Integer, NodeGene> getNodes() {
+        return new HashMap<Integer, NodeGene>(nodes);
+    }
+
+    public int getFitness() {
+        return fitness;
+    }
+
+    public void setFitness(int fitness) {
+        this.fitness = fitness;
+    }
+
+
+
+
     public void addConnectionMutation(Random rng) {
 
         List<NodeGene> possibleInputs = new ArrayList<>();
@@ -103,6 +122,7 @@ public class Genome {
         }
 
         ConnectionGene connectionToBreak = enabledConnections.get(rng.nextInt(enabledConnections.size()));
+        connectionToBreak.setEnabled(false);
 
         NodeGene newNode = new NodeGene(NodeGene.TYPE.HIDDEN, getNextNodeId());
 
@@ -116,20 +136,50 @@ public class Genome {
 
     }
 
+    public void changeWeightMutation(Random rng) {
 
-    public Map<Integer, ConnectionGene> getConnections() {
-        return new HashMap<Integer, ConnectionGene>(connections);
     }
 
-    public Map<Integer, NodeGene> getNodes() {
-        return new HashMap<Integer, NodeGene>(nodes);
-    }
 
-    public int getFitness() {
-        return fitness;
-    }
+    public static double getGeneticDistance(Genome genome1, Genome genome2) {
 
-    public void setFitness(int fitness) {
-        this.fitness = fitness;
+        int numberOfGenesInLargerGenome = Math.max(genome1.getConnections().size(), genome2.getConnections().size());
+        int highestCommonInnovation = Math.min(Collections.max(genome1.getConnections().keySet()), Collections.max(genome2.getConnections().keySet()));
+        int highestGeneInnovation = Math.max(Collections.max(genome1.getConnections().keySet()), Collections.max(genome2.getConnections().keySet()));
+
+        int disjointGenes = 0;
+        for(int i=1; i <= highestCommonInnovation; i++) {
+            if(genome1.getConnections().containsKey(i) ^ genome2.getConnections().containsKey(i))
+            {
+                disjointGenes++;
+            }
+        }
+
+        int excessGenes = 0;
+        for(int i=highestCommonInnovation + 1; i <= highestGeneInnovation; i++) {
+            if(genome1.getConnections().containsKey(i) || genome2.getConnections().containsKey(i))
+            {
+                excessGenes++;
+            }
+        }
+
+
+        double weightDifferenceSum = 0;
+        int matchingGenesCount = 0;
+
+
+        for (int i = 1; i <= highestGeneInnovation; i++)
+        {
+            if(genome1.getConnections().containsKey(i) && genome2.getConnections().containsKey(i))
+            {
+                matchingGenesCount++;
+                weightDifferenceSum += Math.abs(genome1.getConnections().get(i).getWeight()-genome2.getConnections().get(i).getWeight());
+
+            }
+        }
+
+        double averageWeight = weightDifferenceSum / matchingGenesCount;
+
+        return (AlgorithmSettings.C1 * excessGenes / numberOfGenesInLargerGenome) + (AlgorithmSettings.C2 * disjointGenes / numberOfGenesInLargerGenome) + (AlgorithmSettings.C3 * averageWeight);
     }
 }
