@@ -61,6 +61,17 @@ public class Ship {
 
     public int getCrewCount(){ return crew.size(); }
     public List<Person> getCrew() {return crew; }
+    public boolean crewIsAlive() {
+        boolean crewAlive = false;
+        for(Person p : crew)
+        {
+            if(p.getHealthPoints() > 0) {
+                crewAlive = true;
+            }
+        }
+
+        return crewAlive;
+    }
 
     public double calculateEvasion() {
         double baseEvasion = Math.floor(systems.get(Room.ENGINE.getId())) * Math.floor(systems.get(Room.STEERING.getId())) * 0.1;
@@ -170,7 +181,8 @@ public class Ship {
         hull = value;
     }
 
-    public boolean idDead() {
+    public boolean isDead() {
+//        TODO: check if crew is alive
         return hull <= 0;
     }
 

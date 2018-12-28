@@ -35,7 +35,7 @@ public class Battle {
 
     public int fight() {
         while (time < endTime) {
-            System.out.println(ship1.getCrew().get(0).getHealthPoints());
+//            System.out.println(ship1.getCrew().get(0).getHealthPoints());
 
 
             ship1.calculateState();
@@ -49,10 +49,10 @@ public class Battle {
 
 
             int winningBonus = 10;
-            if(ship1.idDead()) {
+            if(ship1.isDead()) {
                 return ship1.getHull() - ship2.getHull() + winningBonus;
             }
-            if(ship2.idDead()) {
+            if(ship2.isDead()) {
                 return ship1.getHull() - ship2.getHull() - winningBonus;
             }
 

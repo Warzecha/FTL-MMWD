@@ -52,7 +52,6 @@ class BattleTest {
 
     @Test
     void fight() {
-        ship1.setOxygenLevel(0);
         battle.fight();
     }
 
