@@ -34,6 +34,18 @@ public class Ship {
 
     }
 
+    public Ship(int crewCount) throws NoSuchRoomException {
+        maxSystems = new ArrayList<>(Arrays.asList(0.0, 1.0, 1.0, 1.0, 2.0, 1.0));
+        systems = new ArrayList<>(maxSystems);
+        shots = new ArrayList<>(Arrays.asList(1, 1));
+        shield = systems.get(Room.SHIELD.getId());
+
+        for(int i = 0; i < crewCount; i++) {
+            addCrewmember(new Person(), 0);
+        }
+
+    }
+
     void addCrewmember(Person p, int roomId) throws NoSuchRoomException {
         p.setBoardedShip(this);
         p.setRoomId(roomId);
@@ -48,6 +60,7 @@ public class Ship {
 
 
     public int getCrewCount(){ return crew.size(); }
+    public List<Person> getCrew() {return crew; }
 
     public double calculateEvasion() {
         double baseEvasion = Math.floor(systems.get(Room.ENGINE.getId())) * Math.floor(systems.get(Room.STEERING.getId())) * 0.1;
@@ -140,6 +153,7 @@ public class Ship {
     public void calculateState() {
         calculateOxygenLevels();
         calculateShields();
+        rechargeWeapones();
 
 
         for(Person p : crew)

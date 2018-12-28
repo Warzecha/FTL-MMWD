@@ -1,11 +1,14 @@
 package game;
 
+import java.util.Random;
+
 public class Battle {
 
     private final Ship ship1;
     private final Ship ship2;
     private final int endTime;
     private int time = 0;
+    private Random rng = new Random();
 
     public Battle(Ship ship1, Ship ship2, int endTime) {
         this.ship1 = ship1;
@@ -25,19 +28,27 @@ public class Battle {
     }
 
     public void nextMoment() {
-        ship1.calculateState();
-        ship2.calculateState();
+
+
         time++;
     }
 
     public int fight() {
         while (time < endTime) {
+            System.out.println(ship1.getCrew().get(0).getHealthPoints());
+
+
+            ship1.calculateState();
+            ship2.calculateState();
+
+
+            ship1.dealDamage(ship2, ship1.getBestTarget(ship2), rng);
+            ship2.dealDamage(ship1, ship2.getBestTarget(ship1), rng);
 
 
 
 
             int winningBonus = 10;
-
             if(ship1.idDead()) {
                 return ship1.getHull() - ship2.getHull() + winningBonus;
             }

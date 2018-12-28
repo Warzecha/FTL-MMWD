@@ -18,7 +18,7 @@ public class Person {
 
 
     private static int damageFromShots = 30;
-    private static int suffocationRate = 6;
+    private static int suffocationRate = 20;
     private static double repairRate = 0.05;
 
     public Person() {
@@ -50,12 +50,12 @@ public class Person {
 
     public void breathe(int oxygenLevel) {
         if(oxygenLevel < 20)
-            healthPoints -= suffocationRate;
+            healthPoints = Math.max(0, healthPoints - suffocationRate);
     }
 
     public void receiveDamage(int damage)
     {
-        healthPoints -= damage * damageFromShots;
+        healthPoints = Math.max(0, healthPoints - damage * damageFromShots);
     }
 
 
