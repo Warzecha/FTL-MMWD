@@ -182,8 +182,7 @@ public class Ship {
     }
 
     public boolean isDead() {
-//        TODO: check if crew is alive
-        return hull <= 0;
+        return hull <= 0 || !crewIsAlive();
     }
 
     public double getShield() {

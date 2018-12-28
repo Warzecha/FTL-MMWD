@@ -166,7 +166,7 @@ class ShipTest {
     void rechargeWeapones_notOperated() {
 
         ship.rechargeWeapones();
-        assertEquals(0.02, ship.getWeapones(), 0.0005);
+        assertEquals(0.45, ship.getWeapones(), 0.0005);
 
 
         ship.setWeapones(0.99);
@@ -181,7 +181,7 @@ class ShipTest {
         ship.addCrewmember(new Person(), Room.WEAPON.getId());
 
         ship.rechargeWeapones();
-        assertEquals(0.03, ship.getWeapones(), 0.0005);
+        assertEquals(1.5 * 0.45, ship.getWeapones(), 0.0005);
 
 
         ship.setWeapones(0.975);
@@ -348,6 +348,32 @@ class ShipTest {
     @Test
     void getRoomCount() {
         assertEquals(6, ship.getRoomCount());
+    }
+
+    @Test
+    void isDeadReturnsFalseForAlrightShip() {
+        ship.addCrewmember(new Person());
+        assertFalse(ship.isDead());
+    }
+
+    @Test
+    void isDeadReturnsTrueForEmptyShip() {
+        assertTrue(ship.isDead());
+    }
+
+    @Test
+    void isDeadReturnsTrueForDestroyedShip() {
+        ship.addCrewmember(new Person());
+        ship.setHull(0);
+        assertTrue(ship.isDead());
+    }
+
+    @Test
+    void isDeadReturnsTrueForShipWithAllCrewDead() {
+        Person p = new Person();
+        p.receiveDamage(100);
+        ship.addCrewmember(p);
+        assertTrue(ship.isDead());
     }
 
 
