@@ -22,7 +22,6 @@ public class Ship {
     private ArrayList<Integer> shots;
 
     private int oxygenLevel = 100; //value between 0 and 100
-    public final ShipParameters parameters = new ShipParameters();
 
 
 
@@ -100,6 +99,10 @@ public class Ship {
         return totalDamage;
     }
 
+    public int getBestTarget(Ship enemy) {
+        return new Random().nextInt(ShipParameters.MAX_ROOM);
+    };
+
     public int dealDamage(Ship enemy, int target, Random rng)
     {
         if(canShoot())
@@ -112,13 +115,13 @@ public class Ship {
     }
 
     public void calculateOxygenLevels() {
-        oxygenLevel = (int) Math.min((oxygenLevel - parameters.OXYGEN_USAGE_RATE + Math.floor(systems.get(Room.OXYGEN.getId())) * parameters.OXYGEN_PRODUCTION_RATE), 100);
+        oxygenLevel = (int) Math.min((oxygenLevel - ShipParameters.OXYGEN_USAGE_RATE + Math.floor(systems.get(Room.OXYGEN.getId())) * ShipParameters.OXYGEN_PRODUCTION_RATE), 100);
     }
 
     private void calculateShields() {
-        double shieldRecharge = parameters.SHIELD_CHARGE_RATE;
+        double shieldRecharge = ShipParameters.SHIELD_CHARGE_RATE;
         if(isOperated(Room.SHIELD.getId())) {
-            shieldRecharge *= parameters.OPERATION_CHARGE_RATE_BONUS;
+            shieldRecharge *= ShipParameters.OPERATION_CHARGE_RATE_BONUS;
         }
         shield = Math.min(shield + shieldRecharge, 1);
 
@@ -127,9 +130,9 @@ public class Ship {
     public boolean canShoot() {return weapones == 1;}
 
     void rechargeWeapones() {
-        double weaponesRecharge = parameters.WEAPONED_CHARGE_RATE;
+        double weaponesRecharge = ShipParameters.WEAPONED_CHARGE_RATE;
         if(isOperated(Room.WEAPON.getId())) {
-            weaponesRecharge *= parameters.OPERATION_CHARGE_RATE_BONUS;
+            weaponesRecharge *= ShipParameters.OPERATION_CHARGE_RATE_BONUS;
         }
         weapones = Math.min(weapones + weaponesRecharge, 1);
     }
