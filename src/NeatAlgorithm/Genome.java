@@ -25,10 +25,12 @@ public class Genome {
     public static int getNextInnovationNumber() {
         return ++currentMaxInnovationNumber;
     }
-
+    public static void resetInnovationNumber() {currentMaxInnovationNumber = 0; }
     public static int getNextNodeId() {
         return ++currentMaxNodeId;
     }
+
+    public static void resetNodeId() {currentMaxNodeId = 0; }
 
     public Map<Integer, ConnectionGene> getConnections() {
         return new HashMap<Integer, ConnectionGene>(connections);

@@ -25,6 +25,9 @@ class GenomeTest {
     @BeforeAll
     void setup()
     {
+        Genome.resetInnovationNumber();
+        Genome.resetNodeId();
+
         genome = new Genome();
 
         n1 = new NodeGene(NodeGene.TYPE.INPUT, Genome.getNextNodeId());

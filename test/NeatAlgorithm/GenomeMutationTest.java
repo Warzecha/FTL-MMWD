@@ -1,6 +1,7 @@
 package NeatAlgorithm;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -10,7 +11,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+
 class GenomeMutationTest {
 
 
@@ -24,7 +25,7 @@ class GenomeMutationTest {
     ConnectionGene c1;
     ConnectionGene c2;
 
-    @BeforeAll
+    @BeforeEach
     void setup()
     {
         genome = new Genome();
@@ -42,6 +43,9 @@ class GenomeMutationTest {
         c2 = new ConnectionGene(0, 1, 0.5, true, Genome.getNextInnovationNumber());
         genome.addConnectionGene(c1);
         genome.addConnectionGene(c2);
+
+
+
     }
 
     @Test
@@ -92,6 +96,7 @@ class GenomeMutationTest {
 
     @Test
     void connectionWeightMutationChangesTheValue() {
+//        There is a small chance that the test will randomly fail if the
         Random rng = new Random();
 
         List<Double> oldWeights = genome.getConnections().values().stream().map(ConnectionGene::getWeight).collect(Collectors.toList());
@@ -103,6 +108,14 @@ class GenomeMutationTest {
             assertNotEquals(oldWeights.get(i), newWeights.get(i));
         }
 
+    }
+
+
+
+//    TODO: Had no idea how to test it
+    @Test
+    void mutationOperatorDoesNotCrash() {
+        NeatMutation.mutateGenome(genome);
     }
 
 
