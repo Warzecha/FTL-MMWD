@@ -1,5 +1,6 @@
 package game;
 
+import game.exception.NoSuchRoomException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,19 +14,39 @@ class BattleTest {
 
 
     @BeforeEach
-    void setup() {
-        ship1 = new Ship();
-        ship2 = new Ship();
-        battle = new Battle(ship1, ship2);
+    void setup() throws NoSuchRoomException {
+        ship1 = new Ship(3);
+        ship2 = new Ship(3);
+        battle = new Battle(ship1, ship2, 100);
 
     }
 
 
     @Test
-    void nextMomentIncrementsTime() {
-        battle.nextMoment();
-        assertEquals(1, battle.getTime());
-
+    void fightEndsAtEndTime() {
+        battle = new Battle(ship1, ship2, 4);
+        battle.fight();
+        assertEquals(4, battle.getTime());
     }
+
+
+    @Test
+    void fightReturnsPositiveValueIfShip1Wins() {
+        ship2.setHull(-1);
+        assertTrue(battle.fight() > 0);
+    }
+
+    @Test
+    void fightReturnsNegativeValueIfShip2Wins() {
+        ship1.setHull(-1);
+        assertTrue(battle.fight() < 0);
+    }
+
+
+    @Test
+    void fight() {
+        battle.fight();
+    }
+
 
 }
