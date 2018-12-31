@@ -27,26 +27,14 @@ public class Battle {
         return time;
     }
 
-    public void nextMoment() {
-
-
-        time++;
-    }
 
     public int fight() {
         while (time < endTime) {
-//            System.out.println(ship1.getCrew().get(0).getHealthPoints());
-
-
             ship1.calculateState();
             ship2.calculateState();
 
-
             ship1.dealDamage(ship2, ship1.getBestTarget(ship2), rng);
             ship2.dealDamage(ship1, ship2.getBestTarget(ship1), rng);
-
-
-
 
             int winningBonus = 10;
             if(ship1.isDead()) {
@@ -56,7 +44,7 @@ public class Battle {
                 return ship1.getHull() - ship2.getHull() - winningBonus;
             }
 
-            nextMoment();
+            time++;
         }
         return ship1.getHull() - ship2.getHull();
     }

@@ -60,17 +60,11 @@ public class Ship {
 
 
     public int getCrewCount(){ return crew.size(); }
-    public List<Person> getCrew() {return crew; }
-    public boolean crewIsAlive() {
-        boolean crewAlive = false;
-        for(Person p : crew)
-        {
-            if(p.getHealthPoints() > 0) {
-                crewAlive = true;
-            }
-        }
 
-        return crewAlive;
+    public List<Person> getCrew() {return crew; }
+
+    public boolean crewIsAlive() {
+        return crew.stream().anyMatch(person -> person.getHealthPoints() > 0);
     }
 
     public double calculateEvasion() {

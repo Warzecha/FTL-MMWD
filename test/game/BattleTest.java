@@ -23,17 +23,10 @@ class BattleTest {
 
 
     @Test
-    void nextMomentIncrementsTime() {
-        battle.nextMoment();
-        assertEquals(1, battle.getTime());
-
-    }
-
-
-    @Test
     void fightEndsAtEndTime() {
+        battle = new Battle(ship1, ship2, 4);
         battle.fight();
-        assertEquals(100, battle.getTime());
+        assertEquals(4, battle.getTime());
     }
 
 
