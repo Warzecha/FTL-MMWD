@@ -52,7 +52,9 @@ public class Genome {
         nodes.get(id).setValue(value);
     }
 
-
+    public void addNodeValueById(int id, double value) {
+        nodes.get(id).addValue(value);
+    }
 
     public void addConnectionMutation(Random rng) {
 

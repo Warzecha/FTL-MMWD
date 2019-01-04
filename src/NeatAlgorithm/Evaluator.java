@@ -30,7 +30,7 @@ public class Evaluator {
             int inNodeId = connection.getInNode();
             int outNodeId = connection.getOutNode();
 
-            genome.setNodeValueById(outNodeId, genome.getNodes().get(inNodeId).getValue() * connection.getWeight());
+            genome.addNodeValueById(outNodeId, genome.getNodes().get(inNodeId).getValue() * connection.getWeight());
 
         }
 
@@ -42,6 +42,9 @@ public class Evaluator {
         LinkedList<Double> toReturn = new LinkedList<Double>();
 
         for (NodeGene n : genome.getNodes().values()) {
+
+            System.out.println(n.getId() + " -> " + n.getValue());
+
             if(n.getType() == NodeGene.TYPE.OUTPUT) {
                 toReturn.add(n.getValue());
             }
