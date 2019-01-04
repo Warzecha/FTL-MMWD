@@ -46,15 +46,15 @@ class GenomeTest {
 
     @Test
     void addConnectionGeneIncrementsInnovationNumber() {
-        assertEquals(1, c1.getInnovation());
-        assertEquals(2, c2.getInnovation());
+        assertEquals(0, c1.getInnovation());
+        assertEquals(1, c2.getInnovation());
     }
 
     @Test
     void addNodeGeneIncrementsNodeId() {
-        assertEquals(1, n1.getId());
-        assertEquals(2, n2.getId());
-        assertEquals(3, n3.getId());
+        assertEquals(0, n1.getId());
+        assertEquals(1, n2.getId());
+        assertEquals(2, n3.getId());
     }
 
     @Test
@@ -111,7 +111,7 @@ class GenomeTest {
 
     @Test
     void setNodeValueById() {
-        genome.setNodeValueById(1, 17.5);
+        genome.setNodeValueById(0, 17.5);
         assertEquals(n1.getValue(), 17.5);
     }
 

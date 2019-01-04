@@ -59,13 +59,13 @@ class EvaluatorTest {
         genome.addNodeGene(n7);
 
 
-        c1 = new ConnectionGene(1, 6, 0.5, true, Genome.getNextInnovationNumber());
-        c2 = new ConnectionGene(1, 7, 0.5, true, Genome.getNextInnovationNumber());
-        c3 = new ConnectionGene(2, 6, 0.5, true, Genome.getNextInnovationNumber());
-        c4 = new ConnectionGene(2, 7, 0.5, true, Genome.getNextInnovationNumber());
-        c5 = new ConnectionGene(6, 3, 0.5, true, Genome.getNextInnovationNumber());
-        c6 = new ConnectionGene(6, 4, 0.5, true, Genome.getNextInnovationNumber());
-        c7 = new ConnectionGene(7, 4, 0.5, true, Genome.getNextInnovationNumber());
+        c1 = new ConnectionGene(0, 5, 0.5, true, Genome.getNextInnovationNumber());
+        c2 = new ConnectionGene(0, 6, 0.5, true, Genome.getNextInnovationNumber());
+        c3 = new ConnectionGene(1, 5, 0.5, true, Genome.getNextInnovationNumber());
+        c4 = new ConnectionGene(1, 6, 0.5, true, Genome.getNextInnovationNumber());
+        c5 = new ConnectionGene(5, 2, 0.5, true, Genome.getNextInnovationNumber());
+        c6 = new ConnectionGene(5, 3, 0.5, true, Genome.getNextInnovationNumber());
+        c7 = new ConnectionGene(6, 3, 0.5, true, Genome.getNextInnovationNumber());
 
 
         genome.addConnectionGene(c1);

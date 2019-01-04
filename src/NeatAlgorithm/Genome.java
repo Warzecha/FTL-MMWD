@@ -48,11 +48,11 @@ public class Genome {
     }
 
     public static int getNextInnovationNumber() {
-        return ++currentMaxInnovationNumber;
+        return currentMaxInnovationNumber++;
     }
     public static void resetInnovationNumber() {currentMaxInnovationNumber = 0; }
     public static int getNextNodeId() {
-        return ++currentMaxNodeId;
+        return currentMaxNodeId++;
     }
 
     public static void resetNodeId() {currentMaxNodeId = 0; }
