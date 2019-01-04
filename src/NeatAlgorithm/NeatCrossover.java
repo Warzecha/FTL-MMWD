@@ -19,7 +19,7 @@ public class NeatCrossover {
             parent2Genome = temp;
         }
 
-        Genome child = new Genome();
+        Genome child = new Genome(0, 0);
         Random rng = new Random();
 
         for(ConnectionGene connection : parent1Genome.getConnections().values()) {

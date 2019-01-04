@@ -26,6 +26,7 @@ public class Evaluator {
         }
 
 
+//        TODO: make sure the order is right - outputs go last
         for (ConnectionGene connection : genome.getConnections().values()) {
             int inNodeId = connection.getInNode();
             int outNodeId = connection.getOutNode();

@@ -28,7 +28,7 @@ class GenomeTest {
         Genome.resetInnovationNumber();
         Genome.resetNodeId();
 
-        genome = new Genome();
+        genome = new Genome(0, 0);
 
         n1 = new NodeGene(NodeGene.TYPE.INPUT, Genome.getNextNodeId());
         n2 = new NodeGene(NodeGene.TYPE.HIDDEN, Genome.getNextNodeId());

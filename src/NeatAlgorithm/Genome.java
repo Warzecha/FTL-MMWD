@@ -4,18 +4,35 @@ import java.util.*;
 
 public class Genome {
 
-
     private static int currentMaxInnovationNumber = 0;
     private static int currentMaxNodeId = 0;
     private Map<Integer, ConnectionGene> connections = new HashMap<>();
     private Map<Integer, NodeGene> nodes = new HashMap<>();
-
-
-    Random rng = new Random();
-
     private int inputNodesCount = 0;
     private int outputNodesCount = 0;
 
+    Random rng = new Random();
+
+    public Genome(int inputNodes, int outputNodes) {
+
+        for(int i=0; i < inputNodes; i++) {
+            addNodeGene(new NodeGene(NodeGene.TYPE.INPUT, Genome.getNextNodeId()));
+        }
+
+        for(int i=0; i < outputNodes; i++) {
+            addNodeGene(new NodeGene(NodeGene.TYPE.OUTPUT, Genome.getNextNodeId()));
+        }
+
+    }
+
+    public static Genome generateNewGenome(int inputNodes, int outputNodes) {
+        Genome newGenome = new Genome(inputNodes, outputNodes);
+        Random rng = new Random();
+
+        newGenome.addConnectionGene(new ConnectionGene(rng.nextInt(inputNodes), rng.nextInt(outputNodes), ConnectionGene.randomWeight(), true, Genome.getNextInnovationNumber()));
+
+        return newGenome;
+    }
 
     public void addConnectionGene(ConnectionGene newConnection) {
         connections.put(newConnection.getInnovation(), newConnection);
@@ -170,5 +187,8 @@ public class Genome {
             n.setValue(0);
         }
     }
+
+
+
 
 }

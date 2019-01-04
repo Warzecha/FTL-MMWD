@@ -1,5 +1,7 @@
 package NeatAlgorithm;
 
+import java.util.Random;
+
 public class ConnectionGene {
 
     private int inNode;
@@ -63,5 +65,10 @@ public class ConnectionGene {
 
     public ConnectionGene copy() {
         return new ConnectionGene(inNode, outNode, weight, enabled, innovationNumber);
+    }
+
+    public static double randomWeight() {
+        Random rng = new Random();
+        return rng.nextDouble() * (AlgorithmSettings.MAX_CONNECTION_WEIGHT - AlgorithmSettings.MIN_CONNECTION_WEIGHT) + AlgorithmSettings.MIN_CONNECTION_WEIGHT;
     }
 }

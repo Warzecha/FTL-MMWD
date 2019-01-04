@@ -15,8 +15,8 @@ public class GenomeSpeciesTest {
     @BeforeEach
     void setup()
     {
-        Genome parent1Genome = new Genome();
-        Genome parent2Genome = new Genome();
+        Genome parent1Genome = new Genome(0, 0);
+        Genome parent2Genome = new Genome(0, 0);
 
         NodeGene p1n1 = new NodeGene(NodeGene.TYPE.INPUT, 1);
         NodeGene p1n2 = new NodeGene(NodeGene.TYPE.INPUT, 2);
@@ -42,8 +42,6 @@ public class GenomeSpeciesTest {
         parent1Genome.addConnectionGene(p1c5);
         parent1Genome.addConnectionGene(p1c8);
 
-
-        parent2Genome = new Genome();
 
         NodeGene p2n1 = new NodeGene(NodeGene.TYPE.INPUT, 1);
         NodeGene p2n2 = new NodeGene(NodeGene.TYPE.INPUT, 2);
