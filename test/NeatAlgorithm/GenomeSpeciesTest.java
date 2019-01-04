@@ -85,16 +85,15 @@ public class GenomeSpeciesTest {
 
     @Test
     void getGeneticDistanceOfTheSameGenome() {
-
-        assertEquals(0, Genome.getGeneticDistance(parent1.getGenome(), parent1.getGenome()));
-
+        assertEquals(0, GenomeComparator.getGeneticDistance(parent1.getGenome(), parent1.getGenome()));
+        assertTrue(GenomeComparator.isSameSpecies(parent1.getGenome(), parent1.getGenome()));
     }
 
     @Test
     void getGeneticDistance() {
 
         double expected = 2 * AlgorithmSettings.C1 / 9 + 3 * AlgorithmSettings.C2 / 9 + AlgorithmSettings.C3 * 2;
-        assertEquals(expected, Genome.getGeneticDistance(parent1.getGenome(), parent2.getGenome()));
+        assertEquals(expected, GenomeComparator.getGeneticDistance(parent1.getGenome(), parent2.getGenome()));
 
     }
 

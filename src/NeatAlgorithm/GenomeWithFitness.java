@@ -10,6 +10,11 @@ public class GenomeWithFitness { ;
         this.fitness = fitness;
     }
 
+    public GenomeWithFitness(Genome genome) {
+        this.genome = genome;
+        this.fitness = -1;
+    }
+
     public Genome getGenome() {
         return genome;
     }
