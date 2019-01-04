@@ -33,6 +33,7 @@ class GenomeTest {
         n1 = new NodeGene(NodeGene.TYPE.INPUT, Genome.getNextNodeId());
         n2 = new NodeGene(NodeGene.TYPE.HIDDEN, Genome.getNextNodeId());
         n3 = new NodeGene(NodeGene.TYPE.OUTPUT, Genome.getNextNodeId());
+
         genome.addNodeGene(n1);
         genome.addNodeGene(n2);
         genome.addNodeGene(n3);
@@ -75,6 +76,46 @@ class GenomeTest {
         c2.setWeight(-2);
         assertEquals(-1, c2.getWeight());
     }
+
+
+    @Test
+    void getInputNodesCount() {
+        assertEquals(1, genome.getInputNodesCount());
+    }
+
+
+    @Test
+    void getOutputNodesCount() {
+        assertEquals(1, genome.getOutputNodesCount());
+    }
+
+    @Test
+    void setNodeValue() {
+        n1.setValue(3.14);
+
+        assertEquals(3.14, n1.getValue());
+    }
+
+    @Test
+    void resetNodeValues() {
+        n1.setValue(1);
+        n2.setValue(2);
+        n3.setValue(3);
+
+        genome.resetNodeValues();
+
+        for (NodeGene n : genome.getNodes().values()) {
+            assertEquals(0, n.getValue());
+        }
+    }
+
+    @Test
+    void setNodeValueById() {
+        genome.setNodeValueById(1, 17.5);
+        assertEquals(n1.getValue(), 17.5);
+    }
+
+
 }
 
 

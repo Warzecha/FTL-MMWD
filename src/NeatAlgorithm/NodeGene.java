@@ -10,11 +10,13 @@ public class NodeGene {
 
     private TYPE type;
     private int id;
+    private double value;
 
 
     public NodeGene(TYPE type, int id) {
         this.type = type;
         this.id = id;
+        this.value = 0;
     }
 
     public NodeGene copy() {
@@ -28,5 +30,16 @@ public class NodeGene {
     public int getId() {
         return id;
     }
+
+    public double getValue() {
+        return value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
+
+    public void addValue(double value) { this.value += value; }
+
 
 }

@@ -15,6 +15,8 @@ public class AlgorithmSettings {
 
 
 
+
+
     final public static double MIN_CONNECTION_WEIGHT= -1;
     final public static double MAX_CONNECTION_WEIGHT = 1;
 }

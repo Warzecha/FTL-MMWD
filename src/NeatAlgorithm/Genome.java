@@ -13,6 +13,9 @@ public class Genome {
 
     Random rng = new Random();
 
+    private int inputNodesCount = 0;
+    private int outputNodesCount = 0;
+
 
     public void addConnectionGene(ConnectionGene newConnection) {
         connections.put(newConnection.getInnovation(), newConnection);
@@ -20,6 +23,11 @@ public class Genome {
 
     public void addNodeGene(NodeGene newNode) {
         nodes.put(newNode.getId(), newNode);
+        if(newNode.getType() == NodeGene.TYPE.INPUT) {
+            inputNodesCount++;
+        } else if (newNode.getType() == NodeGene.TYPE.OUTPUT) {
+            outputNodesCount++;
+        }
     }
 
     public static int getNextInnovationNumber() {
@@ -38,6 +46,10 @@ public class Genome {
 
     public Map<Integer, NodeGene> getNodes() {
         return new HashMap<Integer, NodeGene>(nodes);
+    }
+
+    public void setNodeValueById(int id, double value) {
+        nodes.get(id).setValue(value);
     }
 
 
@@ -185,5 +197,20 @@ public class Genome {
         return getGeneticDistance(genome1, genome2) < AlgorithmSettings.MAX_GENETIC_DISTANCE;
     }
 
+
+    public int getInputNodesCount() {
+        return inputNodesCount;
+    }
+
+    public int getOutputNodesCount() {
+        return outputNodesCount;
+    }
+
+
+    public void resetNodeValues() {
+        for( NodeGene n : nodes.values()) {
+            n.setValue(0);
+        }
+    }
 
 }
