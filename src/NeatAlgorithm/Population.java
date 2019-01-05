@@ -7,6 +7,11 @@ public class Population {
     ArrayList<Species> species = new ArrayList<>();
 
 
+    public Population(int size) {
+        for(int i = 0; i < size; i++) {
+            addGenome(Genome.generateNewGenome(AlgorithmSettings.INPUT_NUMBER, AlgorithmSettings.OUTPUT_NUMBER));
+        }
+    }
 
     public void addGenome(Genome genome) {
 
@@ -21,7 +26,6 @@ public class Population {
         }
 
         species.add(new Species(genome));
-
     }
 
 }

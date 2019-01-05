@@ -3,11 +3,13 @@ package NeatAlgorithm;
 public class GenomeWithFitness { ;
 
     private Genome genome;
-    private int fitness;
+    private double fitness;
+    private double adjustedFitness;
 
-    public GenomeWithFitness(Genome genome, int fitness) {
+    public GenomeWithFitness(Genome genome, double fitness) {
         this.genome = genome;
         this.fitness = fitness;
+        this.adjustedFitness = 0;
     }
 
     public GenomeWithFitness(Genome genome) {
@@ -23,21 +25,24 @@ public class GenomeWithFitness { ;
         this.genome = genome;
     }
 
-    public int getFitness() {
+    public double getFitness() {
         return fitness;
     }
 
-    public void setFitness(int fitness) {
+    public void setFitness(double fitness) {
         this.fitness = fitness;
     }
 
+    public double getAdjustedFitness() {
+        return adjustedFitness;
+    }
+
+    public void setAdjustedFitness(double adjustedFitness) {
+        this.adjustedFitness = adjustedFitness;
+    }
 
     public int compareTo(GenomeWithFitness other) {
-        if (this.getFitness() > other.getFitness()) {
-            return 1;
-        } else if (this.getFitness() < other.getFitness()) {
-            return -1;
-        } else return 0;
+        return Double.compare(this.getFitness(), other.getFitness());
     }
 
 }
