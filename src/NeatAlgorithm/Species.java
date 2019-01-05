@@ -49,4 +49,7 @@ public class Species {
         return genomesWithFitness.size();
     }
 
+    public double getTotalAdjustedFitness() {
+        return genomesWithFitness.stream().map(GenomeWithFitness::getAdjustedFitness).mapToDouble(Double::doubleValue).sum();
+    }
 }

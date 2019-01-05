@@ -55,4 +55,19 @@ class SpeciesTest {
         assertEquals(0.66, species.getGenomesWithFitness().get(1).getAdjustedFitness(), 0.01);
         assertEquals(0.33, species.getGenomesWithFitness().get(2).getAdjustedFitness(), 0.01);
     }
+
+    @Test
+    void getTotalAdjustedFitness() {
+        species.addGenome(new Genome(3,2));
+        species.addGenome(new Genome(3,2));
+
+        species.getGenomesWithFitness().get(0).setFitness(3);
+        species.getGenomesWithFitness().get(1).setFitness(2);
+        species.getGenomesWithFitness().get(2).setFitness(1);
+
+        species.calculateAdjustedFitness();
+
+        assertEquals(2, species.getTotalAdjustedFitness(), 0.01);
+
+    }
 }
