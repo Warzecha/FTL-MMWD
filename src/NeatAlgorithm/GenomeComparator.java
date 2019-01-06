@@ -53,7 +53,9 @@ public class GenomeComparator {
             averageWeight = weightDifferenceSum / matchingGenesCount;
         }
 
-        return (AlgorithmSettings.C1 * excessGenes / numberOfGenesInLargerGenome) + (AlgorithmSettings.C2 * disjointGenes / numberOfGenesInLargerGenome) + (AlgorithmSettings.C3 * averageWeight);
+        double distance =  (AlgorithmSettings.C1 * excessGenes / numberOfGenesInLargerGenome) + (AlgorithmSettings.C2 * disjointGenes / numberOfGenesInLargerGenome) + (AlgorithmSettings.C3 * averageWeight);
+        System.out.println(distance);
+        return distance;
     }
 
     public static boolean isSameSpecies(Genome genome1, Genome genome2) {

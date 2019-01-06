@@ -151,7 +151,9 @@ public class Genome {
         }
 
         if(enabledConnections.isEmpty()) {
-            throw new RuntimeException("No connections to break");
+//            throw new RuntimeException("No connections to break");
+            System.out.println("No connections to break");
+            return;
         }
 
         ConnectionGene connectionToBreak = enabledConnections.get(rng.nextInt(enabledConnections.size()));

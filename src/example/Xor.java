@@ -37,12 +37,12 @@ public class Xor implements Enviroment {
     public static void main(String[] args){
         Xor xor = new Xor();
 
-        Population population = new Population(100, xor.inputsNumber, xor.outputsNumber);
+        Population population = new Population(200, xor.inputsNumber, xor.outputsNumber);
 
 
         GenomeWithFitness topGenome = null;
         int generation = 0;
-        for(int i=0; i < 50; i++){
+        for(int i=0; i < 100; i++){
 
 
             population.evaluateFitness(xor);
@@ -55,6 +55,7 @@ public class Xor implements Enviroment {
 
             System.out.println("Generation: " + generation );
             System.out.println("TopFitness: " + topGenome.getFitness());
+            System.out.println("Population: " + population.getSize());
             System.out.println();
 
 
@@ -69,6 +70,7 @@ public class Xor implements Enviroment {
         System.out.println("TopFitness: " + topGenome.getFitness());
         System.out.println("Population: " + population.getSize());
         System.out.println("Max Size : " + population.getBiggestGenomeSize());
+        System.out.println("Species : " + population.getSpecies().size());
 
     }
 
