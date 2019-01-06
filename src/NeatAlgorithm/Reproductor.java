@@ -39,14 +39,7 @@ public class Reproductor {
                     newGenome = NeatCrossover.crossGenomes(parent1, parent2);
                 }
 
-
                 NeatMutation.mutateGenome(newGenome);
-
-                if(newGenome.getConnections().size() != 1) {
-                    System.out.println("Jest duzy");
-
-                }
-
                 nextGeneration.addGenome(newGenome, 0);
 
             }

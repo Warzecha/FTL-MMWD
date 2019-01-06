@@ -35,12 +35,9 @@ public class Population {
 
 
     public void addGenome(Genome genome, int stagnation) {
-
+        this.size++;
         for(Species s : species) {
-
             Genome representative = s.getRepresentative();
-
-            System.out.println("D= " + GenomeComparator.getGeneticDistance(genome, representative));
 
             if(GenomeComparator.isSameSpecies(genome, representative)) {
                 s.addGenome(genome);
@@ -48,7 +45,7 @@ public class Population {
             }
         }
         species.add(new Species(genome, stagnation));
-        this.size++;
+
     }
 
     public ArrayList<Species> getSpecies() {
@@ -56,7 +53,7 @@ public class Population {
     }
 
     public int getSize() {
-        return size;
+        return species.stream().map(Species::size).mapToInt(Integer::intValue).sum();
     }
 
     public double getPopulationTotalAdjustedFitness() {
@@ -74,6 +71,7 @@ public class Population {
     public void evaluateFitness(Enviroment env) {
         for (Species s : species) {
             s.evaluateFitness(env);
+            s.calculateAdjustedFitness();
         }
     }
 

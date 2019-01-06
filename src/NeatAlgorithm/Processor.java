@@ -34,7 +34,7 @@ public class Processor {
         LinkedList<Double> toReturn = new LinkedList<Double>();
 
         for (NodeGene n : genome.getNodes().values()) {
-//            System.out.println(n.getId() + " -> " + n.getValue());
+            System.out.println(n.getId() + " -> " + n.getType());
             if(n.getType() == NodeGene.TYPE.OUTPUT) {
                 toReturn.add(n.getValue());
             }

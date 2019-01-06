@@ -23,6 +23,9 @@ public class Genome {
             addNodeGene(new NodeGene(NodeGene.TYPE.OUTPUT, j));
         }
 
+        Genome.setCurrentMaxNodeId(inputNodes + outputNodes);
+
+
     }
 
     public static Genome generateNewGenome(int inputNodes, int outputNodes) {
@@ -70,6 +73,8 @@ public class Genome {
     }
 
     public static void resetNodeId() {currentMaxNodeId = 0; }
+
+    public static void setCurrentMaxNodeId(int id) {currentMaxNodeId = id; }
 
     public Map<Integer, ConnectionGene> getConnections() {
         return new HashMap<Integer, ConnectionGene>(connections);
@@ -133,7 +138,7 @@ public class Genome {
 
 
         if(possibleConnectionFound) {
-            addConnectionGene(new ConnectionGene(in.getId(), out.getId(), rng.nextDouble()*2-1, true, Genome.getNextInnovationNumber()));
+            addConnectionGene(new ConnectionGene(in.getId(), out.getId(), ConnectionGene.randomWeight(), true, Genome.getNextInnovationNumber()));
 
         }
 
@@ -160,6 +165,8 @@ public class Genome {
         connectionToBreak.setEnabled(false);
 
         NodeGene newNode = new NodeGene(NodeGene.TYPE.HIDDEN, getNextNodeId());
+
+        System.out.println("New node ID: " + newNode.getId());
 
         ConnectionGene leadingIntoNewNode = new ConnectionGene(connectionToBreak.getInNode(), newNode.getId(), 1, true, getNextInnovationNumber());
         ConnectionGene leadingOutFromNewNode = new ConnectionGene(newNode.getId(), connectionToBreak.getOutNode(), connectionToBreak.getWeight(), true, getNextInnovationNumber());
