@@ -25,21 +25,21 @@ class GenomeTest {
     @BeforeAll
     void setup()
     {
-        Genome.resetInnovationNumber();
-        Genome.resetNodeId();
+        HistoricalMarkingsCounter.resetInnovationNumber();
+        HistoricalMarkingsCounter.resetNodeId();
 
         genome = new Genome(0, 0);
 
-        n1 = new NodeGene(NodeGene.TYPE.INPUT, Genome.getNextNodeId());
-        n2 = new NodeGene(NodeGene.TYPE.HIDDEN, Genome.getNextNodeId());
-        n3 = new NodeGene(NodeGene.TYPE.OUTPUT, Genome.getNextNodeId());
+        n1 = new NodeGene(NodeGene.TYPE.INPUT, HistoricalMarkingsCounter.getNextNodeId());
+        n2 = new NodeGene(NodeGene.TYPE.HIDDEN, HistoricalMarkingsCounter.getNextNodeId());
+        n3 = new NodeGene(NodeGene.TYPE.OUTPUT, HistoricalMarkingsCounter.getNextNodeId());
 
         genome.addNodeGene(n1);
         genome.addNodeGene(n2);
         genome.addNodeGene(n3);
 
-        c1 = new ConnectionGene(0, 1, 1, true, Genome.getNextInnovationNumber());
-        c2 = new ConnectionGene(0, 1, 1, true, Genome.getNextInnovationNumber());
+        c1 = new ConnectionGene(0, 1, 1, true, HistoricalMarkingsCounter.getNextInnovationNumber());
+        c2 = new ConnectionGene(0, 1, 1, true, HistoricalMarkingsCounter.getNextInnovationNumber());
         genome.addConnectionGene(c1);
         genome.addConnectionGene(c2);
     }

@@ -4,8 +4,7 @@ import java.util.*;
 
 public class Genome {
 
-    private static int currentMaxInnovationNumber = 0;
-    private static int currentMaxNodeId = 0;
+
     private Map<Integer, ConnectionGene> connections = new HashMap<>();
     private Map<Integer, NodeGene> nodes = new HashMap<>();
     private int inputNodesCount = 0;
@@ -23,8 +22,12 @@ public class Genome {
             addNodeGene(new NodeGene(NodeGene.TYPE.OUTPUT, j));
         }
 
-        Genome.setCurrentMaxNodeId(inputNodes + outputNodes);
 
+        HistoricalMarkingsCounter.setCurrentMaxNodeId(inputNodes + outputNodes);
+//        System.out.println("After Creation: " + HistoricalMarkingsCounter.peekCurrentMaxNodeId());
+    }
+
+    public Genome() {
 
     }
 
@@ -32,7 +35,7 @@ public class Genome {
         Genome newGenome = new Genome(inputNodes, outputNodes);
         Random rng = new Random();
 
-        newGenome.addConnectionGene(new ConnectionGene(rng.nextInt(inputNodes), inputNodes + rng.nextInt(outputNodes), ConnectionGene.randomWeight(), true, Genome.getNextInnovationNumber()));
+        newGenome.addConnectionGene(new ConnectionGene(rng.nextInt(inputNodes), inputNodes + rng.nextInt(outputNodes), ConnectionGene.randomWeight(), true, HistoricalMarkingsCounter.getNextInnovationNumber()));
 
         return newGenome;
     }
@@ -64,17 +67,7 @@ public class Genome {
 
     }
 
-    public static int getNextInnovationNumber() {
-        return currentMaxInnovationNumber++;
-    }
-    public static void resetInnovationNumber() {currentMaxInnovationNumber = 0; }
-    public static int getNextNodeId() {
-        return currentMaxNodeId++;
-    }
 
-    public static void resetNodeId() {currentMaxNodeId = 0; }
-
-    public static void setCurrentMaxNodeId(int id) {currentMaxNodeId = id; }
 
     public Map<Integer, ConnectionGene> getConnections() {
         return new HashMap<Integer, ConnectionGene>(connections);
@@ -138,7 +131,7 @@ public class Genome {
 
 
         if(possibleConnectionFound) {
-            addConnectionGene(new ConnectionGene(in.getId(), out.getId(), ConnectionGene.randomWeight(), true, Genome.getNextInnovationNumber()));
+            addConnectionGene(new ConnectionGene(in.getId(), out.getId(), ConnectionGene.randomWeight(), true, HistoricalMarkingsCounter.getNextInnovationNumber()));
 
         }
 
@@ -164,12 +157,13 @@ public class Genome {
         ConnectionGene connectionToBreak = enabledConnections.get(rng.nextInt(enabledConnections.size()));
         connectionToBreak.setEnabled(false);
 
-        NodeGene newNode = new NodeGene(NodeGene.TYPE.HIDDEN, getNextNodeId());
+//        System.out.println("Previous node ID: " + HistoricalMarkingsCounter.peekCurrentMaxNodeId());
+        NodeGene newNode = new NodeGene(NodeGene.TYPE.HIDDEN, HistoricalMarkingsCounter.getNextNodeId());
 
-        System.out.println("New node ID: " + newNode.getId());
+//        System.out.println("New node ID: " + newNode.getId());
 
-        ConnectionGene leadingIntoNewNode = new ConnectionGene(connectionToBreak.getInNode(), newNode.getId(), 1, true, getNextInnovationNumber());
-        ConnectionGene leadingOutFromNewNode = new ConnectionGene(newNode.getId(), connectionToBreak.getOutNode(), connectionToBreak.getWeight(), true, getNextInnovationNumber());
+        ConnectionGene leadingIntoNewNode = new ConnectionGene(connectionToBreak.getInNode(), newNode.getId(), 1, true, HistoricalMarkingsCounter.getNextInnovationNumber());
+        ConnectionGene leadingOutFromNewNode = new ConnectionGene(newNode.getId(), connectionToBreak.getOutNode(), connectionToBreak.getWeight(), true, HistoricalMarkingsCounter.getNextInnovationNumber());
 
 
         addNodeGene(newNode);
