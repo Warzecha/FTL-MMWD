@@ -39,6 +39,9 @@ public class Population {
         for(Species s : species) {
 
             Genome representative = s.getRepresentative();
+
+            System.out.println("D= " + GenomeComparator.getGeneticDistance(genome, representative));
+
             if(GenomeComparator.isSameSpecies(genome, representative)) {
                 s.addGenome(genome);
                 return;

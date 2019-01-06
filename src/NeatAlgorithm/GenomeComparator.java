@@ -48,7 +48,10 @@ public class GenomeComparator {
             }
         }
 
-        double averageWeight = weightDifferenceSum / matchingGenesCount;
+        double averageWeight = 0;
+        if(matchingGenesCount > 0) {
+            averageWeight = weightDifferenceSum / matchingGenesCount;
+        }
 
         return (AlgorithmSettings.C1 * excessGenes / numberOfGenesInLargerGenome) + (AlgorithmSettings.C2 * disjointGenes / numberOfGenesInLargerGenome) + (AlgorithmSettings.C3 * averageWeight);
     }
