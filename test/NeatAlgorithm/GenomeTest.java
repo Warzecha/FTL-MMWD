@@ -115,6 +115,24 @@ class GenomeTest {
         assertEquals(n1.getValue(), 17.5);
     }
 
+    @Test
+    void copyGenomeCreatesNewGenome() {
+        Genome newGenome = new Genome(genome);
+
+        assertNotSame(genome, newGenome);
+
+        for(int k : genome.getConnections().keySet()) {
+            assertNotSame(genome.getConnections().get(k), newGenome.getConnections().get(k));
+            assertEquals(genome.getConnections().get(k).getInnovation(), newGenome.getConnections().get(k).getInnovation());
+        }
+
+        for(int k : genome.getNodes().keySet()) {
+            assertNotSame(genome.getNodes().get(k), newGenome.getNodes().get(k));
+            assertEquals(genome.getNodes().get(k).getId(), newGenome.getNodes().get(k).getId());
+        }
+
+    }
+
 
 }
 

@@ -47,6 +47,20 @@ public class Genome {
         }
     }
 
+    public Genome(Genome other) {
+        this.inputNodesCount = other.inputNodesCount;
+        this.outputNodesCount = other.outputNodesCount;
+
+        for (int k : other.getConnections().keySet()) {
+            this.connections.put(k, other.getConnections().get(k).copy());
+        }
+
+        for (int k : other.getNodes().keySet()) {
+            this.nodes.put(k, other.getNodes().get(k).copy());
+        }
+
+    }
+
     public static int getNextInnovationNumber() {
         return currentMaxInnovationNumber++;
     }
@@ -187,6 +201,10 @@ public class Genome {
             n.setValue(0);
         }
     }
+
+    public Genome copy() {return new Genome(this); }
+
+
 
 
 

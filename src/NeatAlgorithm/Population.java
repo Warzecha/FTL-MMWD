@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 public class Population {
 
-    ArrayList<Species> species = new ArrayList<>();
+    private ArrayList<Species> species = new ArrayList<>();
+    private int size;
 
 
     public Population(int size) {
+        this.size = size;
         for(int i = 0; i < size; i++) {
             addGenome(Genome.generateNewGenome(AlgorithmSettings.INPUT_NUMBER, AlgorithmSettings.OUTPUT_NUMBER));
         }
@@ -27,5 +29,19 @@ public class Population {
 
         species.add(new Species(genome));
     }
+
+    public ArrayList<Species> getSpecies() {
+        return species;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public double getPopulationTotalAdjustedFitness() {
+        return species.stream().map(Species::getTotalAdjustedFitness).mapToDouble(Double::doubleValue).sum();
+    }
+
+
 
 }

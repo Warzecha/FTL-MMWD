@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GenomeSpeciesTest {
+public class GenomeComparatorTest {
 
 
     private GenomeWithFitness parent1;
