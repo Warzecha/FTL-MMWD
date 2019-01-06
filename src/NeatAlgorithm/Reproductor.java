@@ -12,7 +12,7 @@ public class Reproductor {
 
     public static Population createNextGeneration(Population oldGeneration) {
 //TODO: Should preserve unchanged champion from each species
-        Population nextGeneration = new Population(oldGeneration.getSize());
+        Population nextGeneration = new Population(oldGeneration.getSize(), oldGeneration.getInputNumber(), oldGeneration.getOutputNumber());
         double populationAdjustedFitness = oldGeneration.getPopulationTotalAdjustedFitness();
         SelectionOparator selectionOparator = new Selector();
 

@@ -82,7 +82,7 @@ public class GenomeComparatorTest {
 
 
     @Test
-    void getGeneticDistanceOfTheSameGenome() {
+    void getGeneticDistanceBetweenTheSameGenome() {
         assertEquals(0, GenomeComparator.getGeneticDistance(parent1.getGenome(), parent1.getGenome()));
         assertTrue(GenomeComparator.isSameSpecies(parent1.getGenome(), parent1.getGenome()));
     }
@@ -94,5 +94,15 @@ public class GenomeComparatorTest {
         assertEquals(expected, GenomeComparator.getGeneticDistance(parent1.getGenome(), parent2.getGenome()));
 
     }
+
+
+//    @Test
+//    void getGeneticDistanceBetweenGenomesWithNoConnections() {
+//        Genome.resetInnovationNumber();
+//        parent1 = new GenomeWithFitness(new Genome(2, 1));
+//        parent2 = new GenomeWithFitness(new Genome(2, 1));
+//
+//        assertEquals(0, GenomeComparator.getGeneticDistance(parent1.getGenome(), parent2.getGenome()));
+//    }
 
 }

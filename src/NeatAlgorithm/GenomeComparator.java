@@ -7,11 +7,18 @@ public class GenomeComparator {
     public static double getGeneticDistance(Genome genome1, Genome genome2) {
 
         int numberOfGenesInLargerGenome = Math.max(genome1.getConnections().size(), genome2.getConnections().size());
-        int highestCommonInnovation = Math.min(Collections.max(genome1.getConnections().keySet()), Collections.max(genome2.getConnections().keySet()));
-        int highestGeneInnovation = Math.max(Collections.max(genome1.getConnections().keySet()), Collections.max(genome2.getConnections().keySet()));
+        int highestCommonInnovation = 0;
+        if(genome1.getConnections().size() > 0 && genome2.getConnections().size() > 0) {
+            highestCommonInnovation = Math.min(Collections.max(genome1.getConnections().keySet()), Collections.max(genome2.getConnections().keySet()));
+        }
+
+        int highestGeneInnovation = 0;
+        if(genome1.getConnections().size() > 0 && genome2.getConnections().size() > 0) {
+            highestGeneInnovation = Math.max(Collections.max(genome1.getConnections().keySet()), Collections.max(genome2.getConnections().keySet()));
+        }
 
         int disjointGenes = 0;
-        for(int i=1; i <= highestCommonInnovation; i++) {
+        for(int i=0; i <= highestCommonInnovation; i++) {
             if(genome1.getConnections().containsKey(i) ^ genome2.getConnections().containsKey(i))
             {
                 disjointGenes++;
@@ -31,7 +38,7 @@ public class GenomeComparator {
         int matchingGenesCount = 0;
 
 
-        for (int i = 1; i <= highestGeneInnovation; i++)
+        for (int i = 0; i <= highestGeneInnovation; i++)
         {
             if(genome1.getConnections().containsKey(i) && genome2.getConnections().containsKey(i))
             {

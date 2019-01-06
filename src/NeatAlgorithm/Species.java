@@ -1,5 +1,7 @@
 package NeatAlgorithm;
 
+import NeatAlgorithm.operators.Enviroment;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,11 +35,11 @@ public class Species {
     }
 
 
-//    public void calculateFitness() {
-//        for( GenomeWithFitness genomeWithFitness : genomesWithFitness) {
-//            genomeWithFitness.setFitness(g);
-//        }
-//    }
+    public void evaluateFitness(Enviroment env) {
+        for( GenomeWithFitness genomeWithFitness : genomesWithFitness) {
+            genomeWithFitness.setFitness(env.evaluateFitness(genomeWithFitness.getGenome()));
+        }
+    }
 
     public void calculateAdjustedFitness() {
         for( GenomeWithFitness genomeWithFitness : genomesWithFitness) {
@@ -52,4 +54,18 @@ public class Species {
     public double getTotalAdjustedFitness() {
         return genomesWithFitness.stream().map(GenomeWithFitness::getAdjustedFitness).mapToDouble(Double::doubleValue).sum();
     }
+
+    public GenomeWithFitness getTopGenome() {
+        GenomeWithFitness topGenome = null;
+        double topGenomeFitness = 0;
+
+        for (GenomeWithFitness gf : genomesWithFitness) {
+            if(gf.getFitness() > topGenomeFitness) {
+                topGenome = gf;
+                topGenomeFitness = topGenome.getFitness();
+            }
+        }
+        return topGenome;
+    }
+
 }

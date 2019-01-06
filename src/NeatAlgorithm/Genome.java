@@ -16,11 +16,11 @@ public class Genome {
     public Genome(int inputNodes, int outputNodes) {
 
         for(int i=0; i < inputNodes; i++) {
-            addNodeGene(new NodeGene(NodeGene.TYPE.INPUT, Genome.getNextNodeId()));
+            addNodeGene(new NodeGene(NodeGene.TYPE.INPUT, i));
         }
 
-        for(int i=0; i < outputNodes; i++) {
-            addNodeGene(new NodeGene(NodeGene.TYPE.OUTPUT, Genome.getNextNodeId()));
+        for(int j=inputNodes; j < outputNodes + inputNodes; j++) {
+            addNodeGene(new NodeGene(NodeGene.TYPE.OUTPUT, j));
         }
 
     }
@@ -29,7 +29,7 @@ public class Genome {
         Genome newGenome = new Genome(inputNodes, outputNodes);
         Random rng = new Random();
 
-        newGenome.addConnectionGene(new ConnectionGene(rng.nextInt(inputNodes), rng.nextInt(outputNodes), ConnectionGene.randomWeight(), true, Genome.getNextInnovationNumber()));
+        newGenome.addConnectionGene(new ConnectionGene(rng.nextInt(inputNodes), inputNodes + rng.nextInt(outputNodes), ConnectionGene.randomWeight(), true, Genome.getNextInnovationNumber()));
 
         return newGenome;
     }

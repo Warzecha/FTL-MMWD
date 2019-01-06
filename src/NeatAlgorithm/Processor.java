@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Evaluator {
+public class Processor {
 
-    public static LinkedList<Double> evaluateNetwork(Genome genome, List<Double> inputs) {
+    public static LinkedList<Double> processNetwork(Genome genome, List<Double> inputs) {
         genome.resetNodeValues();
 
         if(genome.getInputNodesCount() != inputs.size()) {
@@ -25,7 +25,10 @@ public class Evaluator {
         for (ConnectionGene connection : genome.getConnections().values()) {
             int inNodeId = connection.getInNode();
             int outNodeId = connection.getOutNode();
-            genome.addNodeValueById(outNodeId, genome.getNodes().get(inNodeId).getValue() * connection.getWeight());
+            if(connection.isEnabled()) {
+                genome.addNodeValueById(outNodeId, genome.getNodes().get(inNodeId).getValue() * connection.getWeight());
+            }
+
         }
 
         LinkedList<Double> toReturn = new LinkedList<Double>();
