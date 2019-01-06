@@ -30,12 +30,12 @@ public class Xor implements Enviroment {
     public static void main(String arg0[]){
         Xor xor = new Xor();
 
-        Population population = new Population(100, xor.inputsNumber, xor.outputsNumber);
+        Population population = new Population(50, xor.inputsNumber, xor.outputsNumber);
 
 
         GenomeWithFitness topGenome = null;
         int generation = 0;
-        for(int i=0; i < 100; i++){
+        for(int i=0; i < 500; i++){
 
 
             population.evaluateFitness(xor);
@@ -45,15 +45,17 @@ public class Xor implements Enviroment {
 
 
 
-            System.out.println("Generation : " + generation );
-            System.out.println("TopFitness : " + topGenome.getFitness());
-            System.out.println("Max Size : " + population.getSpecies().get(0).getGenomes().stream().map((Genome g) -> g.getConnections().size()).mapToInt(Integer::intValue).count());
+            System.out.println("Generation: " + generation );
+            System.out.println("TopFitness: " + topGenome.getFitness());
+            System.out.println("Population: " + population.getSize());
+            System.out.println("Max Size : " + population.getBiggestGenomeSize());
 
 
             population = Reproductor.createNextGeneration(population);
             generation++;
 
         }
+
     }
 
 

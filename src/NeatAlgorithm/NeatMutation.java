@@ -20,6 +20,6 @@ public class NeatMutation {
             genome.addNodeMutation(rng);
         }
 
-
+        System.out.println(genome.getConnections().size());
     }
 }

@@ -3,6 +3,10 @@ package NeatAlgorithm;
 import NeatAlgorithm.operators.Enviroment;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.stream.Collectors;
 
 public class Population {
 
@@ -17,13 +21,20 @@ public class Population {
         this.inputNumber = inputNumber;
         this.outputNumber = outputNumber;
 
-        this.size = size;
+//        this.size = size;
         for(int i = 0; i < size; i++) {
-            addGenome(Genome.generateNewGenome(inputNumber, outputNumber));
+            addGenome(Genome.generateNewGenome(inputNumber, outputNumber), 0);
         }
     }
 
-    public void addGenome(Genome genome) {
+    public Population(int inputNumber, int outputNumber) {
+        this.inputNumber = inputNumber;
+        this.outputNumber = outputNumber;
+        this.size = 0;
+    }
+
+
+    public void addGenome(Genome genome, int stagnation) {
 
         for(Species s : species) {
 
@@ -32,10 +43,9 @@ public class Population {
                 s.addGenome(genome);
                 return;
             }
-
         }
-
-        species.add(new Species(genome));
+        species.add(new Species(genome, stagnation));
+        this.size++;
     }
 
     public ArrayList<Species> getSpecies() {
@@ -76,6 +86,10 @@ public class Population {
             }
         }
         return topGenome;
+    }
+
+    public int getBiggestGenomeSize() {
+        return species.stream().map(Species::getBiggestGenomeSize).collect(Collectors.summarizingInt(Integer::intValue)).getMax();
     }
 
 }

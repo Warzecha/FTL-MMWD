@@ -11,10 +11,17 @@ public class Species {
 
     private ArrayList<GenomeWithFitness> genomesWithFitness  = new ArrayList<>();
     private Genome representative;
+    int stagnation;
 
     public Species(Genome genome) {
         genomesWithFitness.add(new GenomeWithFitness(genome));
         representative = genome;
+    }
+
+    public Species(Genome genome, int stagnation) {
+        genomesWithFitness.add(new GenomeWithFitness(genome));
+        representative = genome;
+        this.stagnation = stagnation;
     }
 
     public Genome getRepresentative() {
@@ -68,4 +75,18 @@ public class Species {
         return topGenome;
     }
 
+    public int getBiggestGenomeSize() {
+        int maxSize = 0;
+
+        for (GenomeWithFitness gf : genomesWithFitness) {
+            if( gf.getGenome().getConnections().size() > maxSize) {
+                maxSize = gf.getGenome().getConnections().size();
+            }
+        }
+        return maxSize;
+    }
+
+    public int getStagnation() {
+        return stagnation;
+    }
 }

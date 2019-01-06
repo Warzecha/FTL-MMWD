@@ -11,18 +11,23 @@ public class Reproductor {
 
 
     public static Population createNextGeneration(Population oldGeneration) {
-//TODO: Should preserve unchanged champion from each species
-        Population nextGeneration = new Population(oldGeneration.getSize(), oldGeneration.getInputNumber(), oldGeneration.getOutputNumber());
+
+        Population nextGeneration = new Population(oldGeneration.getInputNumber(), oldGeneration.getOutputNumber());
+
+// TODO: kill stagnant species
         double populationAdjustedFitness = oldGeneration.getPopulationTotalAdjustedFitness();
         SelectionOparator selectionOparator = new Selector();
 
         for(Species s : oldGeneration.getSpecies()) {
+//            TODO: pass stagnation to next generation
+            nextGeneration.addGenome(s.getTopGenome().getGenome().copy(), s.stagnation);
+
 //            TODO: make sure that numberOfOffspring sums up to oldGeneration.getSize();
             int numberOfOffspring = (int) (s.getTotalAdjustedFitness() / populationAdjustedFitness * oldGeneration.getSize());
             List<GenomeWithFitness> survivors = selectionOparator.applySelection(s);
             Random rng = new Random();
 
-            for (int i=0; i < numberOfOffspring; i++) {
+            for (int i=0; i < numberOfOffspring - 1; i++) {
 
                 Genome newGenome = null;
                 if(rng.nextDouble() < AlgorithmSettings.MUTATION_WITHOUT_CROSSOVER_CHANCE) {
@@ -37,14 +42,19 @@ public class Reproductor {
 
                 NeatMutation.mutateGenome(newGenome);
 
+                if(newGenome.getConnections().size() != 1) {
+                    System.out.println("Jest duzy");
 
+                }
 
+                nextGeneration.addGenome(newGenome, 0);
 
             }
 
 
 
         }
+
 
 
         return nextGeneration;
