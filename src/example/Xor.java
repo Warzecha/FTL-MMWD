@@ -8,8 +8,17 @@ import java.util.List;
 
 public class Xor implements Enviroment {
 
-    int inputsNumber = 2;
-    int outputsNumber = 1;
+    public int inputsNumber = 2;
+    public int outputsNumber = 1;
+    public int maxGenerations = 500;
+    public int generationNumber = 0;
+    public Population population;
+    public GenomeWithFitness topGenome;
+    public int populationSize = 50;
+
+    public void initPopulation() {
+        population = new Population(populationSize, inputsNumber, outputsNumber);
+    }
 
     @Override
     public double evaluateFitness(Genome genome) {
@@ -22,42 +31,27 @@ public class Xor implements Enviroment {
                 fitness += 1 - Math.abs((double) (x^y) - output.get(0));
             }
         }
-
         return fitness;
     }
 
-
-    public static void main(String arg0[]){
-        Xor xor = new Xor();
-
-        Population population = new Population(50, xor.inputsNumber, xor.outputsNumber);
-
-
-        GenomeWithFitness topGenome = null;
-        int generation = 0;
-        for(int i=0; i < 500; i++){
-
-
-            population.evaluateFitness(xor);
-
-
-            topGenome = population.getTopGenome();
-
-
-
-            System.out.println("Generation: " + generation );
-            System.out.println("TopFitness: " + topGenome.getFitness());
-            System.out.println("Population: " + population.getSize());
-            System.out.println("Max Size : " + population.getBiggestGenomeSize());
-
-
-            population = Reproductor.createNextGeneration(population);
-            generation++;
-
-        }
-
+    public static void main(String[] args) {
+        new Xor().startLoop();
     }
 
+    public void iterate() {
+        generationNumber++;
+        population.evaluateFitness(this);
+        topGenome = population.getTopGenome();
+        System.out.println("Generation: " + generationNumber);
+        System.out.println("TopFitness: " + topGenome.getFitness());
+        System.out.println("Population: " + population.getSize());
+        System.out.println("Max Size : " + population.getBiggestGenomeSize());
+        population = Reproductor.createNextGeneration(population);
+    }
 
-
+    public void startLoop(){
+        for(int i=0; i < 500; i++){
+            iterate();
+        }
+    }
 }
