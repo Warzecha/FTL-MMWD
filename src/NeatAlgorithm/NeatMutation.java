@@ -19,7 +19,5 @@ public class NeatMutation {
         } else if (chance <= AlgorithmSettings.WEIGHT_MUTATION_CHANCE + AlgorithmSettings.ADD_CONNECTION_MUTATION_CHANCE + AlgorithmSettings.ADD_NODE_MUTATION_CHANCE) {
             genome.addNodeMutation(rng);
         }
-
-        System.out.println(genome.getConnections().size());
     }
 }

@@ -30,17 +30,17 @@ class GenomeMutationTest {
     {
         genome = new Genome(0, 0);
 
-        n1 = new NodeGene(NodeGene.TYPE.INPUT, Genome.getNextNodeId());
-        n3 = new NodeGene(NodeGene.TYPE.OUTPUT, Genome.getNextNodeId());
-        n4 = new NodeGene(NodeGene.TYPE.OUTPUT, Genome.getNextNodeId());
-        n2 = new NodeGene(NodeGene.TYPE.HIDDEN, Genome.getNextNodeId());
+        n1 = new NodeGene(NodeGene.TYPE.INPUT, HistoricalMarkingsCounter.getNextNodeId());
+        n3 = new NodeGene(NodeGene.TYPE.OUTPUT, HistoricalMarkingsCounter.getNextNodeId());
+        n4 = new NodeGene(NodeGene.TYPE.OUTPUT, HistoricalMarkingsCounter.getNextNodeId());
+        n2 = new NodeGene(NodeGene.TYPE.HIDDEN, HistoricalMarkingsCounter.getNextNodeId());
         genome.addNodeGene(n1);
         genome.addNodeGene(n2);
         genome.addNodeGene(n3);
         genome.addNodeGene(n4);
 
-        c1 = new ConnectionGene(0, 3, 0.5, true, Genome.getNextInnovationNumber());
-        c2 = new ConnectionGene(3, 1, 0.5, true, Genome.getNextInnovationNumber());
+        c1 = new ConnectionGene(0, 3, 0.5, true, HistoricalMarkingsCounter.getNextInnovationNumber());
+        c2 = new ConnectionGene(3, 1, 0.5, true, HistoricalMarkingsCounter.getNextInnovationNumber());
         genome.addConnectionGene(c1);
         genome.addConnectionGene(c2);
 
@@ -63,6 +63,8 @@ class GenomeMutationTest {
 
         assertEquals(5, genome.getNodes().size());
         assertEquals(startingConnectionsSize + 2, genome.getConnections().size());
+
+        System.out.println(genome.getNodes().values().stream().map(NodeGene::getId).collect(Collectors.toList()));
 
     }
 

@@ -35,20 +35,20 @@ class ProcessorTest {
     void setup()
     {
 
-        Genome.resetNodeId();
-        Genome.resetInnovationNumber();
+        HistoricalMarkingsCounter.resetNodeId();
+        HistoricalMarkingsCounter.resetInnovationNumber();
 
         genome = new Genome(0, 0);
 
-        n1 = new NodeGene(NodeGene.TYPE.INPUT, Genome.getNextNodeId());
-        n2 = new NodeGene(NodeGene.TYPE.INPUT, Genome.getNextNodeId());
+        n1 = new NodeGene(NodeGene.TYPE.INPUT, HistoricalMarkingsCounter.getNextNodeId());
+        n2 = new NodeGene(NodeGene.TYPE.INPUT, HistoricalMarkingsCounter.getNextNodeId());
 
-        n3 = new NodeGene(NodeGene.TYPE.OUTPUT, Genome.getNextNodeId());
-        n4 = new NodeGene(NodeGene.TYPE.OUTPUT, Genome.getNextNodeId());
-        n5 = new NodeGene(NodeGene.TYPE.OUTPUT, Genome.getNextNodeId());
+        n3 = new NodeGene(NodeGene.TYPE.OUTPUT, HistoricalMarkingsCounter.getNextNodeId());
+        n4 = new NodeGene(NodeGene.TYPE.OUTPUT, HistoricalMarkingsCounter.getNextNodeId());
+        n5 = new NodeGene(NodeGene.TYPE.OUTPUT, HistoricalMarkingsCounter.getNextNodeId());
 
-        n6 = new NodeGene(NodeGene.TYPE.HIDDEN, Genome.getNextNodeId());
-        n7 = new NodeGene(NodeGene.TYPE.HIDDEN, Genome.getNextNodeId());
+        n6 = new NodeGene(NodeGene.TYPE.HIDDEN, HistoricalMarkingsCounter.getNextNodeId());
+        n7 = new NodeGene(NodeGene.TYPE.HIDDEN, HistoricalMarkingsCounter.getNextNodeId());
 
         genome.addNodeGene(n1);
         genome.addNodeGene(n2);
@@ -59,13 +59,13 @@ class ProcessorTest {
         genome.addNodeGene(n7);
 
 
-        c1 = new ConnectionGene(0, 5, 0.5, true, Genome.getNextInnovationNumber());
-        c2 = new ConnectionGene(0, 6, 0.5, true, Genome.getNextInnovationNumber());
-        c3 = new ConnectionGene(1, 5, 0.5, true, Genome.getNextInnovationNumber());
-        c4 = new ConnectionGene(1, 6, 0.5, true, Genome.getNextInnovationNumber());
-        c5 = new ConnectionGene(5, 2, 0.5, true, Genome.getNextInnovationNumber());
-        c6 = new ConnectionGene(5, 3, 0.5, true, Genome.getNextInnovationNumber());
-        c7 = new ConnectionGene(6, 3, 0.5, true, Genome.getNextInnovationNumber());
+        c1 = new ConnectionGene(0, 5, 0.5, true, HistoricalMarkingsCounter.getNextInnovationNumber());
+        c2 = new ConnectionGene(0, 6, 0.5, true, HistoricalMarkingsCounter.getNextInnovationNumber());
+        c3 = new ConnectionGene(1, 5, 0.5, true, HistoricalMarkingsCounter.getNextInnovationNumber());
+        c4 = new ConnectionGene(1, 6, 0.5, true, HistoricalMarkingsCounter.getNextInnovationNumber());
+        c5 = new ConnectionGene(5, 2, 0.5, true, HistoricalMarkingsCounter.getNextInnovationNumber());
+        c6 = new ConnectionGene(5, 3, 0.5, true, HistoricalMarkingsCounter.getNextInnovationNumber());
+        c7 = new ConnectionGene(6, 3, 0.5, true, HistoricalMarkingsCounter.getNextInnovationNumber());
 
 
         genome.addConnectionGene(c1);

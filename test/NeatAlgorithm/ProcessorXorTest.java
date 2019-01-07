@@ -34,15 +34,15 @@ public class ProcessorXorTest {
     void setup()
     {
 
-        Genome.resetNodeId();
-        Genome.resetInnovationNumber();
+        HistoricalMarkingsCounter.resetNodeId();
+        HistoricalMarkingsCounter.resetInnovationNumber();
 
         genome = new Genome(0, 0);
 
-        n1 = new NodeGene(NodeGene.TYPE.INPUT, Genome.getNextNodeId());
-        n2 = new NodeGene(NodeGene.TYPE.INPUT, Genome.getNextNodeId());
+        n1 = new NodeGene(NodeGene.TYPE.INPUT, HistoricalMarkingsCounter.getNextNodeId());
+        n2 = new NodeGene(NodeGene.TYPE.INPUT, HistoricalMarkingsCounter.getNextNodeId());
 
-        n3 = new NodeGene(NodeGene.TYPE.OUTPUT, Genome.getNextNodeId());
+        n3 = new NodeGene(NodeGene.TYPE.OUTPUT, HistoricalMarkingsCounter.getNextNodeId());
 //        n4 = new NodeGene(NodeGene.TYPE.OUTPUT, Genome.getNextNodeId());
 //        n5 = new NodeGene(NodeGene.TYPE.OUTPUT, Genome.getNextNodeId());
 //
@@ -58,7 +58,7 @@ public class ProcessorXorTest {
 //        genome.addNodeGene(n7);
 
 
-        c1 = new ConnectionGene(0, 2, 0.5, true, Genome.getNextInnovationNumber());
+        c1 = new ConnectionGene(0, 2, 0.5, true, HistoricalMarkingsCounter.getNextInnovationNumber());
 //        c2 = new ConnectionGene(0, 6, 0.5, true, Genome.getNextInnovationNumber());
 //        c3 = new ConnectionGene(1, 5, 0.5, true, Genome.getNextInnovationNumber());
 //        c4 = new ConnectionGene(1, 6, 0.5, true, Genome.getNextInnovationNumber());
