@@ -3,9 +3,6 @@ package NeatAlgorithm;
 import NeatAlgorithm.operators.Enviroment;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Optional;
-import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
 public class Population {
@@ -17,13 +14,12 @@ public class Population {
     private final int outputNumber;
 
 
-    public Population(int size, int inputNumber, int outputNumber) {
-        this.inputNumber = inputNumber;
-        this.outputNumber = outputNumber;
+    public Population(int size, Genome startingGenome) {
+        this.inputNumber = startingGenome.getInputNodesCount();
+        this.outputNumber = startingGenome.getOutputNodesCount();
 
-//        this.size = size;
         for(int i = 0; i < size; i++) {
-            addGenome(Genome.generateNewGenome(inputNumber, outputNumber), 0);
+            addGenome(startingGenome.copy(), 0);
         }
     }
 

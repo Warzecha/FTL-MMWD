@@ -186,7 +186,7 @@ public class Genome {
 
 
 
-
+// TODO: this methods should probably be changed to display real value. not the counted one
 
     public int getInputNodesCount() {
         return inputNodesCount;

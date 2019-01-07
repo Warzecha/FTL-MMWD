@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class Xor implements Enviroment {
 
-    public int inputsNumber = 2;
+    public int inputsNumber = 3;
     public int outputsNumber = 1;
     public int maxGenerations = 500;
     public int generationNumber = 0;
@@ -18,8 +18,20 @@ public class Xor implements Enviroment {
     public GenomeWithFitness topGenome;
     public int populationSize = 50;
 
+
+    public Genome generateStartingGenome() {
+        Genome startingGenome = new Genome(inputsNumber, outputsNumber);
+
+        startingGenome.addConnectionGene(new ConnectionGene(0, 3, ConnectionGene.randomWeight(), true, HistoricalMarkingsCounter.getNextInnovationNumber()));
+        startingGenome.addConnectionGene(new ConnectionGene(1, 3, ConnectionGene.randomWeight(), true, HistoricalMarkingsCounter.getNextInnovationNumber()));
+        startingGenome.addConnectionGene(new ConnectionGene(2, 3, ConnectionGene.randomWeight(), true, HistoricalMarkingsCounter.getNextInnovationNumber()));
+
+        return startingGenome;
+    }
+
+
     public void initPopulation() {
-        population = new Population(populationSize, inputsNumber, outputsNumber);
+        population = new Population(populationSize, generateStartingGenome());
     }
 
     @Override
@@ -28,7 +40,7 @@ public class Xor implements Enviroment {
 
         for (int x=0; x<=1; x++) {
             for (int y=0; y<=1; y++) {
-                List<Double> output = Processor.processNetwork(genome, Arrays.asList((double) x, (double) y));
+                List<Double> output = Processor.processNetwork(genome, Arrays.asList(1.0, (double) x, (double) y));
                 fitness += 1 - Math.abs((double) (x^y) - output.get(0));
             }
         }
@@ -48,7 +60,8 @@ public class Xor implements Enviroment {
         System.out.println("Generation: " + generationNumber);
         System.out.println("TopFitness: " + topGenome.getFitness());
         System.out.println("Population: " + population.getSize());
-        System.out.println("Max Size : " + population.getBiggestGenomeSize());
+        System.out.println("Max Size: " + population.getBiggestGenomeSize());
+        System.out.println("Species: " + population.getSpecies().size());
         population = Reproductor.createNextGeneration(population);
     }
 
@@ -61,7 +74,7 @@ public class Xor implements Enviroment {
     public static void oldMain() { // TODO probably remove this method
         Xor xor = new Xor();
 
-        Population population = new Population(200, xor.inputsNumber, xor.outputsNumber);
+        Population population = new Population(200, xor.generateStartingGenome());
 
 
         GenomeWithFitness topGenome = null;
