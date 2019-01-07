@@ -36,7 +36,9 @@ public class Xor implements Enviroment {
     }
 
     public static void main(String[] args) {
-        new Xor().startLoop();
+        Xor xor = new Xor();
+        xor.initPopulation();
+        xor.startLoop();
     }
 
     public void iterate() {

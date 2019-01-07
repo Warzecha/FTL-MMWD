@@ -22,9 +22,7 @@ public class Genome {
             addNodeGene(new NodeGene(NodeGene.TYPE.OUTPUT, j));
         }
 
-
         HistoricalMarkingsCounter.setCurrentMaxNodeId(inputNodes + outputNodes);
-//        System.out.println("After Creation: " + HistoricalMarkingsCounter.peekCurrentMaxNodeId());
     }
 
     public Genome() {

@@ -10,8 +10,7 @@ public class HistoricalMarkingsCounter {
     }
     public static void resetInnovationNumber() {currentMaxInnovationNumber = 0; }
     public static int getNextNodeId() {
-        currentMaxNodeId++;
-        return currentMaxNodeId;
+        return currentMaxNodeId++;
     }
 
     public static void resetNodeId() {currentMaxNodeId = 0; }
