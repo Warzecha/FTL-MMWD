@@ -14,7 +14,12 @@ public class Reproductor {
 
         Population nextGeneration = new Population(oldGeneration.getInputNumber(), oldGeneration.getOutputNumber());
 
+        int oldPopulation = oldGeneration.getSize();
+
 // TODO: kill stagnant species
+        oldGeneration.killStagnantSpecies();
+
+
         double populationAdjustedFitness = oldGeneration.getPopulationTotalAdjustedFitness();
         SelectionOparator selectionOparator = new Selector();
         Random rng = new Random();
@@ -22,11 +27,11 @@ public class Reproductor {
         int newGenerationSize = 0;
         for(Species s : oldGeneration.getSpecies()) {
 //            TODO: pass stagnation to next generation
-            nextGeneration.addGenome(s.getTopGenome().getGenome().copy(), s.stagnation);
+            nextGeneration.addGenome(s.getTopGenome().getGenome().copy(), s.getStagnation(), s.getTopGenome().getFitness());
             newGenerationSize++;
 
 //            TODO: make sure that numberOfOffspring sums up to oldGeneration.getSize() - test it thoroughly
-            int numberOfOffspring = (int) (s.getTotalAdjustedFitness() / populationAdjustedFitness * oldGeneration.getSize());
+            int numberOfOffspring = (int) (s.getTotalAdjustedFitness() / populationAdjustedFitness * oldPopulation);
             newGenerationSize += numberOfOffspring - 1;
 
             List<GenomeWithFitness> survivors = selectionOparator.applySelection(s);
@@ -41,7 +46,7 @@ public class Reproductor {
                 }
 
                 NeatMutation.mutateGenome(newGenome);
-                nextGeneration.addGenome(newGenome, 0);
+                nextGeneration.addGenome(newGenome, 0, Double.NEGATIVE_INFINITY);
 
 
             }
@@ -53,7 +58,7 @@ public class Reproductor {
         System.out.println(newGenerationSize);
 
 
-        for(int i = 0; i < oldGeneration.getSize() - newGenerationSize; i++) {
+        for(int i = 0; i < oldPopulation - newGenerationSize; i++) {
 
 
             Genome additionalGenome;
@@ -76,7 +81,7 @@ public class Reproductor {
             }
 
             NeatMutation.mutateGenome(additionalGenome);
-            nextGeneration.addGenome(additionalGenome, 0);
+            nextGeneration.addGenome(additionalGenome, 0, Double.NEGATIVE_INFINITY);
 
 
         }

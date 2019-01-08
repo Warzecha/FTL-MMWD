@@ -16,7 +16,7 @@ public class Xor implements Enviroment {
     public int generationNumber = 0;
     public Population population;
     public GenomeWithFitness topGenome;
-    public int populationSize = 50;
+    public int populationSize = 100;
 
 
     public Genome generateStartingGenome() {
@@ -41,9 +41,12 @@ public class Xor implements Enviroment {
         for (int x=0; x<=1; x++) {
             for (int y=0; y<=1; y++) {
                 List<Double> output = Processor.processNetwork(genome, Arrays.asList(1.0, (double) x, (double) y));
-                fitness += 1 - Math.abs((double) (x^y) - output.get(0));
+                fitness += 1 - Math.pow((double) (x^y) - output.get(0), 2);
             }
         }
+
+//        System.out.println(Math.pow(fitness, 2));
+//        return Math.pow(fitness, 2);
         return fitness;
     }
 

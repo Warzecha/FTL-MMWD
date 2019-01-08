@@ -5,6 +5,7 @@ import NeatAlgorithm.operators.Enviroment;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.stream.Collectors;
 
 public class Population {
@@ -21,7 +22,7 @@ public class Population {
         this.outputNumber = startingGenome.getOutputNodesCount();
 
         for(int i = 0; i < size; i++) {
-            addGenome(startingGenome.copy(), 0);
+            addGenome(startingGenome.copy(), 0, Double.NEGATIVE_INFINITY);
         }
     }
 
@@ -32,7 +33,7 @@ public class Population {
     }
 
 
-    public void addGenome(Genome genome, int stagnation) {
+    public void addGenome(Genome genome, int stagnation, double previousFitness) {
         this.size++;
         for(Species s : species) {
             Genome representative = s.getRepresentative();
@@ -42,7 +43,7 @@ public class Population {
                 return;
             }
         }
-        species.add(new Species(genome, stagnation));
+        species.add(new Species(genome, stagnation, previousFitness));
 
     }
 
@@ -79,6 +80,16 @@ public class Population {
 
     public int getBiggestGenomeSize() {
         return species.stream().map(Species::getBiggestGenomeSize).collect(Collectors.summarizingInt(Integer::intValue)).getMax();
+    }
+
+    public void killStagnantSpecies() {
+        for (Iterator<Species> iterator = species.iterator(); iterator.hasNext(); ) {
+            Species s = iterator.next();
+            if(s.getStagnation() > AlgorithmSettings.MAX_STAGNATION && species.size() > 1) {
+                iterator.remove();
+            }
+        }
+
     }
 
 }

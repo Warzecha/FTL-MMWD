@@ -171,7 +171,7 @@ public class Genome {
             if(rng.nextDouble() <= AlgorithmSettings.PERTURBATION_CHANCE) {
                 c.setWeight(c.getWeight() + rng.nextDouble() - 0.5);
             } else {
-                c.setWeight(rng.nextDouble() * 2 * (AlgorithmSettings.MAX_CONNECTION_WEIGHT - AlgorithmSettings.MIN_CONNECTION_WEIGHT) + AlgorithmSettings.MIN_CONNECTION_WEIGHT);
+                c.setWeight(ConnectionGene.randomWeight());
             }
         }
     }

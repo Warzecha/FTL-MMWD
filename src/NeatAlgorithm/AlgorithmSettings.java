@@ -6,7 +6,7 @@ public class AlgorithmSettings {
     final public static double C1 = 2.0;
     final public static double C2 = 2.0;
     final public static double C3 = 0.4;
-    final public static double MAX_GENETIC_DISTANCE = 1.5;
+    final public static double MAX_GENETIC_DISTANCE = 1;
 //    final public static double MAX_GENETIC_DISTANCE = 1.5;
     final public static double WEIGHT_MUTATION_CHANCE = 0.8;
     final public static double ADD_NODE_MUTATION_CHANCE = 0.03;
@@ -20,6 +20,8 @@ public class AlgorithmSettings {
 
     final public static int INPUT_NUMBER = 5;
     final public static int OUTPUT_NUMBER = 2;
+
+    final public static int MAX_STAGNATION = 20;
 
 
 

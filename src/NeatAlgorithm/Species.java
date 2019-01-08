@@ -13,7 +13,9 @@ public class Species {
 
     private ArrayList<GenomeWithFitness> genomesWithFitness  = new ArrayList<>();
     private Genome representative;
-    int stagnation;
+    private int stagnation;
+    private double previousBestFitness;
+
 
     public Species(Genome genome) {
         genomesWithFitness.add(new GenomeWithFitness(genome));
@@ -26,11 +28,19 @@ public class Species {
         this.stagnation = stagnation;
     }
 
+    public Species(Genome genome, int stagnation, double previousBestFitness) {
+        genomesWithFitness.add(new GenomeWithFitness(genome));
+        representative = genome;
+        this.stagnation = stagnation;
+        this.previousBestFitness = previousBestFitness;
+    }
+
     public Genome getRepresentative() {
         return representative;
     }
 
     public void addGenome(Genome genome) {
+//        TODO: if possible and needed check if the added Genome is better then current best
         genomesWithFitness.add(new GenomeWithFitness(genome));
     }
 
@@ -48,6 +58,8 @@ public class Species {
         for( GenomeWithFitness genomeWithFitness : genomesWithFitness) {
             genomeWithFitness.setFitness(env.evaluateFitness(genomeWithFitness.getGenome()));
         }
+
+        calculateStagnation();
     }
 
     public void calculateAdjustedFitness() {
@@ -81,5 +93,15 @@ public class Species {
 
     public int getStagnation() {
         return stagnation;
+    }
+
+    public double getPreviousBestFitness() {
+        return previousBestFitness;
+    }
+
+    public void calculateStagnation() {
+        if(getTopGenome().getFitness() <= previousBestFitness) {
+            stagnation++;
+        }
     }
 }
