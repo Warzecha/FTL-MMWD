@@ -54,6 +54,7 @@ public class Xor implements Enviroment {
     }
 
     public void iterate() {
+
         generationNumber++;
         population.evaluateFitness(this);
         topGenome = population.getTopGenome();
@@ -62,52 +63,35 @@ public class Xor implements Enviroment {
         System.out.println("Population: " + population.getSize());
         System.out.println("Max Size: " + population.getBiggestGenomeSize());
         System.out.println("Species: " + population.getSpecies().size());
+        System.out.println("\n\n");
         population = Reproductor.createNextGeneration(population);
     }
 
     public void startLoop() {
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < 50; i++) {
             iterate();
         }
+        population.evaluateFitness(this);
     }
 
-    public static void oldMain() { // TODO probably remove this method
-        Xor xor = new Xor();
-
-        Population population = new Population(200, xor.generateStartingGenome());
-
-
-        GenomeWithFitness topGenome = null;
-        int generation = 0;
-        for(int i=0; i < 100; i++){
-
-
-            population.evaluateFitness(xor);
-
-
-
-            topGenome = population.getTopGenome();
-
-
-
-            System.out.println("Generation: " + generation );
-            System.out.println("TopFitness: " + topGenome.getFitness());
-            System.out.println("Population: " + population.getSize());
-            System.out.println();
+//    public static void oldMain() { // TODO probably remove this method
+//        Xor xor = new Xor();
+//        Population population = new Population(200, xor.generateStartingGenome());
+//        GenomeWithFitness topGenome = null;
+//        int generation = 0;
+//        for(int i=0; i < 100; i++){
+//            population.evaluateFitness(xor);
+//            topGenome = population.getTopGenome();
+//            population = Reproductor.createNextGeneration(population);
+//            generation++;
+//        }
+//        population.evaluateFitness(xor);
+//        System.out.println("Generation: " + generation );
+//        System.out.println("TopFitness: " + topGenome.getFitness());
+//        System.out.println("Population: " + population.getSize());
+//        System.out.println("Max Size : " + population.getBiggestGenomeSize());
+//        System.out.println("Species : " + population.getSpecies().size());
+//    }
 
 
-
-            population = Reproductor.createNextGeneration(population);
-            generation++;
-
-        }
-
-        population.evaluateFitness(xor);
-        System.out.println("Generation: " + generation );
-        System.out.println("TopFitness: " + topGenome.getFitness());
-        System.out.println("Population: " + population.getSize());
-        System.out.println("Max Size : " + population.getBiggestGenomeSize());
-        System.out.println("Species : " + population.getSpecies().size());
-
-    }
 }

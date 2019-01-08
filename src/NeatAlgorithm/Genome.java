@@ -147,7 +147,6 @@ public class Genome {
                 enabledConnections.add(connection);
             }
         }
-
         if(enabledConnections.isEmpty()) {
 //            throw new RuntimeException("No connections to break");
             System.out.println("No connections to break");
@@ -157,23 +156,17 @@ public class Genome {
         ConnectionGene connectionToBreak = enabledConnections.get(rng.nextInt(enabledConnections.size()));
         connectionToBreak.setEnabled(false);
 
-//        System.out.println("Previous node ID: " + HistoricalMarkingsCounter.peekCurrentMaxNodeId());
         NodeGene newNode = new NodeGene(NodeGene.TYPE.HIDDEN, HistoricalMarkingsCounter.getNextNodeId());
-
-//        System.out.println("New node ID: " + newNode.getId());
 
         ConnectionGene leadingIntoNewNode = new ConnectionGene(connectionToBreak.getInNode(), newNode.getId(), 1, true, HistoricalMarkingsCounter.getNextInnovationNumber());
         ConnectionGene leadingOutFromNewNode = new ConnectionGene(newNode.getId(), connectionToBreak.getOutNode(), connectionToBreak.getWeight(), true, HistoricalMarkingsCounter.getNextInnovationNumber());
 
-
         addNodeGene(newNode);
         addConnectionGene(leadingIntoNewNode);
         addConnectionGene(leadingOutFromNewNode);
-
     }
 
     public void connectionWeightMutation(Random rng) {
-
         for(ConnectionGene c : connections.values()) {
             if(rng.nextDouble() <= AlgorithmSettings.PERTURBATION_CHANCE) {
                 c.setWeight(c.getWeight() + rng.nextDouble() - 0.5);
@@ -181,10 +174,7 @@ public class Genome {
                 c.setWeight(rng.nextDouble() * 2 * (AlgorithmSettings.MAX_CONNECTION_WEIGHT - AlgorithmSettings.MIN_CONNECTION_WEIGHT) + AlgorithmSettings.MIN_CONNECTION_WEIGHT);
             }
         }
-
     }
-
-
 
 // TODO: this methods should probably be changed to display real value. not the counted one
 
@@ -196,7 +186,6 @@ public class Genome {
         return outputNodesCount;
     }
 
-
     public void resetNodeValues() {
         for( NodeGene n : nodes.values()) {
             n.setValue(0);
@@ -204,10 +193,6 @@ public class Genome {
     }
 
     public Genome copy() {return new Genome(this); }
-
-
-
-
 
 
 }

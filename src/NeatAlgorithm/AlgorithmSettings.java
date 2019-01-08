@@ -16,6 +16,8 @@ public class AlgorithmSettings {
 //    final public static double NEW_RANDOM_WEIGHT_CHANCE = 0.1;
     final public static double MUTATION_WITHOUT_CROSSOVER_CHANCE = 0.25;
 
+    final public static double INTERSPECIES_MATING_CHANCE = 0.01;
+
     final public static int INPUT_NUMBER = 5;
     final public static int OUTPUT_NUMBER = 2;
 

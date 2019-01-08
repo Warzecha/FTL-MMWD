@@ -3,6 +3,8 @@ package NeatAlgorithm;
 import NeatAlgorithm.operators.Enviroment;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,16 +65,7 @@ public class Species {
     }
 
     public GenomeWithFitness getTopGenome() {
-        GenomeWithFitness topGenome = null;
-        double topGenomeFitness = 0;
-
-        for (GenomeWithFitness gf : genomesWithFitness) {
-            if(gf.getFitness() > topGenomeFitness) {
-                topGenome = gf;
-                topGenomeFitness = topGenome.getFitness();
-            }
-        }
-        return topGenome;
+        return Collections.max(genomesWithFitness, Comparator.comparing(GenomeWithFitness::getFitness));
     }
 
     public int getBiggestGenomeSize() {

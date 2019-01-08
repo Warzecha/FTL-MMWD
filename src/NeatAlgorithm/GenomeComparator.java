@@ -33,10 +33,8 @@ public class GenomeComparator {
             }
         }
 
-
         double weightDifferenceSum = 0;
         int matchingGenesCount = 0;
-
 
         for (int i = 0; i <= highestGeneInnovation; i++)
         {
@@ -44,7 +42,6 @@ public class GenomeComparator {
             {
                 matchingGenesCount++;
                 weightDifferenceSum += Math.abs(genome1.getConnections().get(i).getWeight()-genome2.getConnections().get(i).getWeight());
-
             }
         }
 
@@ -54,7 +51,6 @@ public class GenomeComparator {
         }
 
         double distance =  (AlgorithmSettings.C1 * excessGenes / numberOfGenesInLargerGenome) + (AlgorithmSettings.C2 * disjointGenes / numberOfGenesInLargerGenome) + (AlgorithmSettings.C3 * averageWeight);
-        System.out.println(distance);
         return distance;
     }
 
