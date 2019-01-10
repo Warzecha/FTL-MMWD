@@ -9,86 +9,54 @@ import java.util.Random;
 public class Reproductor {
 
 
+    private static int getChosenSpecies(Random rng, ArrayList<Double> probabilities) {
+
+        double chance = rng.nextDouble();
+
+        for(int i = 0; i < probabilities.size(); i++) {
+            if(chance <= probabilities.get(i) ) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 
     public static Population createNextGeneration(Population oldGeneration) {
-
-        Population nextGeneration = new Population(oldGeneration.getInputNumber(), oldGeneration.getOutputNumber());
-
-        int oldPopulation = oldGeneration.getSize();
-
-// TODO: kill stagnant species
-        oldGeneration.killStagnantSpecies();
-
-
-        double populationAdjustedFitness = oldGeneration.getPopulationTotalAdjustedFitness();
-        SelectionOparator selectionOparator = new Selector();
         Random rng = new Random();
+        Population nextGeneration = new Population(oldGeneration.getInputNumber(), oldGeneration.getOutputNumber());
+        int oldPopulationSize = oldGeneration.getSize();
+        double populationAdjustedFitness = oldGeneration.getPopulationTotalAdjustedFitness();
 
-        int newGenerationSize = 0;
+        ArrayList<Double> probabilities = new ArrayList<>(0);
+        double probabilitiesSum = 0;
+
         for(Species s : oldGeneration.getSpecies()) {
-//            TODO: pass stagnation to next generation
-            nextGeneration.addGenome(s.getTopGenome().getGenome().copy(), s.getStagnation(), s.getTopGenome().getFitness());
-            newGenerationSize++;
-
-//            TODO: make sure that numberOfOffspring sums up to oldGeneration.getSize() - test it thoroughly
-            int numberOfOffspring = (int) (s.getTotalAdjustedFitness() / populationAdjustedFitness * oldPopulation);
-            newGenerationSize += numberOfOffspring - 1;
-
-            List<GenomeWithFitness> survivors = selectionOparator.applySelection(s);
-
-            for (int i=0; i < numberOfOffspring - 1; i++) {
-
-                Genome newGenome;
-                if(rng.nextDouble() < AlgorithmSettings.MUTATION_WITHOUT_CROSSOVER_CHANCE) {
-                    newGenome = survivors.get(rng.nextInt(survivors.size())).getGenome().copy();
-                } else {
-                    newGenome = getChildOfSurvivors(rng, survivors);
-                }
-
-                NeatMutation.mutateGenome(newGenome);
-                nextGeneration.addGenome(newGenome, 0, Double.NEGATIVE_INFINITY);
-
-
-            }
-
-
-
+            double probability = s.getTotalAdjustedFitness()/populationAdjustedFitness;
+            probabilities.add(probability + probabilitiesSum);
+            probabilitiesSum += probability;
         }
 
-        System.out.println(newGenerationSize);
+        for (Double p : probabilities) {
+            p = p / probabilitiesSum;
+        }
 
+        SelectionOparator selector = new Selector();
 
-        for(int i = 0; i < oldPopulation - newGenerationSize; i++) {
+        for(int i = 0; i < oldPopulationSize; i++) {
+            int speciesIndex = getChosenSpecies(rng, probabilities);
+            List<GenomeWithFitness> survivors = selector.applySelection(oldGeneration.getSpecies().get(i));
 
-
-            Genome additionalGenome;
-            if(rng.nextDouble() < AlgorithmSettings.INTERSPECIES_MATING_CHANCE) {
-                List<GenomeWithFitness> survivors1 = selectionOparator.applySelection(oldGeneration.getSpecies().get(rng.nextInt(oldGeneration.getSpecies().size())));
-                List<GenomeWithFitness> survivors2 = selectionOparator.applySelection(oldGeneration.getSpecies().get(rng.nextInt(oldGeneration.getSpecies().size())));
-
-                GenomeWithFitness parent1 = survivors1.get(rng.nextInt(survivors1.size()));
-                GenomeWithFitness parent2 = survivors2.get(rng.nextInt(survivors2.size()));
-
-                additionalGenome = NeatCrossover.crossGenomes(parent1, parent2);
-
-
+            Genome newGenome;
+            if(rng.nextDouble() < AlgorithmSettings.MUTATION_WITHOUT_CROSSOVER_CHANCE) {
+                newGenome = survivors.get(rng.nextInt(survivors.size())).getGenome().copy();
             } else {
-                List<GenomeWithFitness> survivors = selectionOparator.applySelection(oldGeneration.getSpecies().get(rng.nextInt(oldGeneration.getSpecies().size())));
-
-                additionalGenome = getChildOfSurvivors(rng, survivors);
-
-
+                newGenome = getChildOfSurvivors(rng, survivors);
             }
 
-            NeatMutation.mutateGenome(additionalGenome);
-            nextGeneration.addGenome(additionalGenome, 0, Double.NEGATIVE_INFINITY);
-
-
+            NeatMutation.mutateGenome(newGenome);
+            nextGeneration.addGenome(newGenome, 0, Double.NEGATIVE_INFINITY);
         }
-
-
-
-
         return nextGeneration;
     }
 
@@ -98,6 +66,4 @@ public class Reproductor {
 
         return NeatCrossover.crossGenomes(parent1, parent2);
     }
-
-
 }
