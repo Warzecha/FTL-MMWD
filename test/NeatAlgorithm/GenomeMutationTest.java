@@ -28,7 +28,7 @@ class GenomeMutationTest {
     @BeforeEach
     void setup()
     {
-        genome = new Genome(0, 0);
+        genome = new Genome();
 
         n1 = new NodeGene(NodeGene.TYPE.INPUT, HistoricalMarkingsCounter.getNextNodeId());
         n3 = new NodeGene(NodeGene.TYPE.OUTPUT, HistoricalMarkingsCounter.getNextNodeId());
@@ -43,16 +43,19 @@ class GenomeMutationTest {
         c2 = new ConnectionGene(3, 1, 0.5, true, HistoricalMarkingsCounter.getNextInnovationNumber());
         genome.addConnectionGene(c1);
         genome.addConnectionGene(c2);
-
-
-
     }
 
     @Test
     void addConnectionMutation() {
+        genome = new Genome();
+        genome.addNodeGene(n1);
+        genome.addNodeGene(n2);
+        genome.addNodeGene(n3);
+        genome.addNodeGene(n4);
+
         Random rng = new Random();
         genome.addConnectionMutation(rng);
-        assertEquals(3, genome.getConnections().size());
+        assertEquals(1, genome.getConnections().size());
     }
 
     @Test
@@ -63,9 +66,6 @@ class GenomeMutationTest {
 
         assertEquals(5, genome.getNodes().size());
         assertEquals(startingConnectionsSize + 2, genome.getConnections().size());
-
-        System.out.println(genome.getNodes().values().stream().map(NodeGene::getId).collect(Collectors.toList()));
-
     }
 
 
@@ -90,7 +90,6 @@ class GenomeMutationTest {
         for(int i=0; i < 10; i++) {
             genome.connectionWeightMutation(rng);
             for(ConnectionGene c : genome.getConnections().values()) {
-//                System.out.println(c.getWeight());
                 assertTrue(AlgorithmSettings.MIN_CONNECTION_WEIGHT <= c.getWeight() && c.getWeight() <= AlgorithmSettings.MAX_CONNECTION_WEIGHT);
             }
         }
@@ -123,8 +122,6 @@ class GenomeMutationTest {
     @Test
     void NeatMutation() {
         NeatMutation.mutateGenome(genome);
-
-        System.out.println(genome.getConnections().size());
     }
 
 

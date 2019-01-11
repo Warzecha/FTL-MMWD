@@ -64,7 +64,7 @@ public class Xor implements Enviroment {
         System.out.println("Generation: " + generationNumber);
         System.out.println("TopFitness: " + topGenome.getFitness());
         System.out.println("Population: " + population.getSize());
-        System.out.println("Max Size: " + population.getBiggestGenomeSize());
+        System.out.println("Best Size: " + population.getTopGenome().getGenome().getConnections().size());
         System.out.println("Species: " + population.getSpecies().size());
         System.out.println("\n\n");
         population = Reproductor.createNextGeneration(population);

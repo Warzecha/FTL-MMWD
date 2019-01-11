@@ -101,61 +101,32 @@ public class Genome {
             }
         }
 
-        boolean possibleConnectionFound = false;
-
         NodeGene in = null;
         NodeGene out = null;
 
-        for(int i=0; i < 50 && !possibleConnectionFound; i++) {
 
-            int inIndex = rng.nextInt(possibleInputs.size());
-            int outIndex = rng.nextInt(possibleOutputs.size());
+        do {
+            in = possibleInputs.get(rng.nextInt(possibleInputs.size()));
+            out = possibleOutputs.get(rng.nextInt(possibleOutputs.size()));
+        } while (in == out);
 
-
-            in = possibleInputs.get(inIndex);
-            out = possibleOutputs.get(outIndex);
-
-            possibleConnectionFound = true;
-            for(ConnectionGene connection : connections.values()) {
-
-                if(connection.getInNode() == in.getId() && connection.getOutNode() == out.getId()) {
-                    possibleConnectionFound = false;
-                }
-
+        for(ConnectionGene connection : connections.values()) {
+            if(connection.getInNode() == in.getId() && connection.getOutNode() == out.getId()) {
+                return;
             }
-
-
         }
 
-
-        if(possibleConnectionFound) {
-            addConnectionGene(new ConnectionGene(in.getId(), out.getId(), ConnectionGene.randomWeight(), true, HistoricalMarkingsCounter.getNextInnovationNumber()));
-
-        }
-
-
-
-
+        addConnectionGene(new ConnectionGene(in.getId(), out.getId(), ConnectionGene.randomWeight(), true, HistoricalMarkingsCounter.getNextInnovationNumber()));
     }
 
     public void addNodeMutation(Random rng) {
+        ConnectionGene connectionToBreak = connections.get(connections.keySet().toArray()[rng.nextInt(connections.size())]);
 
-        List<ConnectionGene> enabledConnections = new ArrayList<>();
-        for(ConnectionGene connection : connections.values()) {
-
-            if (connection.isEnabled()) {
-                enabledConnections.add(connection);
-            }
-        }
-        if(enabledConnections.isEmpty()) {
-//            throw new RuntimeException("No connections to break");
-            System.out.println("No connections to break");
+        if(!connectionToBreak.isEnabled()) {
             return;
         }
 
-        ConnectionGene connectionToBreak = enabledConnections.get(rng.nextInt(enabledConnections.size()));
         connectionToBreak.setEnabled(false);
-
         NodeGene newNode = new NodeGene(NodeGene.TYPE.HIDDEN, HistoricalMarkingsCounter.getNextNodeId());
 
         ConnectionGene leadingIntoNewNode = new ConnectionGene(connectionToBreak.getInNode(), newNode.getId(), 1, true, HistoricalMarkingsCounter.getNextInnovationNumber());
@@ -169,7 +140,7 @@ public class Genome {
     public void connectionWeightMutation(Random rng) {
         for(ConnectionGene c : connections.values()) {
             if(rng.nextDouble() <= AlgorithmSettings.PERTURBATION_CHANCE) {
-                c.setWeight(c.getWeight() + rng.nextDouble() - 0.5);
+                c.setWeight(c.getWeight() + rng.nextDouble()*0.2 - 0.1);
             } else {
                 c.setWeight(ConnectionGene.randomWeight());
             }
