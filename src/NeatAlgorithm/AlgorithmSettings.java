@@ -9,8 +9,9 @@ public class AlgorithmSettings {
     final public static double MAX_GENETIC_DISTANCE = 1;
 //    final public static double MAX_GENETIC_DISTANCE = 1.5;
     final public static double WEIGHT_MUTATION_CHANCE = 0.8;
-    final public static double ADD_NODE_MUTATION_CHANCE = 0.03;
-    final public static double ADD_CONNECTION_MUTATION_CHANCE = 0.05;
+    final public static double ADD_NODE_MUTATION_CHANCE = 0.013;
+    final public static double ADD_CONNECTION_MUTATION_CHANCE = 0.025;
+
 
     final public static double PERTURBATION_CHANCE = 0.9;
 //    final public static double NEW_RANDOM_WEIGHT_CHANCE = 0.1;

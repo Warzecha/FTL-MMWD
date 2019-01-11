@@ -84,12 +84,12 @@ class ProcessorTest {
     @Test
     void evaluateNetworkWithInputOfZeros() {
         List<Double> input = new ArrayList<Double>(Arrays.asList(0.0, 0.0));
-        List<Double> expected = new ArrayList<Double>(Arrays.asList(0.0, 0.0, 0.0));
+        List<Double> expected = new ArrayList<Double>(Arrays.asList(0.90, 0.98, 0.5));
 
         List<Double> output = Processor.processNetwork(genome, input);
 
         for(int i = 0; i <  expected.size(); i++) {
-            assertEquals(expected.get(i), output.get(i));
+            assertEquals(expected.get(i), output.get(i), 0.01);
         }
     }
 
@@ -97,12 +97,12 @@ class ProcessorTest {
     @Test
     void evaluateNetwork() {
         List<Double> input = new ArrayList<Double>(Arrays.asList(1.0, 2.0));
-        List<Double> expected = new ArrayList<Double>(Arrays.asList(0.75, 1.5, 0.0));
+        List<Double> expected = new ArrayList<Double>(Arrays.asList(0.92, 0.98, 0.5));
 
         List<Double> output = Processor.processNetwork(genome, input);
 
         for(int i = 0; i <  expected.size(); i++) {
-            assertEquals(expected.get(i), output.get(i));
+            assertEquals(expected.get(i), output.get(i), 0.1);
         }
     }
 

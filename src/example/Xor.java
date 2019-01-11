@@ -16,7 +16,7 @@ public class Xor implements Enviroment {
     public int generationNumber = 0;
     public Population population;
     public GenomeWithFitness topGenome;
-    public int populationSize = 100;
+    public int populationSize = 400;
 
 
     public Genome generateStartingGenome() {
@@ -71,7 +71,7 @@ public class Xor implements Enviroment {
     }
 
     public void startLoop() {
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 300; i++) {
             iterate();
         }
         population.evaluateFitness(this);

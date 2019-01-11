@@ -23,29 +23,46 @@ public class Reproductor {
 
 
     public static Population createNextGeneration(Population oldGeneration) {
+
         Random rng = new Random();
         Population nextGeneration = new Population(oldGeneration.getInputNumber(), oldGeneration.getOutputNumber());
         int oldPopulationSize = oldGeneration.getSize();
+
+        GenomeWithFitness champion = oldGeneration.getTopGenome();
+        nextGeneration.addGenome(champion.getGenome().copy(), 0, oldGeneration.getTopGenome().getFitness());
+
+        oldGeneration.killStagnantSpecies();
+
+
         double populationAdjustedFitness = oldGeneration.getPopulationTotalAdjustedFitness();
 
         ArrayList<Double> probabilities = new ArrayList<>(0);
         double probabilitiesSum = 0;
 
         for(Species s : oldGeneration.getSpecies()) {
+
+            GenomeWithFitness best = s.getTopGenome();
+            if (best != champion) {
+                nextGeneration.addGenome(best.getGenome(), s.getStagnation(), best.getFitness());
+            }
+
             double probability = s.getTotalAdjustedFitness()/populationAdjustedFitness;
             probabilities.add(probability + probabilitiesSum);
             probabilitiesSum += probability;
         }
 
-        for (Double p : probabilities) {
-            p = p / probabilitiesSum;
-        }
+//        for (Double p : probabilities) {
+//            p = p / probabilitiesSum;
+//        }
+
 
         SelectionOparator selector = new Selector();
 
-        for(int i = 0; i < oldPopulationSize; i++) {
+
+
+        for(int i = 0; i < oldPopulationSize - oldGeneration.getSpecies().size(); i++) {
             int speciesIndex = getChosenSpecies(rng, probabilities);
-            List<GenomeWithFitness> survivors = selector.applySelection(oldGeneration.getSpecies().get(i));
+            List<GenomeWithFitness> survivors = selector.applySelection(oldGeneration.getSpecies().get(speciesIndex));
 
             Genome newGenome;
             if(rng.nextDouble() < AlgorithmSettings.MUTATION_WITHOUT_CROSSOVER_CHANCE) {

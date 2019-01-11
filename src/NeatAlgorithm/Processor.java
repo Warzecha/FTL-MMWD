@@ -6,6 +6,11 @@ import java.util.List;
 
 public class Processor {
 
+
+    public static double sigmoid(double x) {
+        return 1 / (1 + Math.pow(Math.E, -4.9 * x));
+    }
+
     public static LinkedList<Double> processNetwork(Genome genome, List<Double> inputs) {
         genome.resetNodeValues();
 
@@ -26,7 +31,7 @@ public class Processor {
             int inNodeId = connection.getInNode();
             int outNodeId = connection.getOutNode();
             if(connection.isEnabled()) {
-                genome.addNodeValueById(outNodeId, genome.getNodes().get(inNodeId).getValue() * connection.getWeight());
+                genome.addNodeValueById(outNodeId, sigmoid(genome.getNodes().get(inNodeId).getValue()) * connection.getWeight());
             }
 
         }
@@ -35,7 +40,7 @@ public class Processor {
 
         for (NodeGene n : genome.getNodes().values()) {
             if(n.getType() == NodeGene.TYPE.OUTPUT) {
-                toReturn.add(n.getValue());
+                toReturn.add(sigmoid(n.getValue()));
             }
         }
 
