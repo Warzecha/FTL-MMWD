@@ -1,23 +1,17 @@
 package example;
 
 import NeatAlgorithm.*;
-import NeatAlgorithm.operators.Enviroment;
+import NeatAlgorithm.operators.Environment;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class Xor implements Enviroment {
+public class Xor extends Environment {
 
-    public int inputsNumber = 3;
-    public int outputsNumber = 1;
-    public int maxGenerations = 500;
-    public int generationNumber = 0;
-    public Population population;
-    public GenomeWithFitness topGenome;
-    public int populationSize = 400;
 
+    public Xor(int populationSize, int maxGenerations) {
+        super(3, 1, populationSize, maxGenerations);
+    }
 
     public Genome generateStartingGenome() {
         Genome startingGenome = new Genome(inputsNumber, outputsNumber);
@@ -30,9 +24,7 @@ public class Xor implements Enviroment {
     }
 
 
-    public void initPopulation() {
-        population = new Population(populationSize, generateStartingGenome());
-    }
+
 
     @Override
     public double evaluateFitness(Genome genome) {
@@ -51,50 +43,13 @@ public class Xor implements Enviroment {
     }
 
     public static void main(String[] args) {
-        Xor xor = new Xor();
+        Xor xor = new Xor(200, 100);
         xor.initPopulation();
         xor.startLoop();
     }
 
-    public void iterate() {
 
-        generationNumber++;
-        population.evaluateFitness(this);
-        topGenome = population.getTopGenome();
-        System.out.println("Generation: " + generationNumber);
-        System.out.println("TopFitness: " + topGenome.getFitness());
-        System.out.println("Population: " + population.getSize());
-        System.out.println("Best Size: " + population.getTopGenome().getGenome().getConnections().size());
-        System.out.println("Species: " + population.getSpecies().size());
-        System.out.println("\n\n");
-        population = Reproductor.createNextGeneration(population);
-    }
 
-    public void startLoop() {
-        for (int i = 0; i < 300; i++) {
-            iterate();
-        }
-        population.evaluateFitness(this);
-    }
-
-//    public static void oldMain() { // TODO probably remove this method
-//        Xor xor = new Xor();
-//        Population population = new Population(200, xor.generateStartingGenome());
-//        GenomeWithFitness topGenome = null;
-//        int generation = 0;
-//        for(int i=0; i < 100; i++){
-//            population.evaluateFitness(xor);
-//            topGenome = population.getTopGenome();
-//            population = Reproductor.createNextGeneration(population);
-//            generation++;
-//        }
-//        population.evaluateFitness(xor);
-//        System.out.println("Generation: " + generation );
-//        System.out.println("TopFitness: " + topGenome.getFitness());
-//        System.out.println("Population: " + population.getSize());
-//        System.out.println("Max Size : " + population.getBiggestGenomeSize());
-//        System.out.println("Species : " + population.getSpecies().size());
-//    }
 
 
 }

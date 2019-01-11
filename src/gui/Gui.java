@@ -19,7 +19,7 @@ public class Gui extends Application {
     private GuiPanel panel = new GuiPanel();
     private GuiController controller;
     private Group group = new Group();
-    private Xor xor = new Xor();
+    private Xor xor = new Xor(200, 100);
     private boolean running = false;
 
     public static void main(String[] args) {

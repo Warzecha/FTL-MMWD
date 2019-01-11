@@ -1,6 +1,6 @@
 package NeatAlgorithm;
 
-import NeatAlgorithm.operators.Enviroment;
+import NeatAlgorithm.operators.Environment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,7 +67,7 @@ public class Population {
         return outputNumber;
     }
 
-    public void evaluateFitness(Enviroment env) {
+    public void evaluateFitness(Environment env) {
         for (Species s : species) {
             s.evaluateFitness(env);
             s.calculateAdjustedFitness();
