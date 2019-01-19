@@ -15,6 +15,10 @@ public class Genome implements Comparable {
     private TreeMap<Integer, NodeGene> nodes = new TreeMap<>();                          // Generated while performing network operation
     private float adjustedFitness;                                      // For number of child to breed in species
 
+
+    private int inputCount;
+    private int outputCount;
+
     private HashMap<MutationKeys, Float> mutationRates = new HashMap<>();
 
     public void addConnectionGene(ConnectionGene connectionGene) {
@@ -34,7 +38,10 @@ public class Genome implements Comparable {
         ENABLE_MUTATION_CHANCE
     }
 
-    public Genome(){
+    public Genome(int inputCount, int outputCount){
+
+        this.inputCount = inputCount;
+        this.outputCount = outputCount;
 
         this.mutationRates.put(MutationKeys.STEPS, AlgorithmSettings.STEPS);
         this.mutationRates.put(MutationKeys.PERTURB_CHANCE, AlgorithmSettings.PERTURB_CHANCE);
@@ -55,6 +62,8 @@ public class Genome implements Comparable {
 
         this.fitness = parent.fitness;
         this.adjustedFitness = parent.adjustedFitness;
+        this.inputCount = parent.inputCount;
+        this.outputCount = parent.outputCount;
 
         this.mutationRates = (HashMap<MutationKeys, Float>) parent.mutationRates.clone();
 
@@ -85,7 +94,7 @@ public class Genome implements Comparable {
             parent2 = temp;
         }
 
-        Genome child = new Genome();
+        Genome child = new Genome(parent1.inputCount, parent1.outputCount);
         TreeMap<Integer, ConnectionGene> geneMap1 = new TreeMap<>();
         TreeMap<Integer, ConnectionGene> geneMap2 = new TreeMap<>();
 
@@ -203,16 +212,15 @@ public class Genome implements Comparable {
     }
 
     private void generateNetwork() {
-
         nodes.clear();
         //  Input layer
-        for (int i = 0; i < AlgorithmSettings.INPUTS; i++) {
+        for (int i = 0; i < inputCount; i++) {
             nodes.put(i, new NodeGene(0));                    //Inputs
         }
-        nodes.put(AlgorithmSettings.INPUTS, new NodeGene(1));        // Bias
+        nodes.put(inputCount, new NodeGene(1));        // Bias
 
         //output layer
-        for (int i = AlgorithmSettings.INPUTS + AlgorithmSettings.HIDDEN_NODES; i < AlgorithmSettings.INPUTS + AlgorithmSettings.HIDDEN_NODES + AlgorithmSettings.OUTPUTS; i++) {
+        for (int i = inputCount + AlgorithmSettings.HIDDEN_NODES; i < inputCount + AlgorithmSettings.HIDDEN_NODES + outputCount; i++) {
             nodes.put(i, new NodeGene(0));
         }
 
@@ -229,10 +237,10 @@ public class Genome implements Comparable {
     }
 
     public ArrayList<Float> evaluateNetwork(List<Float> inputs) {
-        ArrayList<Float> output = new ArrayList<>(AlgorithmSettings.OUTPUTS);
+        ArrayList<Float> output = new ArrayList<>(outputCount);
         generateNetwork();
 
-        for (int i = 0; i < AlgorithmSettings.INPUTS; i++) {
+        for (int i = 0; i < inputCount; i++) {
             nodes.get(i).setValue(inputs.get(i));
         }
 
@@ -241,7 +249,7 @@ public class Genome implements Comparable {
             int key = mapEntry.getKey();
             NodeGene node = mapEntry.getValue();
 
-            if (key > AlgorithmSettings.INPUTS) {
+            if (key > inputCount) {
                 for (ConnectionGene conn : node.getIncomingCon()) {
                     if (conn.isEnabled()) {
                         sum += nodes.get(conn.getInto()).getValue() * conn.getWeight();
@@ -251,8 +259,8 @@ public class Genome implements Comparable {
             }
         }
 
-        for (int i = 0; i < AlgorithmSettings.OUTPUTS; i++) {
-            output.add(nodes.get(AlgorithmSettings.INPUTS + AlgorithmSettings.HIDDEN_NODES + i).getValue());
+        for (int i = 0; i < outputCount; i++) {
+            output.add(nodes.get(inputCount + AlgorithmSettings.HIDDEN_NODES + i).getValue());
         }
         return output;
     }
@@ -303,10 +311,10 @@ public class Genome implements Comparable {
         generateNetwork();
         int i = 0;
         int j = 0;
-        int random2 = rand.nextInt(nodes.size() - AlgorithmSettings.INPUTS - 1) + AlgorithmSettings.INPUTS + 1;
+        int random2 = rand.nextInt(nodes.size() - inputCount - 1) + inputCount + 1;
         int random1 = rand.nextInt(nodes.size());
         if(forceBais)
-            random1 = AlgorithmSettings.INPUTS;
+            random1 = inputCount;
         int node1 = -1;
         int node2 = -1;
 
@@ -354,7 +362,7 @@ public class Genome implements Comparable {
                 if (timeoutCount > AlgorithmSettings.HIDDEN_NODES)
                     return;
             }
-            int nextNode = nodes.size() - AlgorithmSettings.OUTPUTS;
+            int nextNode = nodes.size() - outputCount;
             randomCon.setEnabled(false);
             connectionGeneList.add(new ConnectionGene(randomCon.getInto(), nextNode, InnovationCounter.newInnovation(), 1, true));        // Add innovation and weight
             connectionGeneList.add(new ConnectionGene(nextNode, randomCon.getOut(), InnovationCounter.newInnovation(), randomCon.getWeight(), true));

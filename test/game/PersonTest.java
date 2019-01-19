@@ -13,7 +13,7 @@ public class PersonTest {
 
     @BeforeEach
     void setup() {
-        ship = new Ship();
+        ship = new Ship(null);
         p = new Person();
         ship.addCrewmember(p);
     }

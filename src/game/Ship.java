@@ -1,5 +1,6 @@
 package game;
 
+import evoNeat.Genome;
 import game.exception.NoSuchRoomException;
 
 import java.util.*;
@@ -24,14 +25,17 @@ public class Ship {
     private int oxygenLevel = 100; //value between 0 and 100
     public final ShipParameters parameters = new ShipParameters();
 
+    private Genome genome;
 
 
-    public Ship() {
+
+    public Ship(Genome genome) {
 
         maxSystems = new ArrayList<>(Arrays.asList(0.0, 1.0, 1.0, 1.0, 2.0, 1.0));
         systems = new ArrayList<>(maxSystems);
         shots = new ArrayList<>(Arrays.asList(1, 1));
         shield = systems.get(Room.SHIELD.getId());
+        this.genome = genome;
 
     }
 

@@ -5,8 +5,8 @@ package evoNeat;
  */
 public class AlgorithmSettings {
 
-    public static final int INPUTS = 2;
-    public static final int OUTPUTS = 1;
+//    public static final int INPUTS = 2;
+//    public static final int OUTPUTS = 1;
     public static final int HIDDEN_NODES = 1000000;
     public static final int POPULATION =300;
 

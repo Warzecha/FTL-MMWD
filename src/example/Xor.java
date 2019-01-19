@@ -13,11 +13,12 @@ public class Xor extends Environment {
 
 
     public Xor(int populationSize, int maxGenerations) {
-        super(3, 1, populationSize, maxGenerations);
+        super(2, 1, populationSize, maxGenerations);
     }
 
     public Genome generateStartingGenome() {
-        Genome startingGenome = new Genome();
+
+        Genome startingGenome = new Genome(this.inputsNumber, this.outputsNumber);
 
 //        public ConnectionGene(int into, int out, int innovation, float weight, boolean enabled) {
 //        startingGenome.addConnectionGene(new ConnectionGene(0, 3, InnovationCounter.newInnovation(), ConnectionGene.randomWeight(), true));

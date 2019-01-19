@@ -18,7 +18,7 @@ class ShipTest {
     @BeforeEach
     void setup()
     {
-        ship = new Ship();
+        ship = new Ship(null);
     }
 
 
@@ -55,7 +55,7 @@ class ShipTest {
 
     @Test
     void dealDamageDischargesWeapones() {
-        Ship enemy = new Ship();
+        Ship enemy = new Ship(null);
         Random rng = new Random(10);
         ship.setWeapones(1);
 

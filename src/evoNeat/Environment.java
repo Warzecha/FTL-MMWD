@@ -48,4 +48,8 @@ public abstract class Environment {
           population.evaluateFitness(this);
      }
 
+
+     public static void main(String[] args) {
+     }
+
 }

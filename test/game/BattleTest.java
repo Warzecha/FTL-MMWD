@@ -14,8 +14,8 @@ class BattleTest {
 
     @BeforeEach
     void setup() {
-        ship1 = new Ship();
-        ship2 = new Ship();
+        ship1 = new Ship(null);
+        ship2 = new Ship(null);
         battle = new Battle(ship1, ship2, 100);
 
     }
