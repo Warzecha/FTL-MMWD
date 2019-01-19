@@ -38,7 +38,7 @@ public class GuiPanel {
         }
         texts.get(0).setText(TEXTS.get(0) + xor.generationNumber);
         rectangles.get(1).setPercentageFill(xor.topGenome.getFitness()*25);
-        texts.get(1).setText(TEXTS.get(1) + (int)xor.topGenome.getFitness());
+        texts.get(1).setText(TEXTS.get(1) + Math.round(xor.topGenome.getFitness() * 100.0) / 100.0);
         rectangles.get(2).setPercentageFill(xor.population.getSize());
         texts.get(2).setText(TEXTS.get(2) + xor.population.getSize());
         rectangles.get(3).setPercentageFill(xor.population.getBiggestGenomeSize()*20);
