@@ -70,11 +70,11 @@ class GenomeTest {
 
     @Test
     void setWeightFitsValueInRange() {
-        c1.setWeight(2);
-        assertEquals(1, c1.getWeight());
+        c1.setWeight(20);
+        assertEquals(2, c1.getWeight());
 
-        c2.setWeight(-2);
-        assertEquals(-1, c2.getWeight());
+        c2.setWeight(-20);
+        assertEquals(-2, c2.getWeight());
     }
 
 

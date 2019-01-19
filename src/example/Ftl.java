@@ -4,6 +4,7 @@ import evoNeat.Environment;
 import evoNeat.Genome;
 import game.Battle;
 import game.Ship;
+import game.exception.NoSuchRoomException;
 
 import java.util.ArrayList;
 
@@ -22,10 +23,20 @@ public class Ftl extends Environment {
     public void evaluateFitness(Genome genome) {
         float fitness = 0;
 
-        Ship ship = new Ship(genome);
+        Ship ship = null;
+        try {
+            ship = new Ship(4, genome);
+        } catch (NoSuchRoomException e) {
+            e.printStackTrace();
+        }
 
         for(Genome enemy : testGroup) {
-            Ship enemyShip = new Ship(enemy);
+            Ship enemyShip = null;
+            try {
+                enemyShip = new Ship(4, enemy);
+            } catch (NoSuchRoomException e) {
+                e.printStackTrace();
+            }
             Battle battle = new Battle(ship, enemyShip, 100);
 
             fitness += battle.fight();

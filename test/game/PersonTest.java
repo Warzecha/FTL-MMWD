@@ -12,8 +12,8 @@ public class PersonTest {
     Person p;
 
     @BeforeEach
-    void setup() {
-        ship = new Ship(null);
+    void setup() throws NoSuchRoomException {
+        ship = new Ship(0, null);
         p = new Person();
         ship.addCrewmember(p);
     }

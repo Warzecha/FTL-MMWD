@@ -1,7 +1,5 @@
 package NeatAlgorithm;
 
-import algorithm.operators.CrossoverOperator;
-
 import java.util.Random;
 
 public class NeatCrossover {
