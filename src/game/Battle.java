@@ -8,7 +8,7 @@ public class Battle {
     private final Ship ship2;
     private final int endTime;
     private int time = 0;
-    private Random rng = new Random(1);
+    private Random rng = new Random(2);
 
     public Battle(Ship ship1, Ship ship2, int endTime) {
         this.ship1 = ship1;
