@@ -39,7 +39,6 @@ public class Ship {
         }
 
         this.genome = genome;
-
     }
 
     void addCrewmember(Person p, int roomId) throws NoSuchRoomException {

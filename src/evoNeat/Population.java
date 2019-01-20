@@ -22,6 +22,7 @@ public class Population {
         }
     }
 
+
     public ArrayList<Species> getSpecies() {
         return species;
     }
