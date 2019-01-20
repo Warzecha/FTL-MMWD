@@ -8,7 +8,7 @@ public class Battle {
     private final Ship ship2;
     private final int endTime;
     private int time = 0;
-    private Random rng = new Random();
+    private Random rng = new Random(1);
 
     public Battle(Ship ship1, Ship ship2, int endTime) {
         this.ship1 = ship1;
@@ -30,8 +30,13 @@ public class Battle {
 
     public int fight() {
         while (time < endTime) {
+
+
             ship1.calculateState();
             ship2.calculateState();
+
+            ship1.calculateDecision(ship2);
+            ship2.calculateDecision(ship1);
 
             ship1.dealDamage(ship2, ship1.getBestTarget(ship2), rng);
             ship2.dealDamage(ship1, ship2.getBestTarget(ship1), rng);
@@ -46,6 +51,7 @@ public class Battle {
 
             time++;
         }
+//        System.out.println(ship2.getHull());
         return ship1.getHull() - ship2.getHull();
     }
 

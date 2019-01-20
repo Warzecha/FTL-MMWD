@@ -17,6 +17,11 @@ public class Ftl extends Environment {
         super(inputsNumber, outputsNumber, populationSize, maxGenerations);
 
         testGroup = new ArrayList<>();
+
+
+        for(int i=0; i < 4; i++) {
+            testGroup.add(generateStartingGenome());
+        }
     }
 
     @Override
@@ -54,7 +59,7 @@ public class Ftl extends Environment {
 
 
     public static void main(String[] args) {
-        Ftl ftl = new Ftl(2, 1, 400, 600);
+        Ftl ftl = new Ftl(14, 12, 400, 600);
         ftl.initPopulation();
         ftl.startLoop();
     }

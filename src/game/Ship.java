@@ -25,6 +25,7 @@ public class Ship {
     private int oxygenLevel = 100; //value between 0 and 100
 
     private Genome genome;
+    private List<Float> decision = new ArrayList<>();
 
 
     public Ship(int crewCount, Genome genome) throws NoSuchRoomException {
@@ -113,12 +114,29 @@ public class Ship {
     }
 
     public int getBestTarget(Ship enemy) {
-        return new Random().nextInt(ShipParameters.MAX_ROOM);
-    };
+
+        int maxIndex = 0;
+        float maxValue = decision.get(0);
+
+        for(int i=1; i <= 5; i++) {
+            if(decision.get(i) > maxValue) {
+                maxIndex = i;
+                maxValue = decision.get(maxIndex);
+            }
+        }
+
+
+
+        if(maxValue > 0.5) {
+            return maxIndex;
+        } else {
+            return -1;
+        }
+    }
 
     public int dealDamage(Ship enemy, int target, Random rng)
     {
-        if(canShoot())
+        if(canShoot() && target != -1)
         {
             setWeapones(0);
             return enemy.receiveDamage(target, shots, rng);
@@ -265,4 +283,26 @@ public class Ship {
     public int getRoomCount() {
         return systems.size();
     }
+
+    public void calculateDecision(Ship enemy) {
+
+        List<Float> input = this.getInfo();
+        input.addAll(enemy.getInfo());
+
+        List<Float> output = genome.evaluateNetwork(input);
+        this.decision = output;
+    }
+
+
+    public List<Float> getInfo() {
+        List<Float> toReturn = new ArrayList<>();
+        toReturn.add((float) hull);
+
+        for(double s : systems) {
+            toReturn.add((float) s);
+        }
+
+        return toReturn;
+    }
+
 }
