@@ -19,7 +19,7 @@ public class Person {
 
     private static int damageFromShots = 30;
     private static int suffocationRate = 20;
-    private static double repairRate = 0.05;
+    private static double repairRate = 0.2;
 
     public Person() {
         this.healthPoints = 100;

@@ -2,10 +2,12 @@ package example;
 
 import evoNeat.*;
 import game.Battle;
+import game.Room;
 import game.Ship;
 import game.exception.NoSuchRoomException;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Ftl extends Environment {
 
@@ -32,9 +34,11 @@ public class Ftl extends Environment {
     public void evaluateFitness(Genome genome) {
         float fitness = 0;
         int enemiesDefeated = 0;
+        Random rng = new Random();
 
         Ship ship = null;
         Ship enemyShip = null;
+//        System.out.println("========================================");
 
         for (int i = 1; i < 4; i++) {
 
@@ -43,6 +47,12 @@ public class Ftl extends Environment {
                 try {
                     ship = new Ship(4, genome);
                     enemyShip = new Ship(4, enemy);
+
+                    enemyShip.getCrew().get(0).moveTo(Room.OXYGEN.getId());
+                    for (int j = 1; j < 4; j++) {
+                        enemyShip.getCrew().get(j).moveTo(rng.nextInt(6));
+                    }
+
                     enemyShip.setHull(i * 30);
 
                 } catch (NoSuchRoomException e) {
@@ -52,8 +62,9 @@ public class Ftl extends Environment {
 
                 int result = battle.fight();
                 fitness += result;
-                System.out.println(battle.getShip1().getHull() + " : " + battle.getShip2().getHull());
-                System.out.println(battle.getShip2().isDead());
+//                System.out.println(battle.getShip1().getHull() + " : " + battle.getShip2().getHull());
+////                System.out.println(battle.getShip2().isDead());
+//                System.out.println(battle.getShip2().crewIsAlive());
                 if(battle.getShip2().isDead()) {
                     enemiesDefeated++;
                 }
@@ -75,7 +86,9 @@ public class Ftl extends Environment {
     @Override
     public void iterate() {
 
+
         generationNumber++;
+        mostEnemiesDefeated = 0;
         population.evaluateFitness(this);
         topGenome = population.getTopGenome();
         System.out.println("Generation: " + generationNumber);
@@ -90,7 +103,7 @@ public class Ftl extends Environment {
 
 
     public static void main(String[] args) {
-        Ftl ftl = new Ftl(14, 12, 2, 600);
+        Ftl ftl = new Ftl(14, 12, 200, 100);
         ftl.initPopulation();
         ftl.startLoop();
     }

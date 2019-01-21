@@ -5,10 +5,7 @@ import game.exception.NoSuchRoomException;
 
 import java.util.*;
 
-
 public class Ship {
-
-
 
     private int hull = 30;
     private double shield;
@@ -176,6 +173,7 @@ public class Ship {
         for(Person p : crew)
         {
             p.breathe(oxygenLevel);
+            p.finalizeMovement();
         }
     }
 

@@ -1,5 +1,6 @@
 package game;
 
+import evoNeat.Genome;
 import game.exception.NoSuchRoomException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,8 +17,8 @@ class BattleTest {
     @BeforeEach
 
     void setup() throws NoSuchRoomException {
-        ship1 = new Ship(3, null);
-        ship2 = new Ship(3, null);
+        ship1 = new Ship(3, new Genome(14, 12));
+        ship2 = new Ship(3, new Genome(14, 12));
 
         battle = new Battle(ship1, ship2, 100);
 

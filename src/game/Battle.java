@@ -44,16 +44,16 @@ public class Battle {
 
             int winningBonus = 100;
             if(ship1.isDead()) {
-                return ship1.getHull() - ship2.getHull() + winningBonus;
+                return ship1.getHull() - 30  - winningBonus;
             }
             if(ship2.isDead()) {
-                return ship1.getHull() - ship2.getHull() - winningBonus;
+                return ship1.getHull() - 30 + winningBonus;
             }
 
             time++;
         }
 
-        return ship1.getHull() - ship2.getHull();
+        return ship1.getHull() - 30;
     }
 
 
