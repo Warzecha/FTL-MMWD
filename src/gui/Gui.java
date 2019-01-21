@@ -1,16 +1,10 @@
 package gui;
 
-import example.Xor;
+import example.Ftl;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class Gui extends Application {
@@ -19,7 +13,7 @@ public class Gui extends Application {
     private GuiPanel panel = new GuiPanel();
     private GuiController controller;
     private Group group = new Group();
-    private Xor xor = new Xor(200, 100);
+    private Ftl model = new Ftl(200, 100, 4, 100);
     private boolean running = false;
 
     public static void main(String[] args) {
@@ -29,8 +23,8 @@ public class Gui extends Application {
     @Override
     public void start(Stage stage) {
         controller = new GuiController(this);
-        panel.setXor(xor);
-        Scene scene = new Scene(group, 600, 400);
+        panel.setFtl(model);
+        Scene scene = new Scene(group, 550, 650);
         stage.setTitle("Drawing a Rectangle");
         stage.setScene(scene);
         controller.setUp(stage, group);
@@ -64,13 +58,13 @@ public class Gui extends Application {
     }
 
     public void setUpAlgorithm() {
-        xor.initPopulation();
+        model.initPopulation();
     }
 
     private void loop(double time) {
         if (running) {
-            xor.iterate();
-            if (xor.generationNumber >= xor.maxGenerations) {
+            model.iterate();
+            if (model.generationNumber >= model.maxGenerations) {
                 running = false;
             }
         }
@@ -80,8 +74,8 @@ public class Gui extends Application {
         panel.updatePanel();
     }
 
-    public Xor getXor() {
-        return xor;
+    public Ftl getModel() {
+        return model;
     }
 
     public GuiPanel getPanel() {

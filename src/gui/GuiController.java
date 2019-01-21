@@ -20,15 +20,16 @@ public class GuiController {
                 group, 0, 500, 50, 240, 30, "Population size"
         );
         populationSlider.setOnMouseDragged(event -> {
-            parentGui.getXor().populationSize = (int)populationSlider.getValue();
-            System.out.println("Changing population size to: " + parentGui.getXor().populationSize);
+            parentGui.getModel().populationSize = (int)populationSlider.getValue();
+            parentGui.getModel().initPopulation();
+            System.out.println("Changing population size to: " + parentGui.getModel().populationSize);
         });
         Slider generationsSlider = createSlider(
                 group, 0, 5000, 500, 400, 30, "Generations number"
         );
         generationsSlider.setOnMouseDragged(event -> {
-            parentGui.getXor().maxGenerations = (int)generationsSlider.getValue();
-            System.out.println("Changing generations max number to: " + parentGui.getXor().maxGenerations);
+            parentGui.getModel().maxGenerations = (int)generationsSlider.getValue();
+            System.out.println("Changing generations max number to: " + parentGui.getModel().maxGenerations);
         });
     }
 

@@ -9,7 +9,7 @@ public class Population {
 
     private ArrayList<Species> species = new ArrayList<>();
     private int generations = 0;
-    private float topFitness ;
+    public float topFitness ;
     private int poolStaleness = 0;
     private int targetSize;
 
@@ -90,6 +90,8 @@ public class Population {
     public Genome getTopGenome(){
         ArrayList<Genome> allGenomes = extractGenomes();
         Collections.sort(allGenomes,Collections.reverseOrder());
+
+
 
         return allGenomes.get(0);
     }
@@ -197,6 +199,7 @@ public class Population {
                 topFitness = topGenome.getFitness();
             }
         }
+        this.topFitness = topFitness;
         return topFitness;
     }
 
