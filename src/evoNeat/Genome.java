@@ -240,7 +240,7 @@ public class Genome implements Comparable {
         ArrayList<Float> output = new ArrayList<>(outputCount);
         generateNetwork();
 
-        for (int i = 0; i < inputCount; i++) {
+        for (int i = 0; i < inputs.size() && i < nodes.size(); i++) {
             nodes.get(i).setValue(inputs.get(i));
         }
 

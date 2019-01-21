@@ -5,12 +5,6 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class Gui extends Application {
@@ -19,7 +13,10 @@ public class Gui extends Application {
     private GuiPanel panel = new GuiPanel();
     private GuiController controller;
     private Group group = new Group();
-    private Ftl ftl = new Ftl(14, 12, 200, 100);
+
+
+    private Ftl model = new Ftl(14, 12, 50, 200);
+
     private boolean running = false;
 
     public static void main(String[] args) {
@@ -29,8 +26,9 @@ public class Gui extends Application {
     @Override
     public void start(Stage stage) {
         controller = new GuiController(this);
-        panel.setFtl(ftl);
-        Scene scene = new Scene(group, 600, 400);
+
+        panel.setFtl(model);
+        Scene scene = new Scene(group, 550, 650);
         stage.setTitle("Drawing a Rectangle");
         stage.setScene(scene);
         controller.setUp(stage, group);
@@ -64,13 +62,15 @@ public class Gui extends Application {
     }
 
     public void setUpAlgorithm() {
-        ftl.initPopulation();
+
+        model.initPopulation();
+
     }
 
     private void loop(double time) {
         if (running) {
-            ftl.iterate();
-            if (ftl.generationNumber >= ftl.maxGenerations) {
+            model.iterate();
+            if (model.generationNumber >= model.maxGenerations) {
                 running = false;
             }
         }
@@ -80,8 +80,10 @@ public class Gui extends Application {
         panel.updatePanel();
     }
 
-    public Ftl getFtl() {
-        return ftl;
+
+    public Ftl getModel() {
+        return model;
+
     }
 
     public GuiPanel getPanel() {

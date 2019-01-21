@@ -21,10 +21,8 @@ public class Ftl extends Environment {
         testGroup = new ArrayList<>();
 
 
-        for(int i = 0; i <= 5; i++) {
-            Genome enemy = new Genome(this.inputsNumber, this.outputsNumber);
-            enemy.addConnectionGene(new ConnectionGene(inputsNumber, inputsNumber + AlgorithmSettings.HIDDEN_NODES + i, 0, 1, true));
-            testGroup.add(enemy);
+        for(int i=0; i < 20; i++) {
+            testGroup.add(generateStartingGenome());
         }
 
 
@@ -90,8 +88,12 @@ public class Ftl extends Environment {
         generationNumber++;
         mostEnemiesDefeated = 0;
         population.evaluateFitness(this);
-        if(population.getTopGenome().getPoints() > topGenome.getPoints()) {
-            topGenome = population.getTopGenome();
+        Genome genome = population.getTopGenome();
+        if (topGenome == null) {
+            topGenome = genome;
+        }
+        if(genome != null && genome.getPoints() > topGenome.getPoints()) {
+            topGenome = genome;
         }
         System.out.println("Generation: " + generationNumber);
         System.out.println("TopFitness: " + topGenome.getPoints());
