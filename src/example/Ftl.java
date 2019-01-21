@@ -20,9 +20,10 @@ public class Ftl extends Environment {
 
         testGroup = new ArrayList<>();
 
-
-        for(int i=0; i < 20; i++) {
-            testGroup.add(generateStartingGenome());
+        for(int i = 0; i <= 5; i++) {
+            Genome enemy = new Genome(this.inputsNumber, this.outputsNumber);
+            enemy.addConnectionGene(new ConnectionGene(inputsNumber, inputsNumber + AlgorithmSettings.HIDDEN_NODES + i, 0, 1, true));
+            testGroup.add(enemy);
         }
 
 
