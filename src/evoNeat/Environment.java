@@ -42,6 +42,7 @@ public abstract class Environment {
 
 
      public void startLoop() {
+          topGenome = population.getTopGenome();
           for (int i = 0; i < maxGenerations; i++) {
                iterate();
           }

@@ -90,7 +90,9 @@ public class Ftl extends Environment {
         generationNumber++;
         mostEnemiesDefeated = 0;
         population.evaluateFitness(this);
-        topGenome = population.getTopGenome();
+        if(population.getTopGenome().getPoints() > topGenome.getPoints()) {
+            topGenome = population.getTopGenome();
+        }
         System.out.println("Generation: " + generationNumber);
         System.out.println("TopFitness: " + topGenome.getPoints());
         System.out.println("Population: " + population.getSize());
@@ -103,7 +105,7 @@ public class Ftl extends Environment {
 
 
     public static void main(String[] args) {
-        Ftl ftl = new Ftl(14, 12, 200, 100);
+        Ftl ftl = new Ftl(14, 12, 50, 200);
         ftl.initPopulation();
         ftl.startLoop();
     }
