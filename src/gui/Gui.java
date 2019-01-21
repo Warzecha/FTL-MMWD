@@ -1,6 +1,6 @@
 package gui;
 
-import example.Xor;
+import example.Ftl;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -19,7 +19,7 @@ public class Gui extends Application {
     private GuiPanel panel = new GuiPanel();
     private GuiController controller;
     private Group group = new Group();
-    private Xor xor = new Xor(200, 100);
+    private Ftl ftl = new Ftl(14, 12, 200, 100);
     private boolean running = false;
 
     public static void main(String[] args) {
@@ -29,7 +29,7 @@ public class Gui extends Application {
     @Override
     public void start(Stage stage) {
         controller = new GuiController(this);
-        panel.setXor(xor);
+        panel.setFtl(ftl);
         Scene scene = new Scene(group, 600, 400);
         stage.setTitle("Drawing a Rectangle");
         stage.setScene(scene);
@@ -64,13 +64,13 @@ public class Gui extends Application {
     }
 
     public void setUpAlgorithm() {
-        xor.initPopulation();
+        ftl.initPopulation();
     }
 
     private void loop(double time) {
         if (running) {
-            xor.iterate();
-            if (xor.generationNumber >= xor.maxGenerations) {
+            ftl.iterate();
+            if (ftl.generationNumber >= ftl.maxGenerations) {
                 running = false;
             }
         }
@@ -80,8 +80,8 @@ public class Gui extends Application {
         panel.updatePanel();
     }
 
-    public Xor getXor() {
-        return xor;
+    public Ftl getFtl() {
+        return ftl;
     }
 
     public GuiPanel getPanel() {
