@@ -1,6 +1,8 @@
 package gui;
 
+import evoNeat.Environment;
 import example.Ftl;
+import example.Xor;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -9,13 +11,14 @@ import javafx.stage.Stage;
 
 public class Gui extends Application {
 
-    private long startNanoTime = System.currentTimeMillis();
+    private long startNanoTime = 0;//System.currentTimeMillis();
     private GuiPanel panel = new GuiPanel();
     private GuiController controller;
     private Group group = new Group();
 
 
-    private Ftl model = new Ftl(14, 12, 50, 200);
+    private Environment model = new Ftl(14, 12, 50, 200);
+//    private Environment model = new Xor(400, 1000);
 
     private boolean running = false;
 
@@ -27,7 +30,7 @@ public class Gui extends Application {
     public void start(Stage stage) {
         controller = new GuiController(this);
 
-        panel.setFtl(model);
+        panel.setEnv(model);
         Scene scene = new Scene(group, 550, 650);
         stage.setTitle("Drawing a Rectangle");
         stage.setScene(scene);
@@ -81,7 +84,7 @@ public class Gui extends Application {
     }
 
 
-    public Ftl getModel() {
+    public Environment getModel() {
         return model;
 
     }

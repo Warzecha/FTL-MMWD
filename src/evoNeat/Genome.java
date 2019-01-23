@@ -4,9 +4,7 @@ import javax.management.RuntimeErrorException;
 import java.io.*;
 import java.util.*;
 
-/**
- * Created by vishnughosh on 28/02/17.
- */
+
 public class Genome implements Comparable {
     private static Random rand = new Random();
     private float fitness;                                          // Global Percentile Rank (higher the better)
@@ -414,7 +412,7 @@ public class Genome implements Comparable {
     }
 
     public float getPoints() {
-        return points;
+        return (points-4) / 12;
     }
 
     public void setPoints(float points) {

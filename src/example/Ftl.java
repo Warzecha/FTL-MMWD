@@ -96,13 +96,13 @@ public class Ftl extends Environment {
         if(genome != null && genome.getPoints() > topGenome.getPoints()) {
             topGenome = genome;
         }
-        System.out.println("Generation: " + generationNumber);
-        System.out.println("TopFitness: " + topGenome.getPoints());
-        System.out.println("Population: " + population.getSize());
-        System.out.println("Best Size: " + population.getTopGenome().size());
-        System.out.println("Species: " + population.getSpecies().size());
-        System.out.println("Enemies defeated: " + mostEnemiesDefeated );
-        System.out.println("\n\n");
+//        System.out.println("Generation: " + generationNumber);
+//        System.out.println("TopFitness: " + topGenome.getPoints());
+//        System.out.println("Population: " + population.getSize());
+//        System.out.println("Best Size: " + population.getTopGenome().size());
+//        System.out.println("Species: " + population.getSpecies().size());
+//        System.out.println("Enemies defeated: " + mostEnemiesDefeated );
+//        System.out.println("\n\n");
         population.breedNewGeneration();
     }
 

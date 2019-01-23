@@ -38,16 +38,16 @@ public class Xor extends Environment {
         for (int x=0; x<=1; x++) {
             for (int y=0; y<=1; y++) {
                 List<Float> output = genome.evaluateNetwork(Arrays.asList((float) x, (float) y));
-                fitness += 1 - Math.pow((float) (x^y) - output.get(0), 2);
+                fitness += (1 - Math.abs((float) (x^y) - output.get(0)));
             }
         }
 
 //        System.out.println(fitness);
-        genome.setFitness(fitness);
+        genome.setFitness(fitness*fitness);
     }
 
     public static void main(String[] args) {
-        Xor xor = new Xor(400, 600);
+        Xor xor = new Xor(400, 800);
         xor.initPopulation();
         xor.startLoop();
     }

@@ -2,10 +2,7 @@ package evoNeat;
 
 import java.util.ArrayList;
 
-/**
- * NodeGene represents the nodes of the neural network
- * Created by vishnughosh on 28/02/17.
- */
+
 public class NodeGene {
 
     private float value;

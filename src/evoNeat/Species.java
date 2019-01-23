@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-/**
- * Created by vishnu on 7/1/17.
- */
+
 public class Species implements Comparable{
     private ArrayList<Genome> genomes = new ArrayList<>();
     private float topFitness = 0;

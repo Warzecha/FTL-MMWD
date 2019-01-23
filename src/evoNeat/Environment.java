@@ -31,12 +31,12 @@ public abstract class Environment {
           generationNumber++;
           population.evaluateFitness(this);
           topGenome = population.getTopGenome();
-          System.out.println("Generation: " + generationNumber);
-          System.out.println("TopFitness: " + topGenome.getPoints());
-          System.out.println("Population: " + population.getSize());
-          System.out.println("Best Size: " + population.getTopGenome().size());
-          System.out.println("Species: " + population.getSpecies().size());
-          System.out.println("\n\n");
+//          System.out.println("Generation: " + generationNumber);
+//          System.out.println("TopFitness: " + topGenome.getPoints());
+//          System.out.println("Population: " + population.getSize());
+//          System.out.println("Best Size: " + population.getTopGenome().size());
+//          System.out.println("Species: " + population.getSpecies().size());
+//          System.out.println("\n\n");
           population.breedNewGeneration();
      }
 

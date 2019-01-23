@@ -2,11 +2,6 @@ package evoNeat;
 
 import java.util.Random;
 
-/**
- * ConnectionGene Represents the connection(Axon) of the neuron
- * ConnectionGenes can completely represent the neuron as Nodes are generated while performing operation
- * Created by vishnughosh on 28/02/17.
- */
 public class ConnectionGene {
 
     private int into,out, innovation;

@@ -1,8 +1,5 @@
 package evoNeat;
 
-/**
- * Created by vishnughosh on 01/03/17.
- */
 public class AlgorithmSettings {
 
 //    public static final int INPUTS = 2;

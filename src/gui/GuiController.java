@@ -31,6 +31,8 @@ public class GuiController {
         generationsSlider.setOnMouseDragged(event -> {
 
             parentGui.getModel().maxGenerations = (int)generationsSlider.getValue();
+            parentGui.getPanel().fitnessAxis.setUpperBound((int)generationsSlider.getValue());
+            parentGui.getPanel().fitnessAxis.setTickUnit((int)(generationsSlider.getValue()/40));
             System.out.println("Changing generations max number to: " + parentGui.getModel().maxGenerations);
 
         });

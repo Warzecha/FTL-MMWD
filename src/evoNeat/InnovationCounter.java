@@ -1,8 +1,5 @@
 package evoNeat;
 
-/**
- * Created by vishnughosh on 04/03/17.
- */
 public class InnovationCounter {
 
     private static int innovation = 0;
